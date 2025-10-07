@@ -203,17 +203,22 @@ function setupEventListeners() {
         showHome();
     });
 
-    // BOTÃO FINALIZAR COMPRA NO CARRINHO - CORREÇÃO
-    checkoutBtn.addEventListener('click', () => {
-        if (cartItems.length === 0) {
-            alert('Seu carrinho está vazio!');
-            return;
-        }
-        showLocation();
-    });
+    // CORREÇÃO: Botão finalizar compra no carrinho - adicionar verificação se existe
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (cartItems.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            showLocation();
+        });
+    }
 
     // Campo de cidade para calcular frete
-    document.getElementById('city').addEventListener('input', calculateShipping);
+    const cityInput = document.getElementById('city');
+    if (cityInput) {
+        cityInput.addEventListener('input', calculateShipping);
+    }
 
     // Clique em produtos para abrir página de produto
     document.addEventListener('click', (e) => {
@@ -228,27 +233,36 @@ function setupEventListeners() {
     });
 
     // Botões de voltar
-    backFromProduct.addEventListener('click', () => {
-        showHome();
-    });
+    if (backFromProduct) {
+        backFromProduct.addEventListener('click', () => {
+            showHome();
+        });
+    }
 
-    backFromCart.addEventListener('click', () => {
-        showHome();
-    });
+    if (backFromCart) {
+        backFromCart.addEventListener('click', () => {
+            showHome();
+        });
+    }
 
-    backFromLocation.addEventListener('click', () => {
-        showCart();
-    });
+    if (backFromLocation) {
+        backFromLocation.addEventListener('click', () => {
+            showCart();
+        });
+    }
 
     // Botão Voltar ao Início na página de produto
-    backToHomeFromProduct.addEventListener('click', (e) => {
-        e.preventDefault();
-        showHome();
-    });
+    if (backToHomeFromProduct) {
+        backToHomeFromProduct.addEventListener('click', (e) => {
+            e.preventDefault();
+            showHome();
+        });
+    }
 
-    // Event listener para opções de entrega
-    document.querySelectorAll('input[name="delivery-method"]').forEach(radio => {
-        radio.addEventListener('change', calculateShipping);
+    // CORREÇÃO: Event listener para opções de entrega
+    const deliveryMethodInputs = document.querySelectorAll('input[name="delivery-method"]');
+    deliveryMethodInputs.forEach(input => {
+        input.addEventListener('change', calculateShipping);
     });
 }
 
@@ -488,7 +502,9 @@ function renderCart() {
         `;
         
         cartSummary.innerHTML = '';
-        checkoutBtn.disabled = true;
+        if (checkoutBtn) {
+            checkoutBtn.disabled = true;
+        }
         return;
     }
     
@@ -524,7 +540,9 @@ function renderCart() {
     // Renderizar resumo do carrinho
     renderCartSummary();
     
-    checkoutBtn.disabled = false;
+    if (checkoutBtn) {
+        checkoutBtn.disabled = false;
+    }
 }
 
 // Remover item do carrinho
@@ -557,12 +575,17 @@ function renderCartSummary() {
 
 // Calcular frete
 function calculateShipping() {
-    const city = document.getElementById('city').value.toLowerCase();
+    const cityInput = document.getElementById('city');
+    if (!cityInput) return;
+    
+    const city = cityInput.value.toLowerCase();
     let shippingCost = 9.99; // Valor padrão para outras cidades
     
     if (city.includes('são bento') || city.includes('sao bento')) {
         shippingCost = 4.00;
-        deliveryOptions.style.display = 'block';
+        if (deliveryOptions) {
+            deliveryOptions.style.display = 'block';
+        }
         
         // Verificar se a opção de retirada está selecionada
         const pickupOption = document.getElementById('pickup');
@@ -570,11 +593,18 @@ function calculateShipping() {
             shippingCost = 0;
         }
     } else {
-        deliveryOptions.style.display = 'none';
+        if (deliveryOptions) {
+            deliveryOptions.style.display = 'none';
+        }
     }
     
-    shippingPrice.textContent = `R$ ${shippingCost.toFixed(2)}`;
-    shippingPriceContainer.style.display = 'block';
+    if (shippingPrice) {
+        shippingPrice.textContent = `R$ ${shippingCost.toFixed(2)}`;
+    }
+    
+    if (shippingPriceContainer) {
+        shippingPriceContainer.style.display = 'block';
+    }
     
     // Atualizar frete no carrinho se estiver visível
     if (cartPage.classList.contains('active')) {
@@ -593,27 +623,20 @@ function calculateShipping() {
 
 // Finalizar pedido
 function finalizeOrder() {
-    if (cartItems.length === 0) {
-        alert('Seu carrinho está vazio!');
-        return;
-    }
+    if (cartItems.length === 0) return;
     
     const city = document.getElementById('city').value;
     const neighborhood = document.getElementById('neighborhood').value;
     const street = document.getElementById('street').value;
     const address = document.getElementById('address').value;
     
-    if (!city || !neighborhood || !street || !address) {
-        alert('Por favor, preencha todos os campos do endereço!');
-        return;
-    }
-    
     // Verificar método de entrega
     const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
     const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
     
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-    const shippingCost = parseFloat(shippingPrice.textContent.replace('R$ ', '')) || 0;
+    const shippingCostText = shippingPrice ? shippingPrice.textContent.replace('R$ ', '') : '0';
+    const shippingCost = parseFloat(shippingCostText) || 0;
     const totalPrice = subtotal + shippingCost;
     
     let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
@@ -647,7 +670,9 @@ function finalizeOrder() {
     saveCartToLocalStorage();
     
     // Mostrar modal de confirmação
-    confirmationModal.style.display = 'flex';
+    if (confirmationModal) {
+        confirmationModal.style.display = 'flex';
+    }
     
     // Fechar página de localização
     showHome();
