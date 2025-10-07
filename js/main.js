@@ -203,7 +203,7 @@ function setupEventListeners() {
         showHome();
     });
 
-    // Botão finalizar compra no carrinho
+    // BOTÃO FINALIZAR COMPRA NO CARRINHO - CORREÇÃO
     checkoutBtn.addEventListener('click', () => {
         if (cartItems.length === 0) {
             alert('Seu carrinho está vazio!');
@@ -244,6 +244,11 @@ function setupEventListeners() {
     backToHomeFromProduct.addEventListener('click', (e) => {
         e.preventDefault();
         showHome();
+    });
+
+    // Event listener para opções de entrega
+    document.querySelectorAll('input[name="delivery-method"]').forEach(radio => {
+        radio.addEventListener('change', calculateShipping);
     });
 }
 
@@ -411,6 +416,145 @@ function customizeShirt() {
     window.open(url, '_blank');
 }
 
+// Adicionar produto ao carrinho
+function addToCart(product, color, size, position) {
+    const cartItem = {
+        id: Date.now(), // ID único para o item no carrinho
+        product: product,
+        color: color,
+        size: size,
+        position: position,
+        price: product.price
+    };
+    
+    cartItems.push(cartItem);
+    updateCartCount();
+    saveCartToLocalStorage();
+}
+
+// Salvar carrinho no localStorage
+function saveCartToLocalStorage() {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
+
+// Atualizar contador do carrinho
+function updateCartCount() {
+    cartCount.textContent = cartItems.length;
+}
+
+// Mostrar carrinho
+function showCart() {
+    // Ocultar todas as páginas
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Mostrar carrinho
+    cartPage.classList.add('active');
+    
+    // Atualizar conteúdo do carrinho
+    renderCart();
+    
+    // Rolar para o topo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Mostrar localização
+function showLocation() {
+    // Ocultar todas as páginas
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Mostrar localização
+    locationPage.classList.add('active');
+    
+    // Rolar para o topo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Renderizar carrinho
+function renderCart() {
+    // Limpar carrinho
+    cartItemsContainer.innerHTML = '';
+    
+    if (cartItems.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Seu carrinho está vazio</h3>
+                <p>Adicione alguns produtos para continuar</p>
+            </div>
+        `;
+        
+        cartSummary.innerHTML = '';
+        checkoutBtn.disabled = true;
+        return;
+    }
+    
+    // Renderizar itens do carrinho
+    cartItems.forEach(item => {
+        const cartItemElement = document.createElement('div');
+        cartItemElement.className = 'cart-item';
+        cartItemElement.setAttribute('data-cart-id', item.id);
+        
+        cartItemElement.innerHTML = `
+            <img src="${item.product.variants[item.color]}" alt="${item.product.name}" class="cart-item-image">
+            <div class="cart-item-details">
+                <h3>${item.product.name}</h3>
+                <p>Cor: ${item.color} | Tamanho: ${item.size} | Posição: ${item.position}</p>
+                <div class="cart-item-price">R$ ${item.price}</div>
+            </div>
+            <button class="remove-item" data-cart-id="${item.id}">
+                <i class="fas fa-trash"></i>
+            </button>
+        `;
+        
+        cartItemsContainer.appendChild(cartItemElement);
+    });
+    
+    // Adicionar event listeners para remover itens
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const cartId = e.currentTarget.getAttribute('data-cart-id');
+            removeFromCart(cartId);
+        });
+    });
+    
+    // Renderizar resumo do carrinho
+    renderCartSummary();
+    
+    checkoutBtn.disabled = false;
+}
+
+// Remover item do carrinho
+function removeFromCart(cartId) {
+    cartItems = cartItems.filter(item => item.id != cartId);
+    updateCartCount();
+    saveCartToLocalStorage();
+    renderCart();
+}
+
+// Renderizar resumo do carrinho
+function renderCartSummary() {
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    
+    cartSummary.innerHTML = `
+        <div class="summary-row">
+            <span>Subtotal:</span>
+            <span>R$ ${subtotal.toFixed(2)}</span>
+        </div>
+        <div class="summary-row">
+            <span>Frete:</span>
+            <span id="cart-shipping">A calcular</span>
+        </div>
+        <div class="summary-row summary-total">
+            <span>Total:</span>
+            <span id="cart-total">R$ ${subtotal.toFixed(2)}</span>
+        </div>
+    `;
+}
+
 // Calcular frete
 function calculateShipping() {
     const city = document.getElementById('city').value.toLowerCase();
@@ -422,7 +566,7 @@ function calculateShipping() {
         
         // Verificar se a opção de retirada está selecionada
         const pickupOption = document.getElementById('pickup');
-        if (pickupOption.checked) {
+        if (pickupOption && pickupOption.checked) {
             shippingCost = 0;
         }
     } else {
@@ -449,19 +593,27 @@ function calculateShipping() {
 
 // Finalizar pedido
 function finalizeOrder() {
-    if (cartItems.length === 0) return;
+    if (cartItems.length === 0) {
+        alert('Seu carrinho está vazio!');
+        return;
+    }
     
     const city = document.getElementById('city').value;
     const neighborhood = document.getElementById('neighborhood').value;
     const street = document.getElementById('street').value;
     const address = document.getElementById('address').value;
     
+    if (!city || !neighborhood || !street || !address) {
+        alert('Por favor, preencha todos os campos do endereço!');
+        return;
+    }
+    
     // Verificar método de entrega
     const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
     const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
     
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-    const shippingCost = parseFloat(shippingPrice.textContent.replace('R$ ', ''));
+    const shippingCost = parseFloat(shippingPrice.textContent.replace('R$ ', '')) || 0;
     const totalPrice = subtotal + shippingCost;
     
     let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
