@@ -198,25 +198,13 @@ header {
     font-weight: bold;
 }
 
-/* Menu Mobile */
+/* REMOÇÃO: Menu Mobile - removendo os 3 pontinhos */
 .mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.3rem; /* Aumentado */
-    color: var(--premium-black);
-    cursor: pointer;
-    padding: 8px;
-    min-width: 44px;
-    min-height: 44px;
+    display: none !important; /* Força a remoção completa */
 }
 
 /* Media Queries para mobile */
 @media (max-width: 992px) {
-    .mobile-menu-btn {
-        display: block;
-    }
-    
     .nav-links {
         position: fixed;
         top: 60px;
@@ -266,13 +254,16 @@ header {
         font-size: 1.1rem;
     }
 }
-/* Banner ajustado */
+
+/* BANNER AJUSTADO - LARGURA TOTAL DA TELA */
 .banner-carousel {
     position: relative;
-    width: 100%;
+    width: 100vw; /* Largura total da viewport */
+    margin-left: calc(-50vw + 50%); /* Centraliza e expande além do container */
+    margin-right: calc(-50vw + 50%); /* Centraliza e expande além do container */
     height: 200px;
     overflow: hidden;
-    margin: 0 0 1rem 0;
+    margin-bottom: 1rem;
     background-color: var(--light-gray);
 }
 
@@ -296,7 +287,7 @@ header {
 .banner-image {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover; /* Alterado para cover para preencher todo o espaço */
 }
 
 .banner-dots {
@@ -323,7 +314,7 @@ header {
     transform: scale(1.2);
 }
 
-/* Media Queries para ajustes responsivos */
+/* Media Queries para ajustes responsivos do banner */
 @media (max-width: 480px) {
     .banner-carousel {
         height: 180px;
@@ -341,6 +332,7 @@ header {
         height: 250px;
     }
 }
+
 /* Barra de Categorias compacta */
 .categories-bar {
     background-color: var(--light-gray);
@@ -1088,16 +1080,6 @@ footer {
     margin-bottom: 0.5rem;
     color: var(--premium-black);
     font-size: 1rem;
-}
-
-/* Menu Mobile */
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    color: var(--premium-black);
-    cursor: pointer;
 }
 
 /* Opções de entrega */
