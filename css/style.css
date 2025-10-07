@@ -50,7 +50,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 8px 0 4px 0; /* 8px em cima, 4px em baixo */
+    padding: 6px 0 3px 0; /* 6px em cima, 3px em baixo */
     border-bottom: 1px solid var(--light-gray);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
