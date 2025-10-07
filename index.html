@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WFcustom - Camisetas Personalizadas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/5583999667578" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Header -->
+    <header id="topo-site">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo logo-header">WFcustom</div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-link active" data-section="home">Início</a></li>
+                    <li><a href="#" class="nav-link" data-section="masculino">Masculino</a></li>
+                    <li><a href="#" class="nav-link" data-section="unissexo">Unissexo</a></li>
+                    <li><a href="#" class="nav-link" data-section="frases">Frases</a></li>
+                    <li><a href="#" class="nav-link" data-section="premium">Premium</a></li>
+                </ul>
+                <div class="nav-buttons">
+                    <button class="cart-icon icone-carrinho" id="cart-icon" aria-label="Carrinho de compras">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Página Home -->
+    <div id="home-page" class="page active">
+        <!-- Banner -->
+        <div class="banner-carousel" id="banner-carousel">
+            <div class="banner-slide active">
+                <img src="https://i.postimg.cc/pXSZhrTm/cdcb07c2-bd06-441c-bd7a-4c0d091d09ca.png" alt="WFcustom - Camisetas Personalizadas" class="banner-image">
+            </div>
+            <div class="banner-slide">
+                <img src="https://i.postimg.cc/m2KYZnXV/5925586b-17e4-46b6-b598-06a988e0281e.png" alt="WFcustom - Camisetas Personalizadas" class="banner-image">
+            </div>
+            <div class="banner-dots">
+                <div class="banner-dot active" data-slide="0"></div>
+                <div class="banner-dot" data-slide="1"></div>
+            </div>
+        </div>
+
+        <!-- Barra de Categorias -->
+        <div class="categories-bar">
+            <div class="container">
+                <div class="categories-container">
+                    <button class="category-filter active" data-category="todos">Todos</button>
+                    <button class="category-filter" data-category="unissexo">Unissexo</button>
+                    <button class="category-filter" data-category="masculino">Masculino</button>
+                    <button class="category-filter" data-category="premium">Premium</button>
+                    <button class="category-filter" data-category="frases">Frases</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Produtos -->
+        <section class="products" id="products">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nossas Coleções</h2>
+                    <p>Descubra nossas camisetas com designs exclusivos</p>
+                </div>
+
+                <!-- Coleção Premium -->
+                <section class="colecao-premium" id="colecao-premium" data-category="premium">
+                    <div class="grade-header">
+                        <h2 class="grade-title">Coleção Premium</h2>
+                    </div>
+                    <div class="grade-container" id="grade-container-premium">
+                        <!-- Produtos premium serão preenchidos via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Coleção Frases -->
+                <section class="colecao-frases" id="colecao-frases" data-category="frases">
+                    <div class="grade-header">
+                        <h2 class="grade-title">Coleção Frases</h2>
+                    </div>
+                    <div class="grade-container" id="grade-container-frases">
+                        <!-- Produtos de frases serão preenchidos via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Grade Masculino Estampadas -->
+                <section class="grade-produtos" id="grade-produtos-1" data-category="masculino">
+                    <div class="grade-header">
+                        <h2 class="grade-title">Masculino — Estampadas</h2>
+                    </div>
+                    <div class="grade-container" id="grade-container-1">
+                        <!-- Cards serão preenchidos via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Grade Masculino Esportivas -->
+                <section class="grade-produtos" id="grade-produtos-2" data-category="masculino">
+                    <div class="grade-header">
+                        <h2 class="grade-title">Masculino — Esportivas</h2>
+                    </div>
+                    <div class="grade-container" id="grade-container-2">
+                        <!-- Cards serão preenchidos via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Grade Unissexo Personagens -->
+                <section class="grade-produtos" id="grade-produtos-3" data-category="unissexo">
+                    <div class="grade-header">
+                        <h2 class="grade-title">Unissexo — Personagens</h2>
+                    </div>
+                    <div class="grade-container" id="grade-container-3">
+                        <!-- Cards serão preenchidos via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Grade Unissexo Coloridas -->
+                <section class="grade-produtos" id="grade-produtos-4" data-category="unissexo">
+                    <div class="grade-header">
+                        <h2 class="grade-title">Unissexo — Coloridas</h2>
+                    </div>
+                    <div class="grade-container" id="grade-container-4">
+                        <!-- Cards serão preenchidos via JavaScript -->
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <!-- Seção Personalize sua Camisa -->
+        <section class="custom-design" id="custom-design">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Personalize Sua Camisa</h2>
+                    <p>Para seu negócio, empresa ou uso pessoal</p>
+                </div>
+                
+                <div class="custom-business">
+                    <h3>Precisa de camisetas personalizadas para sua empresa ou evento?</h3>
+                    <p>Nós criamos camisetas exclusivas com sua marca ou design. Entre em contato conosco e faça um orçamento!</p>
+                    <a href="https://wa.me/5583999667578" class="btn btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Falar no WhatsApp
+                    </a>
+                </div>
+                
+                <div class="custom-design-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Qualquer Cor Disponível</h3>
+                        <p>Escolha entre todas as cores do espectro para sua camiseta personalizada</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <h3>Alta Qualidade de Estampa</h3>
+                        <p>Nossa tecnologia de sublimação garante cores vibrantes e duradouras</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Entrega Rápida</h3>
+                        <p>Seu pedido personalizado pronto em até 3 dias úteis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Página do Produto -->
+    <div id="product-page" class="page">
+        <div class="back-button" id="back-from-product">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="container">
+            <div class="product-detail-container">
+                <div class="product-image-large">
+                    <img id="detail-image" src="" alt="Produto">
+                </div>
+                <div class="product-options">
+                    <h2 id="detail-title">Nome do Produto</h2>
+                    <p id="detail-description">Descrição do produto</p>
+                    
+                    <div class="option-group">
+                        <h3>Cor</h3>
+                        <div class="color-options" id="modal-color-options">
+                            <!-- As opções de cor serão inseridas via JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <h3>Tamanho</h3>
+                        <div class="size-options">
+                            <div class="size-option active" data-size="P">P</div>
+                            <div class="size-option" data-size="M">M</div>
+                            <div class="size-option" data-size="G">G</div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <h3>Posição da Estampa</h3>
+                        <div class="position-options">
+                            <div class="position-option active" data-position="frente">Frente</div>
+                            <div class="position-option" data-position="atras">Atrás</div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-display">
+                        <h3>Preço</h3>
+                        <div class="price">R$ <span id="detail-price">0</span></div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-outline" id="add-to-cart-detail">Adicionar ao Carrinho</button>
+                        <button class="btn btn-primary" id="buy-now-detail">Finalizar Compra</button>
+                        <button class="btn btn-whatsapp" id="customize-shirt">
+                            <i class="fab fa-whatsapp"></i> Personalizar Camisa
+                        </button>
+                    </div>
+                    
+                    <!-- Botão Voltar ao Início -->
+                    <a href="#" class="back-to-home" id="back-to-home-from-product">
+                        <i class="fas fa-home"></i> Voltar ao Início
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página do Carrinho -->
+    <div id="cart-page" class="page">
+        <div class="back-button" id="back-from-cart">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="container">
+            <div class="section-title">
+                <h2>Seu Carrinho</h2>
+                <p>Revise seus produtos antes de finalizar a compra</p>
+            </div>
+            
+            <div class="cart-container">
+                <div class="cart-items" id="cart-items">
+                    <!-- Itens do carrinho serão inseridos via JavaScript -->
+                </div>
+                
+                <div class="cart-summary" id="cart-summary">
+                    <!-- Resumo do carrinho será inserido via JavaScript -->
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-outline" id="continue-shopping">Continuar Comprando</button>
+                    <button class="btn btn-primary" id="checkout-btn">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Localização -->
+    <div id="location-page" class="page">
+        <div class="back-button" id="back-from-location">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="container">
+            <div class="location-form">
+                <h2>Informe Seu Endereço</h2>
+                <form id="location-form">
+                    <div class="form-group">
+                        <label for="city">Cidade</label>
+                        <input type="text" id="city" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="neighborhood">Bairro</label>
+                        <input type="text" id="neighborhood" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Rua</label>
+                        <input type="text" id="street" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Número e Complemento</label>
+                        <input type="text" id="address" class="form-control" required placeholder="Número, apartamento, etc.">
+                    </div>
+                    
+                    <div class="delivery-options" id="delivery-options" style="display: none;">
+                        <h3>Opções de Entrega</h3>
+                        <div class="delivery-option">
+                            <input type="radio" id="delivery" name="delivery-method" value="delivery" checked>
+                            <label for="delivery">Entrega (R$ 4,00)</label>
+                        </div>
+                        <div class="delivery-option">
+                            <input type="radio" id="pickup" name="delivery-method" value="pickup">
+                            <label for="pickup">Retirar no Local (Grátis)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="shipping-price">
+                        <h3>Valor do Frete</h3>
+                        <div class="price" id="shipping-price">R$ 0,00</div>
+                        <p id="shipping-info">São Bento: Entrega R$ 4,00 ou Retirada Grátis | Outras cidades: R$ 9,99</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button type="submit" class="btn btn-primary btn-block" id="finalize-order">Finalizar Pedido</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>WFcustom</h3>
+                    <p>Criamos camisetas personalizadas com qualidade premium. Sua criatividade é o nosso limite!</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-nav-link" data-section="home">Início</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="masculino">Masculino</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="unissexo">Unissexo</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="frases">Frases</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="premium">Premium</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Informações</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Política de Entregas</a></li>
+                        <li><a href="#">Trocas e Devoluções</a></li>
+                        <li><a href="#">Perguntas Frequentes</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 WFcustom. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Pedido Confirmado!</h2>
+            <p>Seu pedido foi enviado para nosso WhatsApp. Em breve entraremos em contato para finalizar os detalhes.</p>
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="close-confirmation">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/carousel.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

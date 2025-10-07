@@ -1,0 +1,136 @@
+/* Media Queries para Mobile First */
+@media (max-width: 480px) {
+    :root {
+        --container-max-width: 420px;
+        --base-font-size: 12px;
+        --card-image-height: 120px;
+        --spacing-small: 0.3rem;
+        --spacing-medium: 0.6rem;
+        --spacing-large: 1rem;
+    }
+
+    .container {
+        max-width: var(--container-max-width);
+    }
+
+    .banner-carousel {
+        height: 200px;
+    }
+
+    .grade-card {
+        min-width: calc(50% - 0.2rem);
+        flex: 0 0 calc(50% - 0.2rem);
+    }
+
+    .section-title h2 {
+        font-size: 1.1rem;
+    }
+
+    .section-title p {
+        font-size: 0.7rem;
+    }
+
+    .grade-title {
+        font-size: 1rem;
+    }
+
+    .custom-design {
+        padding: 1rem 0;
+    }
+
+    .feature-item {
+        padding: 0.8rem;
+    }
+
+    .feature-icon {
+        font-size: 1.5rem;
+    }
+
+    .feature-item h3 {
+        font-size: 0.8rem;
+    }
+
+    .feature-item p {
+        font-size: 0.65rem;
+    }
+
+    .custom-business {
+        padding: 0.8rem;
+    }
+
+    .custom-business h3 {
+        font-size: 0.9rem;
+    }
+
+    .custom-business p {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: var(--primary-white);
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: var(--transition);
+        z-index: 999;
+    }
+    
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .nav-links li {
+        margin: 0.5rem 0;
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --container-max-width: 720px;
+    }
+    
+    .grade-container:not(.todos) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grade-container.todos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .product-detail-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 992px) {
+    :root {
+        --container-max-width: 960px;
+        --border-radius: 12px;
+    }
+    
+    .banner-carousel {
+        height: 450px;
+    }
+    
+    .grade-container:not(.todos) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grade-container.todos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
