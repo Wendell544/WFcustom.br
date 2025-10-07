@@ -28,7 +28,7 @@
                     <li><a href="#" class="nav-link" data-section="masculino">Masculino</a></li>
                     <li><a href="#" class="nav-link" data-section="unissexo">Unissexo</a></li>
                     <li><a href="#" class="nav-link" data-section="frases">Frases</a></li>
-                    <li><a href="#" class="nav-link" data-section="premium">Premium</a></li>
+                    <li><a href="#" class="nav-link" data-section="canecas">Canecas</a></li>
                 </ul>
                 <div class="nav-buttons">
                     <button class="cart-icon icone-carrinho" id="cart-icon" aria-label="Carrinho de compras">
@@ -63,7 +63,7 @@
                     <button class="category-filter active" data-category="todos">Todos</button>
                     <button class="category-filter" data-category="unissexo">Unissexo</button>
                     <button class="category-filter" data-category="masculino">Masculino</button>
-                    <button class="category-filter" data-category="premium">Premium</button>
+                    <button class="category-filter" data-category="canecas">Canecas</button>
                     <button class="category-filter" data-category="frases">Frases</button>
                 </div>
             </div>
@@ -77,13 +77,13 @@
                     <p>Descubra nossas camisetas com designs exclusivos</p>
                 </div>
 
-                <!-- Coleção Premium -->
-                <section class="colecao-premium" id="colecao-premium" data-category="premium">
+                <!-- Coleção Canecas -->
+                <section class="colecao-canecas" id="colecao-canecas" data-category="canecas">
                     <div class="grade-header">
-                        <h2 class="grade-title">Coleção Premium</h2>
+                        <h2 class="grade-title">Coleção Canecas</h2>
                     </div>
-                    <div class="grade-container" id="grade-container-premium">
-                        <!-- Produtos premium serão preenchidos via JavaScript -->
+                    <div class="grade-container" id="grade-container-canecas">
+                        <!-- Produtos canecas serão preenchidos via JavaScript -->
                     </div>
                 </section>
 
@@ -136,6 +136,7 @@
                         <!-- Cards serão preenchidos via JavaScript -->
                     </div>
                 </section>
+
             </div>
         </section>
 
@@ -196,14 +197,14 @@
                     <h2 id="detail-title">Nome do Produto</h2>
                     <p id="detail-description">Descrição do produto</p>
                     
-                    <div class="option-group">
+                    <div class="option-group" id="color-options-container">
                         <h3>Cor</h3>
                         <div class="color-options" id="modal-color-options">
                             <!-- As opções de cor serão inseridas via JavaScript -->
                         </div>
                     </div>
                     
-                    <div class="option-group">
+                    <div class="option-group" id="size-options-container">
                         <h3>Tamanho</h3>
                         <div class="size-options">
                             <div class="size-option active" data-size="P">P</div>
@@ -212,7 +213,7 @@
                         </div>
                     </div>
                     
-                    <div class="option-group">
+                    <div class="option-group" id="position-options-container">
                         <h3>Posição da Estampa</h3>
                         <div class="position-options">
                             <div class="position-option active" data-position="frente">Frente</div>
@@ -342,7 +343,7 @@
                         <li><a href="#" class="footer-nav-link" data-section="masculino">Masculino</a></li>
                         <li><a href="#" class="footer-nav-link" data-section="unissexo">Unissexo</a></li>
                         <li><a href="#" class="footer-nav-link" data-section="frases">Frases</a></li>
-                        <li><a href="#" class="footer-nav-link" data-section="premium">Premium</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="canecas">Canecas</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -373,7 +374,6 @@
     </div>
 
     <script src="js/products.js"></script>
-    <script src="js/carousel.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/main.js"></script>
 </body>

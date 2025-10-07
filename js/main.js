@@ -7,6 +7,8 @@ let currentPosition = 'frente';
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 let currentSection = 'masculino';
 let currentCategory = 'todos';
+let currentSlide = 0;
+let slideInterval;
 
 // Elementos DOM
 const homePage = document.getElementById('home-page');
@@ -46,7 +48,12 @@ const backFromCart = document.getElementById('back-from-cart');
 const backFromLocation = document.getElementById('back-from-location');
 const categoryFilters = document.querySelectorAll('.category-filter');
 const backToHomeFromProduct = document.getElementById('back-to-home-from-product');
+const bannerSlides = document.querySelectorAll('.banner-slide');
+const bannerDots = document.querySelectorAll('.banner-dot');
 const deliveryOptions = document.getElementById('delivery-options');
+const colorOptionsContainer = document.getElementById('color-options-container');
+const sizeOptionsContainer = document.getElementById('size-options-container');
+const positionOptionsContainer = document.getElementById('position-options-container');
 
 // Funções de inicialização
 function init() {
@@ -59,8 +66,8 @@ function init() {
     populateGrade(3, products.unissexo.personagens);
     populateGrade(4, products.unissexo.coloridas);
     
-    // Popular coleções Premium e Frases
-    populateColecaoPremium();
+    // Popular coleções Canecas e Frases
+    populateColecaoCanecas();
     populateColecaoFrases();
     
     // Aplicar classe para categoria "todos"
@@ -68,6 +75,149 @@ function init() {
     
     // Iniciar carrossel
     startCarousel();
+}
+
+// Iniciar carrossel do banner
+function startCarousel() {
+    // Definir intervalo para trocar slides automaticamente
+    slideInterval = setInterval(nextSlide, 5000); // Troca a cada 5 segundos
+    
+    // Adicionar event listeners para os dots
+    bannerDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
+    });
+}
+
+// Próximo slide
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % bannerSlides.length;
+    updateCarousel();
+}
+
+// Ir para slide específico
+function goToSlide(slideIndex) {
+    currentSlide = slideIndex;
+    updateCarousel();
+}
+
+// Atualizar carrossel
+function updateCarousel() {
+    // Remover classe active de todos os slides e dots
+    bannerSlides.forEach(slide => slide.classList.remove('active'));
+    bannerDots.forEach(dot => dot.classList.remove('active'));
+    
+    // Adicionar classe active ao slide e dot atual
+    bannerSlides[currentSlide].classList.add('active');
+    bannerDots[currentSlide].classList.add('active');
+}
+
+// Criar card de produto para a grade
+function createGradeCard(product) {
+    const card = document.createElement('div');
+    card.className = 'grade-card';
+    card.setAttribute('data-product-id', product.id);
+    card.setAttribute('data-variants', JSON.stringify(product.variants));
+
+    // Obter a primeira cor como padrão
+    const firstColor = Object.keys(product.variants)[0];
+    const firstImage = product.variants[firstColor];
+
+    // Criar as bolinhas de cor (apenas se não for caneca)
+    const colorDots = product.category !== 'canecas' ? Object.keys(product.variants).map(color => {
+        let bgColor;
+        switch(color) {
+            case 'branco': bgColor = 'white'; break;
+            case 'preto': bgColor = 'black'; break;
+            case 'azul': bgColor = '#007bff'; break;
+            case 'cinza': bgColor = '#6c757d'; break;
+            default: bgColor = color;
+        }
+        return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor};"></div>`;
+    }).join('') : '';
+
+    card.innerHTML = `
+        <div class="image-container">
+            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
+        </div>
+        <div class="grade-card-info">
+            <h3 class="grade-card-title">${product.name}</h3>
+            <div class="grade-card-price">R$ ${product.price}</div>
+            ${product.category !== 'canecas' ? `<div class="grade-card-colors">${colorDots}</div>` : ''}
+        </div>
+    `;
+
+    // Adicionar event listeners para as bolinhas de cor (apenas se não for caneca)
+    if (product.category !== 'canecas') {
+        const colorDotsElements = card.querySelectorAll('.color-dot');
+        const cardImage = card.querySelector('.grade-card-image');
+        
+        colorDotsElements.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Remover classe active de todas as bolinhas
+                colorDotsElements.forEach(d => d.classList.remove('active'));
+                
+                // Adicionar classe active à bolinha clicada
+                dot.classList.add('active');
+                
+                // Obter a cor selecionada
+                const selectedColor = dot.getAttribute('data-color');
+                
+                // Atualizar a imagem
+                const variants = JSON.parse(card.getAttribute('data-variants'));
+                cardImage.src = variants[selectedColor];
+                cardImage.setAttribute('data-color', selectedColor);
+                cardImage.alt = `${product.name} - Cor ${selectedColor}`;
+            });
+        });
+    }
+
+    return card;
+}
+
+// Popular uma grade
+function populateGrade(gradeId, productList) {
+    const gradeContainer = document.getElementById(`grade-container-${gradeId}`);
+
+    // Limpar
+    gradeContainer.innerHTML = '';
+
+    // Adicionar produtos à grade (máximo 10)
+    productList.slice(0, 10).forEach(product => {
+        const card = createGradeCard(product);
+        gradeContainer.appendChild(card);
+    });
+}
+
+// Popular coleção Canecas
+function populateColecaoCanecas() {
+    const gradeContainer = document.getElementById('grade-container-canecas');
+
+    // Limpar
+    gradeContainer.innerHTML = '';
+
+    // Adicionar produtos canecas à grade
+    products.canecas.slice(0, 10).forEach(product => {
+        const card = createGradeCard(product);
+        gradeContainer.appendChild(card);
+    });
+}
+
+// Popular coleção Frases
+function populateColecaoFrases() {
+    const gradeContainer = document.getElementById('grade-container-frases');
+
+    // Limpar
+    gradeContainer.innerHTML = '';
+
+    // Adicionar produtos de frases à grade
+    products.frases.slice(0, 10).forEach(product => {
+        const card = createGradeCard(product);
+        gradeContainer.appendChild(card);
+    });
 }
 
 // Configurar event listeners
@@ -195,7 +345,7 @@ function setupEventListeners() {
         });
     });
 
-    // Event listener do ícone do carrinho
+    // CORREÇÃO: Event listener do ícone do carrinho (já estava funcionando, mas garantindo)
     cartIcon.addEventListener('click', showCart);
 
     // Botão continuar comprando
@@ -203,22 +353,17 @@ function setupEventListeners() {
         showHome();
     });
 
-    // CORREÇÃO: Botão finalizar compra no carrinho - adicionar verificação se existe
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            if (cartItems.length === 0) {
-                alert('Seu carrinho está vazio!');
-                return;
-            }
-            showLocation();
-        });
-    }
+    // Botão finalizar compra no carrinho
+    checkoutBtn.addEventListener('click', () => {
+        if (cartItems.length === 0) {
+            alert('Seu carrinho está vazio!');
+            return;
+        }
+        showLocation();
+    });
 
     // Campo de cidade para calcular frete
-    const cityInput = document.getElementById('city');
-    if (cityInput) {
-        cityInput.addEventListener('input', calculateShipping);
-    }
+    document.getElementById('city').addEventListener('input', calculateShipping);
 
     // Clique em produtos para abrir página de produto
     document.addEventListener('click', (e) => {
@@ -233,36 +378,27 @@ function setupEventListeners() {
     });
 
     // Botões de voltar
-    if (backFromProduct) {
-        backFromProduct.addEventListener('click', () => {
-            showHome();
-        });
-    }
+    backFromProduct.addEventListener('click', () => {
+        showHome();
+    });
 
-    if (backFromCart) {
-        backFromCart.addEventListener('click', () => {
-            showHome();
-        });
-    }
+    backFromCart.addEventListener('click', () => {
+        showHome();
+    });
 
-    if (backFromLocation) {
-        backFromLocation.addEventListener('click', () => {
-            showCart();
-        });
-    }
+    backFromLocation.addEventListener('click', () => {
+        showCart();
+    });
 
     // Botão Voltar ao Início na página de produto
-    if (backToHomeFromProduct) {
-        backToHomeFromProduct.addEventListener('click', (e) => {
-            e.preventDefault();
-            showHome();
-        });
-    }
+    backToHomeFromProduct.addEventListener('click', (e) => {
+        e.preventDefault();
+        showHome();
+    });
 
-    // CORREÇÃO: Event listener para opções de entrega
-    const deliveryMethodInputs = document.querySelectorAll('input[name="delivery-method"]');
-    deliveryMethodInputs.forEach(input => {
-        input.addEventListener('change', calculateShipping);
+    // Event listener para opções de entrega
+    document.querySelectorAll('input[name="delivery-method"]').forEach(option => {
+        option.addEventListener('change', calculateShipping);
     });
 }
 
@@ -281,7 +417,7 @@ function updateGridForCategory() {
 
 // Filtrar grades por categoria
 function filterGradesByCategory(category) {
-    const grades = document.querySelectorAll('.grade-produtos, .colecao-premium, .colecao-frases');
+    const grades = document.querySelectorAll('.grade-produtos, .colecao-canecas, .colecao-frases');
     
     grades.forEach(grade => {
         const gradeCategories = grade.getAttribute('data-category').split(',');
@@ -339,41 +475,52 @@ function showProductPage(product) {
     // Configurar opções de cor
     modalColorOptions.innerHTML = '';
     
-    Object.keys(product.variants).forEach(color => {
-        const colorOption = document.createElement('div');
-        colorOption.className = `color-option ${color === currentColor ? 'active' : ''}`;
-        colorOption.setAttribute('data-color', color);
+    // Mostrar/ocultar opções baseado no tipo de produto
+    if (product.category === 'canecas') {
+        colorOptionsContainer.style.display = 'none';
+        sizeOptionsContainer.style.display = 'none';
+        positionOptionsContainer.style.display = 'none';
+    } else {
+        colorOptionsContainer.style.display = 'block';
+        sizeOptionsContainer.style.display = 'block';
+        positionOptionsContainer.style.display = 'block';
         
-        // Definir cor de fundo baseada no nome da cor
-        let bgColor;
-        switch(color) {
-            case 'branco': bgColor = 'white'; break;
-            case 'preto': bgColor = 'black'; break;
-            case 'azul': bgColor = '#007bff'; break;
-            case 'cinza': bgColor = '#6c757d'; break;
-            default: bgColor = color;
-        }
-        
-        colorOption.style.backgroundColor = bgColor;
-        
-        colorOption.addEventListener('click', () => {
-            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
-            colorOption.classList.add('active');
-            currentColor = color;
-            detailImage.src = product.variants[color];
-            detailImage.alt = `${product.name} - Cor ${color}`;
+        Object.keys(product.variants).forEach(color => {
+            const colorOption = document.createElement('div');
+            colorOption.className = `color-option ${color === currentColor ? 'active' : ''}`;
+            colorOption.setAttribute('data-color', color);
+            
+            // Definir cor de fundo baseada no nome da cor
+            let bgColor;
+            switch(color) {
+                case 'branco': bgColor = 'white'; break;
+                case 'preto': bgColor = 'black'; break;
+                case 'azul': bgColor = '#007bff'; break;
+                case 'cinza': bgColor = '#6c757d'; break;
+                default: bgColor = color;
+            }
+            
+            colorOption.style.backgroundColor = bgColor;
+            
+            colorOption.addEventListener('click', () => {
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                colorOption.classList.add('active');
+                currentColor = color;
+                detailImage.src = product.variants[color];
+                detailImage.alt = `${product.name} - Cor ${color}`;
+            });
+            
+            modalColorOptions.appendChild(colorOption);
         });
         
-        modalColorOptions.appendChild(colorOption);
-    });
-    
-    // Resetar seleção de tamanho
-    sizeOptions.forEach(option => option.classList.remove('active'));
-    document.querySelector('.size-option[data-size="P"]').classList.add('active');
-    
-    // Resetar seleção de posição
-    positionOptions.forEach(option => option.classList.remove('active'));
-    document.querySelector('.position-option[data-position="frente"]').classList.add('active');
+        // Resetar seleção de tamanho
+        sizeOptions.forEach(option => option.classList.remove('active'));
+        document.querySelector('.size-option[data-size="P"]').classList.add('active');
+        
+        // Resetar seleção de posição
+        positionOptions.forEach(option => option.classList.remove('active'));
+        document.querySelector('.position-option[data-position="frente"]').classList.add('active');
+    }
     
     // Atualizar preço
     updateProductPrice();
@@ -402,7 +549,12 @@ function updateProductPrice() {
 function addToCartFromDetail() {
     if (!currentProduct) return;
     
-    addToCart(currentProduct, currentColor, currentSize, currentPosition);
+    // Para canecas, usar valores padrão
+    const color = currentProduct.category === 'canecas' ? 'branco' : currentColor;
+    const size = currentProduct.category === 'canecas' ? 'Único' : currentSize;
+    const position = currentProduct.category === 'canecas' ? 'padrão' : currentPosition;
+    
+    addToCart(currentProduct, color, size, position);
     
     // Mostrar mensagem de confirmação
     alert('Produto adicionado ao carrinho!');
@@ -417,7 +569,13 @@ function buyNowFromDetail() {
     
     // Limpar carrinho e adicionar apenas este produto
     cartItems = [];
-    addToCart(currentProduct, currentColor, currentSize, currentPosition);
+    
+    // Para canecas, usar valores padrão
+    const color = currentProduct.category === 'canecas' ? 'branco' : currentColor;
+    const size = currentProduct.category === 'canecas' ? 'Único' : currentSize;
+    const position = currentProduct.category === 'canecas' ? 'padrão' : currentPosition;
+    
+    addToCart(currentProduct, color, size, position);
     
     // Ir para a página de localização
     showLocation();
@@ -428,32 +586,6 @@ function customizeShirt() {
     const message = `Olá! Gostaria de personalizar uma camiseta. Pode me ajudar?`;
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
-}
-
-// Adicionar produto ao carrinho
-function addToCart(product, color, size, position) {
-    const cartItem = {
-        id: Date.now(), // ID único para o item no carrinho
-        product: product,
-        color: color,
-        size: size,
-        position: position,
-        price: product.price
-    };
-    
-    cartItems.push(cartItem);
-    updateCartCount();
-    saveCartToLocalStorage();
-}
-
-// Salvar carrinho no localStorage
-function saveCartToLocalStorage() {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-}
-
-// Atualizar contador do carrinho
-function updateCartCount() {
-    cartCount.textContent = cartItems.length;
 }
 
 // Mostrar carrinho
@@ -487,197 +619,6 @@ function showLocation() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Renderizar carrinho
-function renderCart() {
-    // Limpar carrinho
-    cartItemsContainer.innerHTML = '';
-    
-    if (cartItems.length === 0) {
-        cartItemsContainer.innerHTML = `
-            <div class="empty-cart">
-                <i class="fas fa-shopping-cart"></i>
-                <h3>Seu carrinho está vazio</h3>
-                <p>Adicione alguns produtos para continuar</p>
-            </div>
-        `;
-        
-        cartSummary.innerHTML = '';
-        if (checkoutBtn) {
-            checkoutBtn.disabled = true;
-        }
-        return;
-    }
-    
-    // Renderizar itens do carrinho
-    cartItems.forEach(item => {
-        const cartItemElement = document.createElement('div');
-        cartItemElement.className = 'cart-item';
-        cartItemElement.setAttribute('data-cart-id', item.id);
-        
-        cartItemElement.innerHTML = `
-            <img src="${item.product.variants[item.color]}" alt="${item.product.name}" class="cart-item-image">
-            <div class="cart-item-details">
-                <h3>${item.product.name}</h3>
-                <p>Cor: ${item.color} | Tamanho: ${item.size} | Posição: ${item.position}</p>
-                <div class="cart-item-price">R$ ${item.price}</div>
-            </div>
-            <button class="remove-item" data-cart-id="${item.id}">
-                <i class="fas fa-trash"></i>
-            </button>
-        `;
-        
-        cartItemsContainer.appendChild(cartItemElement);
-    });
-    
-    // Adicionar event listeners para remover itens
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const cartId = e.currentTarget.getAttribute('data-cart-id');
-            removeFromCart(cartId);
-        });
-    });
-    
-    // Renderizar resumo do carrinho
-    renderCartSummary();
-    
-    if (checkoutBtn) {
-        checkoutBtn.disabled = false;
-    }
-}
-
-// Remover item do carrinho
-function removeFromCart(cartId) {
-    cartItems = cartItems.filter(item => item.id != cartId);
-    updateCartCount();
-    saveCartToLocalStorage();
-    renderCart();
-}
-
-// Renderizar resumo do carrinho
-function renderCartSummary() {
-    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-    
-    cartSummary.innerHTML = `
-        <div class="summary-row">
-            <span>Subtotal:</span>
-            <span>R$ ${subtotal.toFixed(2)}</span>
-        </div>
-        <div class="summary-row">
-            <span>Frete:</span>
-            <span id="cart-shipping">A calcular</span>
-        </div>
-        <div class="summary-row summary-total">
-            <span>Total:</span>
-            <span id="cart-total">R$ ${subtotal.toFixed(2)}</span>
-        </div>
-    `;
-}
-
-// Calcular frete
-function calculateShipping() {
-    const cityInput = document.getElementById('city');
-    if (!cityInput) return;
-    
-    const city = cityInput.value.toLowerCase();
-    let shippingCost = 9.99; // Valor padrão para outras cidades
-    
-    if (city.includes('são bento') || city.includes('sao bento')) {
-        shippingCost = 4.00;
-        if (deliveryOptions) {
-            deliveryOptions.style.display = 'block';
-        }
-        
-        // Verificar se a opção de retirada está selecionada
-        const pickupOption = document.getElementById('pickup');
-        if (pickupOption && pickupOption.checked) {
-            shippingCost = 0;
-        }
-    } else {
-        if (deliveryOptions) {
-            deliveryOptions.style.display = 'none';
-        }
-    }
-    
-    if (shippingPrice) {
-        shippingPrice.textContent = `R$ ${shippingCost.toFixed(2)}`;
-    }
-    
-    if (shippingPriceContainer) {
-        shippingPriceContainer.style.display = 'block';
-    }
-    
-    // Atualizar frete no carrinho se estiver visível
-    if (cartPage.classList.contains('active')) {
-        const cartShipping = document.getElementById('cart-shipping');
-        const cartTotal = document.getElementById('cart-total');
-        
-        if (cartShipping && cartTotal) {
-            const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-            const total = subtotal + shippingCost;
-            
-            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
-            cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-        }
-    }
-}
-
-// Finalizar pedido
-function finalizeOrder() {
-    if (cartItems.length === 0) return;
-    
-    const city = document.getElementById('city').value;
-    const neighborhood = document.getElementById('neighborhood').value;
-    const street = document.getElementById('street').value;
-    const address = document.getElementById('address').value;
-    
-    // Verificar método de entrega
-    const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
-    const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
-    
-    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-    const shippingCostText = shippingPrice ? shippingPrice.textContent.replace('R$ ', '') : '0';
-    const shippingCost = parseFloat(shippingCostText) || 0;
-    const totalPrice = subtotal + shippingCost;
-    
-    let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
-    
-    // Adicionar itens do pedido
-    cartItems.forEach((item, index) => {
-        message += `*Item ${index + 1}:* ${item.product.name}%0A`;
-        message += `- Cor: ${item.color}%0A`;
-        message += `- Tamanho: ${item.size}%0A`;
-        message += `- Posição da estampa: ${item.position}%0A`;
-        message += `- Preço: R$ ${item.price}%0A%0A`;
-    });
-    
-    message += `*Subtotal:* R$ ${subtotal.toFixed(2)}%0A`;
-    message += `*Frete:* R$ ${shippingCost.toFixed(2)}%0A`;
-    message += `*Total:* R$ ${totalPrice.toFixed(2)}%0A%0A`;
-    message += `*Endereço de entrega:*%0A`;
-    message += `- Cidade: ${city}%0A`;
-    message += `- Bairro: ${neighborhood}%0A`;
-    message += `- Rua: ${street}%0A`;
-    message += `- Número/Complemento: ${address}%0A`;
-    message += `- Método de entrega: ${deliveryType === 'delivery' ? 'Entrega' : 'Retirada no Local'}%0A%0A`;
-    message += `Por favor, confirme meu pedido!`;
-    
-    const url = `https://wa.me/${phoneNumber}?text=${message}`;
-    window.open(url, '_blank');
-    
-    // Limpar carrinho
-    cartItems = [];
-    updateCartCount();
-    saveCartToLocalStorage();
-    
-    // Mostrar modal de confirmação
-    if (confirmationModal) {
-        confirmationModal.style.display = 'flex';
-    }
-    
-    // Fechar página de localização
-    showHome();
-}
-
 // Encontrar produto por ID
 function findProductById(id) {
     // Procurar em masculino
@@ -696,9 +637,9 @@ function findProductById(id) {
     const fraseProduct = products.frases.find(p => p.id == id);
     if (fraseProduct) return fraseProduct;
     
-    // Procurar em premium
-    const premiumProduct = products.premium.find(p => p.id == id);
-    if (premiumProduct) return premiumProduct;
+    // Procurar em canecas
+    const canecaProduct = products.canecas.find(p => p.id == id);
+    if (canecaProduct) return canecaProduct;
     
     return null;
 }

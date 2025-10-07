@@ -60,6 +60,7 @@ header {
     justify-content: space-between;
     align-items: center;
     position: relative;
+    min-height: 40px; /* Garantir altura mínima */
 }
 
 .logo {
@@ -405,7 +406,7 @@ header {
 }
 
 /* Seções Premium e Frases */
-.colecao-premium, .colecao-frases {
+.colecao-canecas, .colecao-frases {
     margin-bottom: 2rem;
 }
 

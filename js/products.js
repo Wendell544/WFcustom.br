@@ -294,169 +294,50 @@ const products = {
             description: 'Camiseta com frase divertida.' 
         }
     ],
-    premium: [
+    canecas: [
         { 
             id: 25, 
-            name: 'Camiseta Premium Algodão Egípcio', 
-            price: 65, 
-            category: 'premium', 
-            subcategory: 'premium', 
+            name: 'Caneca Personalizada Branca', 
+            price: 25, 
+            category: 'canecas', 
+            subcategory: 'canecas', 
             variants: {
-                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
+                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg'
             },
-            description: 'Camiseta premium em algodão egípcio de alta qualidade.' 
+            description: 'Caneca personalizada de alta qualidade.' 
         },
         { 
             id: 26, 
-            name: 'Camiseta Premium Linho', 
-            price: 70, 
-            category: 'premium', 
-            subcategory: 'premium', 
+            name: 'Caneca com Estampa Exclusiva', 
+            price: 28, 
+            category: 'canecas', 
+            subcategory: 'canecas', 
             variants: {
-                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
+                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg'
             },
-            description: 'Camiseta premium em tecido de linho.' 
+            description: 'Caneca com estampa exclusiva e duradoura.' 
         },
         { 
             id: 57, 
-            name: 'Camiseta Premium Algodão', 
-            price: 45, 
-            category: 'premium', 
-            subcategory: 'premium', 
+            name: 'Caneca Frase Motivacional', 
+            price: 22, 
+            category: 'canecas', 
+            subcategory: 'canecas', 
             variants: {
-                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
+                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg'
             },
-            description: 'Camiseta premium em algodão de alta qualidade.' 
+            description: 'Caneca com frase motivacional.' 
         },
         { 
             id: 58, 
-            name: 'Camiseta Premium Estampada', 
-            price: 48, 
-            category: 'premium', 
-            subcategory: 'premium', 
+            name: 'Caneca Temática', 
+            price: 30, 
+            category: 'canecas', 
+            subcategory: 'canecas', 
             variants: {
-                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
+                'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg'
             },
-            description: 'Camiseta premium com estampa exclusiva.' 
+            description: 'Caneca temática com design exclusivo.' 
         }
     ]
 };
-
-// Criar card de produto para a grade
-function createGradeCard(product) {
-    const card = document.createElement('div');
-    card.className = 'grade-card';
-    card.setAttribute('data-product-id', product.id);
-    card.setAttribute('data-variants', JSON.stringify(product.variants));
-
-    // Obter a primeira cor como padrão
-    const firstColor = Object.keys(product.variants)[0];
-    const firstImage = product.variants[firstColor];
-
-    // Criar as bolinhas de cor
-    const colorDots = Object.keys(product.variants).map(color => {
-        let bgColor;
-        switch(color) {
-            case 'branco': bgColor = 'white'; break;
-            case 'preto': bgColor = 'black'; break;
-            case 'azul': bgColor = '#007bff'; break;
-            case 'cinza': bgColor = '#6c757d'; break;
-            default: bgColor = color;
-        }
-        return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor};"></div>`;
-    }).join('');
-
-    card.innerHTML = `
-        <div class="image-container">
-            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
-        </div>
-        <div class="grade-card-info">
-            <h3 class="grade-card-title">${product.name}</h3>
-            <div class="grade-card-price">R$ ${product.price}</div>
-            <div class="grade-card-colors">
-                ${colorDots}
-            </div>
-        </div>
-    `;
-
-    // Adicionar event listeners para as bolinhas de cor
-    const colorDotsElements = card.querySelectorAll('.color-dot');
-    const cardImage = card.querySelector('.grade-card-image');
-    
-    colorDotsElements.forEach(dot => {
-        dot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            // Remover classe active de todas as bolinhas
-            colorDotsElements.forEach(d => d.classList.remove('active'));
-            
-            // Adicionar classe active à bolinha clicada
-            dot.classList.add('active');
-            
-            // Obter a cor selecionada
-            const selectedColor = dot.getAttribute('data-color');
-            
-            // Atualizar a imagem
-            const variants = JSON.parse(card.getAttribute('data-variants'));
-            cardImage.src = variants[selectedColor];
-            cardImage.setAttribute('data-color', selectedColor);
-            cardImage.alt = `${product.name} - Cor ${selectedColor}`;
-        });
-    });
-
-    return card;
-}
-
-// Popular uma grade
-function populateGrade(gradeId, productList) {
-    const gradeContainer = document.getElementById(`grade-container-${gradeId}`);
-
-    // Limpar
-    gradeContainer.innerHTML = '';
-
-    // Adicionar produtos à grade (máximo 10)
-    productList.slice(0, 10).forEach(product => {
-        const card = createGradeCard(product);
-        gradeContainer.appendChild(card);
-    });
-}
-
-// Popular coleção Premium
-function populateColecaoPremium() {
-    const gradeContainer = document.getElementById('grade-container-premium');
-
-    // Limpar
-    gradeContainer.innerHTML = '';
-
-    // Adicionar produtos premium à grade
-    products.premium.slice(0, 10).forEach(product => {
-        const card = createGradeCard(product);
-        gradeContainer.appendChild(card);
-    });
-}
-
-// Popular coleção Frases
-function populateColecaoFrases() {
-    const gradeContainer = document.getElementById('grade-container-frases');
-
-    // Limpar
-    gradeContainer.innerHTML = '';
-
-    // Adicionar produtos de frases à grade
-    products.frases.slice(0, 10).forEach(product => {
-        const card = createGradeCard(product);
-        gradeContainer.appendChild(card);
-    });
-}

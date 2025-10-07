@@ -1,4 +1,4 @@
-// Adicionar produto ao carrinho
+// Funções do carrinho
 function addToCart(product, color, size, position) {
     const cartItem = {
         id: Date.now(), // ID único para o item no carrinho
@@ -22,23 +22,6 @@ function saveCartToLocalStorage() {
 // Atualizar contador do carrinho
 function updateCartCount() {
     cartCount.textContent = cartItems.length;
-}
-
-// Mostrar carrinho
-function showCart() {
-    // Ocultar todas as páginas
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    // Mostrar carrinho
-    cartPage.classList.add('active');
-    
-    // Atualizar conteúdo do carrinho
-    renderCart();
-    
-    // Rolar para o topo
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Renderizar carrinho
@@ -70,7 +53,7 @@ function renderCart() {
             <img src="${item.product.variants[item.color]}" alt="${item.product.name}" class="cart-item-image">
             <div class="cart-item-details">
                 <h3>${item.product.name}</h3>
-                <p>Cor: ${item.color} | Tamanho: ${item.size} | Posição: ${item.position}</p>
+                <p>${item.product.category === 'canecas' ? '' : `Cor: ${item.color} | Tamanho: ${item.size} | Posição: ${item.position}`}</p>
                 <div class="cart-item-price">R$ ${item.price}</div>
             </div>
             <button class="remove-item" data-cart-id="${item.id}">
@@ -121,4 +104,96 @@ function renderCartSummary() {
             <span id="cart-total">R$ ${subtotal.toFixed(2)}</span>
         </div>
     `;
+}
+
+// Calcular frete
+function calculateShipping() {
+    const city = document.getElementById('city').value.toLowerCase();
+    let shippingCost = 9.99; // Valor padrão para outras cidades
+    
+    if (city.includes('são bento') || city.includes('sao bento')) {
+        shippingCost = 4.00;
+        deliveryOptions.style.display = 'block';
+        
+        // Verificar se a opção de retirada está selecionada
+        const pickupOption = document.getElementById('pickup');
+        if (pickupOption.checked) {
+            shippingCost = 0;
+        }
+    } else {
+        deliveryOptions.style.display = 'none';
+    }
+    
+    shippingPrice.textContent = `R$ ${shippingCost.toFixed(2)}`;
+    shippingPriceContainer.style.display = 'block';
+    
+    // Atualizar frete no carrinho se estiver visível
+    if (cartPage.classList.contains('active')) {
+        const cartShipping = document.getElementById('cart-shipping');
+        const cartTotal = document.getElementById('cart-total');
+        
+        if (cartShipping && cartTotal) {
+            const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+            const total = subtotal + shippingCost;
+            
+            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
+            cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+        }
+    }
+}
+
+// Finalizar pedido
+function finalizeOrder() {
+    if (cartItems.length === 0) return;
+    
+    const city = document.getElementById('city').value;
+    const neighborhood = document.getElementById('neighborhood').value;
+    const street = document.getElementById('street').value;
+    const address = document.getElementById('address').value;
+    
+    // Verificar método de entrega
+    const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
+    const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
+    
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    const shippingCost = parseFloat(shippingPrice.textContent.replace('R$ ', ''));
+    const totalPrice = subtotal + shippingCost;
+    
+    let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
+    
+    // Adicionar itens do pedido
+    cartItems.forEach((item, index) => {
+        message += `*Item ${index + 1}:* ${item.product.name}%0A`;
+        if (item.product.category !== 'canecas') {
+            message += `- Cor: ${item.color}%0A`;
+            message += `- Tamanho: ${item.size}%0A`;
+            message += `- Posição da estampa: ${item.position}%0A`;
+        }
+        message += `- Preço: R$ ${item.price}%0A%0A`;
+    });
+    
+    message += `*Subtotal:* R$ ${subtotal.toFixed(2)}%0A`;
+    message += `*Frete:* R$ ${shippingCost.toFixed(2)}%0A`;
+    message += `*Total:* R$ ${totalPrice.toFixed(2)}%0A%0A`;
+    message += `*Endereço de entrega:*%0A`;
+    message += `- Cidade: ${city}%0A`;
+    message += `- Bairro: ${neighborhood}%0A`;
+    message += `- Rua: ${street}%0A`;
+    message += `- Número/Complemento: ${address}%0A`;
+    message += `- Método de entrega: ${deliveryType === 'delivery' ? 'Entrega' : 'Retirada no Local'}%0A%0A`;
+    message += `Por favor, confirme meu pedido!`;
+    
+    const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(url, '_blank');
+    
+    // Limpar carrinho
+    cartItems = [];
+    updateCartCount();
+    saveCartToLocalStorage();
+    
+    // Mostrar modal de confirmação
+    confirmationModal.style.display = 'flex';
+    
+    // Fechar página de localização
+    showHome();
 }
