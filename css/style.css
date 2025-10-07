@@ -7,8 +7,7 @@
     --medium-gray: #E0E0E0;
     --accent-color: #2E5BFF;
     --text-dark: #333333;
-   
-/* Header aprimor --text-light: #777777;
+    --text-light: #777777;
     --success-color: #4CAF50;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
@@ -44,8 +43,8 @@ body {
     margin: 0 auto;
     padding: 0 var(--spacing-medium);
 }
-ado */
-/* Header corrigido */
+
+/* Header aprimorado */
 header {
     background-color: var(--primary-white);
     position: sticky;
@@ -61,7 +60,6 @@ header {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    width: 100%;
 }
 
 .logo {
@@ -70,7 +68,6 @@ header {
     color: var(--premium-black);
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    flex-shrink: 0; /* Impede que a logo encolha */
 }
 
 .nav-links {
@@ -79,8 +76,6 @@ header {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    margin: 0;
-    padding: 0;
 }
 
 .nav-links li {
@@ -94,7 +89,6 @@ header {
     transition: var(--transition);
     font-size: 0.85rem;
     position: relative;
-    white-space: nowrap; /* Impede quebra de texto */
 }
 
 .nav-links a:after {
@@ -116,7 +110,6 @@ header {
     display: flex;
     gap: 10px;
     align-items: center;
-    flex-shrink: 0; /* Impede que os botões encolham */
 }
 
 .btn {
@@ -168,15 +161,14 @@ header {
     font-size: 1.1rem;
     color: var(--premium-black);
     cursor: pointer;
-    z-index: 1001;
-    padding: 8px;
+    z-index: 1001; /* Garantir que fique acima de outros elementos */
+    padding: 8px; /* Aumentar a área clicável */
     display: flex;
     align-items: center;
     justify-content: center;
     background: none;
     border: none;
     outline: none;
-    min-width: 40px; /* Largura mínima garantida */
 }
 
 .cart-count {
@@ -195,68 +187,6 @@ header {
     font-weight: bold;
 }
 
-/* Menu Mobile */
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    color: var(--premium-black);
-    cursor: pointer;
-    flex-shrink: 0;
-    min-width: 40px;
-}
-
-/* Media Queries para mobile */
-@media (max-width: 992px) {
-    .mobile-menu-btn {
-        display: block;
-    }
-    
-    .nav-links {
-        position: fixed;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background: var(--primary-white);
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem 0;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        transform: translateY(-100%);
-        opacity: 0;
-        transition: var(--transition);
-        z-index: 999;
-    }
-    
-    .nav-links.active {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    
-    .nav-links li {
-        margin: 0.5rem 0;
-    }
-    
-    .logo {
-        font-size: 1.1rem; /* Logo menor em mobile */
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar {
-        padding: 0 10px;
-    }
-    
-    .logo {
-        font-size: 1rem; /* Logo ainda menor em telas muito pequenas */
-    }
-    
-    .cart-icon {
-        padding: 6px;
-        min-width: 35px;
-    }
-}
 /* Banner ajustado */
 .banner-carousel {
     position: relative;
