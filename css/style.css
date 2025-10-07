@@ -50,7 +50,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 30px 0 15px 0; /* 30px em cima, 15px em baixo */
+    padding: 6px 0 3px 0; /* 6px em cima, 3px em baixo */
     border-bottom: 1px solid var(--light-gray);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
@@ -60,7 +60,7 @@ header {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    min-height: 30px;
+    min-height: 35px;
 }
 
 .logo {
@@ -84,7 +84,7 @@ header {
 }
 
 .nav-links li {
-    margin: 0 0.8rem;
+    margin: 0 0.6rem;
 }
 
 .nav-links a {
@@ -92,7 +92,7 @@ header {
     text-decoration: none;
     font-weight: 600;
     transition: var(--transition);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     position: relative;
     white-space: nowrap;
 }
@@ -100,10 +100,10 @@ header {
 .nav-links a:after {
     content: '';
     position: absolute;
-    bottom: -3px;
+    bottom: -2px;
     left: 0;
     width: 0;
-    height: 2px;
+    height: 1px;
     background-color: var(--accent-color);
     transition: var(--transition);
 }
