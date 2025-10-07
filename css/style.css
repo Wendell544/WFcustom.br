@@ -1122,3 +1122,18 @@ footer {
     font-size: 0.75rem;
     font-weight: 500;
 }
+
+/* AJUSTE ESPECÍFICO PARA A LOGO - AFINANDO O TEXTO */
+.logo-texto-fino {
+    font-weight: 300 !important;
+    letter-spacing: 1px !important;
+    text-transform: lowercase !important;
+    font-size: 0.9rem !important;
+}
+
+/* Ajuste específico para a parte da URL da logo */
+.wendell-logo {
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+}
