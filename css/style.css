@@ -60,14 +60,17 @@ header {
     justify-content: space-between;
     align-items: center;
     position: relative;
+    min-height: 40px; /* Garante altura mínima */
 }
 
 .logo {
-    font-size: 1.3rem;
+    font-size: 1.5rem; /* Aumentado */
     font-weight: 800;
     color: var(--premium-black);
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    flex-shrink: 0; /* Impede que a logo encolha */
+    margin-right: 20px; /* Espaço da logo */
 }
 
 .nav-links {
@@ -76,6 +79,8 @@ header {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .nav-links li {
@@ -89,6 +94,7 @@ header {
     transition: var(--transition);
     font-size: 0.85rem;
     position: relative;
+    white-space: nowrap;
 }
 
 .nav-links a:after {
@@ -110,10 +116,12 @@ header {
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-shrink: 0; /* Impede que os botões encolham */
+    margin-left: auto; /* Empurra para a direita */
 }
 
 .btn {
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1rem; /* Aumentado */
     border-radius: var(--border-radius);
     font-weight: 600;
     cursor: pointer;
@@ -122,7 +130,8 @@ header {
     display: inline-block;
     text-align: center;
     border: none;
-    font-size: 0.8rem;
+    font-size: 0.85rem; /* Aumentado */
+    white-space: nowrap;
 }
 
 .btn-primary {
@@ -158,35 +167,105 @@ header {
 /* CORREÇÃO: Ajuste do ícone do carrinho */
 .cart-icon {
     position: relative;
-    font-size: 1.1rem;
+    font-size: 1.3rem; /* Aumentado */
     color: var(--premium-black);
     cursor: pointer;
-    z-index: 1001; /* Garantir que fique acima de outros elementos */
-    padding: 8px; /* Aumentar a área clicável */
+    z-index: 1001;
+    padding: 10px; /* Aumentado */
     display: flex;
     align-items: center;
     justify-content: center;
     background: none;
     border: none;
     outline: none;
+    min-width: 44px; /* Largura mínima para toque */
+    min-height: 44px; /* Altura mínima para toque */
 }
 
 .cart-count {
     position: absolute;
-    top: -6px;
-    right: -6px;
+    top: 5px; /* Ajustado */
+    right: 5px; /* Ajustado */
     background: var(--accent-color);
     color: white;
     border-radius: 50%;
-    width: 16px;
-    height: 16px;
+    width: 18px; /* Aumentado */
+    height: 18px; /* Aumentado */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.65rem;
+    font-size: 0.75rem; /* Aumentado */
     font-weight: bold;
 }
 
+/* Menu Mobile */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.3rem; /* Aumentado */
+    color: var(--premium-black);
+    cursor: pointer;
+    padding: 8px;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+/* Media Queries para mobile */
+@media (max-width: 992px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: var(--primary-white);
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: var(--transition);
+        z-index: 999;
+    }
+    
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .nav-links li {
+        margin: 0.5rem 0;
+    }
+    
+    .logo {
+        font-size: 1.3rem;
+        margin-right: 10px;
+    }
+    
+    .cart-icon {
+        font-size: 1.2rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0 10px;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+    }
+    
+    .cart-icon {
+        font-size: 1.1rem;
+    }
+}
 /* Banner ajustado */
 .banner-carousel {
     position: relative;
