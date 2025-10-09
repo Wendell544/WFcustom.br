@@ -119,93 +119,85 @@ const products = {
         ]
     },
     unissexo: {
-        personagens: [
-            { 
-                id: 41, 
-                name: 'Camiseta Unissexo Super Herói', 
-                price: 28, 
-                category: 'unissexo', 
-                subcategory: 'personagens', 
-                variants: {
-                    'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
-                },
-                description: 'Camiseta unissexo com estampa de super herói.' 
+        products: [
+        {
+            id: 1,
+            name: 'camisa Unissexo Colorida 1',
+            price: 25,
+            category: 'unissexo',
+            subcategory: 'estampados',
+            variants: {
+                'branco': 'https://i.postimg.cc/s2RrLhtw/1.png',
+                'preto': 'https://i.postimg.cc/PxSnNFNQ/2.png',
+                'cinza': 'https://i.postimg.cc/X7p4B3fN/3.png'
             },
-            { 
-                id: 42, 
-                name: 'Camiseta Unissexo Personagem Animado', 
-                price: 28, 
-                category: 'unissexo', 
-                subcategory: 'personagens', 
-                variants: {
-                    'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
-                },
-                description: 'Camiseta unissexo com personagem animado.' 
+            description: 'Camiseta confortável e moderna.'
+        },
+        {
+            id: 2,
+            name: 'Camiseta Unissexo Colorida 2',
+            price: 26,
+            category: 'unissexo',
+            subcategory: 'estampados',
+            variants: 
+            {
+                'branco': 'https://i.postimg.cc/vT7qc40N/1.png',
+                'cinza': 'https://i.postimg.cc/0NLcnYFr/3.png',
             },
-            { 
-                id: 43, 
-                name: 'Camiseta Unissexo Personagem Disney', 
-                price: 28, 
-                category: 'unissexo', 
-                subcategory: 'personagens', 
-                variants: {
-                    'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
-                },
-                description: 'Camiseta unissexo com personagem Disney.' 
+            description: 'Camiseta unissexo colorida.'
+        },
+        {
+            id: 3,
+            name: 'Camiseta Unissexo Colorida 3',
+            price: 28,
+            category: 'unissexo',
+            subcategory: 'estampados',
+            variants: {
+                'branco': 'https://i.postimg.cc/PxQYD1kM/1.png',
+                'preto': 'https://i.postimg.cc/05Z72Gnk/2.png',
+                'cinza': 'https://i.postimg.cc/LsfzHrQs/3.png'
             },
-            { 
-                id: 44, 
-                name: 'Camiseta Unissexo Personagem Marvel', 
-                price: 28, 
-                category: 'unissexo', 
-                subcategory: 'personagens', 
-                variants: {
-                    'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
-                },
-                description: 'Camiseta unissexo com personagem Marvel.' 
-            }
-        ],
-        coloridas: [
-            { 
-                id: 49, 
-                name: 'Camiseta Unissexo Colorida', 
-                price: 26, 
-                category: 'unissexo', 
-                subcategory: 'coloridas', 
-                variants: {
-                    'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
-                },
-                description: 'Camiseta unissexo colorida.' 
+            description: 'Camiseta unissexo ideal para o dia a dia.'
+        },
+        {
+            id: 4,
+            name: 'Camiseta Unissexo Colorida 4',
+            price: 27,
+            category: 'unissexo',
+            subcategory: 'estampados',
+            variants: {
+                'branco': 'https://i.postimg.cc/HWPjh635/1.png',
+                'preto': 'https://i.postimg.cc/652TJCmJ/2.png',
+                'cinza': 'https://i.postimg.cc/X7RqVXRB/3.png'
             },
-            { 
-                id: 50, 
-                name: 'Camiseta Unissexo Arco-Íris', 
-                price: 26, 
-                category: 'unissexo', 
-                subcategory: 'coloridas', 
-                variants: {
-                    'branco': 'https://i.postimg.cc/8PfDKrrG/download.jpg',
-                    'preto': 'https://i.postimg.cc/kG6rpkGD/download.jpg',
-                    'azul': 'https://i.postimg.cc/k4j9ZQy1/download.jpg',
-                    'cinza': 'https://i.postimg.cc/HLBfsp7w/download.jpg'
-                },
-                description: 'Camiseta unissexo com estampa arco-íris.' 
+            description: 'Camiseta leve, com tecido respirável e ótimo caimento.'
+        },
+        {
+            id: 5,
+            name: 'Camiseta Unissexo Colorida 5',
+            price: 29,
+            category: 'unissexo',
+            subcategory: 'estampados',
+            variants: {
+                'branco': 'https://i.postimg.cc/KzWFJHFx/1.png',
+                'preto': 'https://i.postimg.cc/gcw6m9xQ/2.png',
+                'cinza': 'https://i.postimg.cc/Qx19Kpk6/3.png'
             },
+            description: 'Modelo clássico com toque macio e cores vibrantes.'
+        },
+        {
+            id: 6,
+            name: 'Camiseta Unissexo Colorida 6',
+            price: 22,
+            category: 'unissexo',
+            subcategory: 'estampados',
+            variants: {
+                'branco': 'https://i.postimg.cc/QM9rVq1Y/1.png',
+                'preto': 'https://i.postimg.cc/j5y04dgr/2.png',
+                'cinza': 'https://i.postimg.cc/ncFbqxq7/3.png'
+            },
+            description: 'Camiseta Estampada, leve e confortável para o dia a dia.'
+        },
             { 
                 id: 51, 
                 name: 'Camiseta Unissexo Colorida 1', 
