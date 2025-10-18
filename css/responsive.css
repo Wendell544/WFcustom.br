@@ -1,148 +1,118 @@
-/* Media Queries para Mobile First */
-@media (max-width: 480px) {
+/* Responsive.css - Atualizado para novas funcionalidades */
+
+@media (max-width: 768px) {
     :root {
-        --container-max-width: 420px;
         --base-font-size: 13px;
         --card-image-height: 140px;
         --spacing-small: 0.4rem;
         --spacing-medium: 0.8rem;
         --spacing-large: 1.2rem;
     }
-
-    .container {
-        max-width: var(--container-max-width);
+    
+    .offer-timer-premium {
+        gap: 1rem;
     }
-
-    .banner-carousel {
-        margin-bottom: var(--spacing-medium);
+    
+    .timer-item {
+        min-width: 60px;
+        padding: 0.8rem;
     }
-
-    .categories-bar-premium {
-        margin-bottom: var(--spacing-large);
+    
+    .timer-number {
+        font-size: 1.5rem;
     }
-
-    .grade-header-premium {
-        margin-bottom: 1rem;
+    
+    .offers-grid-premium {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
-
-    .grade-title-premium {
-        font-size: 1.2rem;
+    
+    .favorite-item-premium {
+        flex-direction: column;
+        text-align: center;
     }
-
-    .custom-design-premium {
-        padding: 2rem 0;
+    
+    .favorite-item-actions-premium {
+        flex-direction: row;
+        justify-content: center;
     }
-
-    .feature-item-premium {
-        padding: 1.2rem;
+    
+    .notification-premium {
+        left: var(--spacing-medium);
+        right: var(--spacing-medium);
+        max-width: none;
     }
+}
 
-    .feature-icon-premium {
-        font-size: 2rem;
+@media (max-width: 480px) {
+    :root {
+        --base-font-size: 12px;
+        --card-image-height: 120px;
     }
-
-    .feature-item-premium h3 {
-        font-size: 0.9rem;
-    }
-
-    .feature-item-premium p {
-        font-size: 0.75rem;
-    }
-
-    .custom-business-premium {
-        padding: 1.2rem;
-    }
-
-    .custom-business-premium h3 {
-        font-size: 1.1rem;
-    }
-
-    .custom-business-premium p {
-        font-size: 0.8rem;
-    }
-
-    .categories-container-premium {
+    
+    .offer-timer-premium {
         gap: 0.5rem;
     }
-
-    .category-filter-premium {
-        min-width: 70px;
-        padding: 0.6rem 0.8rem;
-        font-size: 0.75rem;
+    
+    .timer-item {
+        min-width: 50px;
+        padding: 0.6rem;
     }
-
-    .filter-icon {
-        font-size: 1rem;
+    
+    .timer-number {
+        font-size: 1.2rem;
+    }
+    
+    .favorite-item-image-premium {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .nav-buttons {
+        gap: 8px;
+    }
+    
+    .cart-icon, .favorites-icon {
+        padding: 8px;
+        font-size: 1.1rem;
     }
 }
 
-@media (max-width: 992px) {
-    .mobile-menu-btn {
-        display: block;
+/* Acessibilidade - High Contrast */
+@media (prefers-contrast: high) {
+    .grade-card {
+        border: 2px solid var(--premium-black);
+    }
+    
+    .btn {
+        border: 2px solid;
     }
 }
 
-@media (min-width: 768px) {
-    :root {
-        --container-max-width: 720px;
-    }
-    
-    .grade-container:not(.todos) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .grade-container.todos {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .product-detail-container-premium {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .custom-design-features-premium {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (min-width: 992px) {
-    :root {
-        --container-max-width: 960px;
-    }
-    
-    .grade-container:not(.todos) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .grade-container.todos {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (min-width: 1200px) {
-    :root {
-        --container-max-width: 1140px;
-    }
-    
-    .grade-container:not(.todos) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    
-    .grade-container.todos {
-        grid-template-columns: repeat(5, 1fr);
-    }
-}
-
-/* Prefers reduced motion */
+/* Acessibilidade - Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-    .banner-track {
+    .grade-card,
+    .offer-card-premium,
+    .favorite-item-premium {
         transition: none;
     }
     
-    .grade-card {
+    .banner-carousel {
         animation: none;
     }
+}
+
+/* Orientação landscape para mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .special-offers-premium {
+        padding: 1rem 0;
+    }
     
-    .btn:before {
-        display: none;
+    .offer-timer-premium {
+        margin: 1rem 0;
+    }
+    
+    .categories-bar-premium {
+        padding: 0.5rem 0;
     }
 }

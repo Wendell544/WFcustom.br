@@ -1529,16 +1529,7 @@ const products = {
     ]
 };
 
-// Função auxiliar para calcular preço final
-function calculateFinalPrice(basePrice, position) {
-    let finalPrice = basePrice;
-    if (position === 'ambos') {
-        finalPrice += 2.00;
-    }
-    return finalPrice;
-}
-
-// Criar card de produto para a grade
+// Modificar a função createGradeCard para incluir botão de favoritos
 function createGradeCard(product) {
     const card = document.createElement('div');
     card.className = 'grade-card';
@@ -1561,6 +1552,11 @@ function createGradeCard(product) {
     if (product.isNew) badges.push('<span class="badge badge-new">🆕 Novidade</span>');
     if (product.isTrending) badges.push('<span class="badge badge-trending">📈 Em Alta</span>');
     if (product.limitedStock) badges.push('<span class="badge badge-limited">⏳ Estoque Limitado</span>');
+
+    // Verificar se está nos favoritos
+    const isFavorite = isProductInFavorites(product.id);
+    const favoriteIcon = isFavorite ? 'fas' : 'far';
+    const favoriteLabel = isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos';
 
     const colorDots = Object.keys(product.variants).map(color => {
         let bgColor;
@@ -1598,7 +1594,13 @@ function createGradeCard(product) {
     card.innerHTML = `
         <div class="image-container">
             ${badges.join('')}
-            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
+            <button class="favorite-btn ${isFavorite ? 'active' : ''}" 
+                    data-product-id="${product.id}" 
+                    aria-label="${favoriteLabel}"
+                    onclick="event.stopPropagation(); toggleFavorite(findProductById(${product.id}))">
+                <i class="${favoriteIcon} fa-heart"></i>
+            </button>
+            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy" width="280" height="160">
         </div>
         <div class="grade-card-info">
             <h3 class="grade-card-title">${product.name}</h3>
