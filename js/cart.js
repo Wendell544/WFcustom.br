@@ -87,7 +87,7 @@ function renderCart() {
                 <p>Cor: ${item.color} | Tamanho: ${item.size}${positionInfo}</p>
                 <div class="cart-item-price-premium">R$ ${item.price.toFixed(2)}</div>
             </div>
-            <button class="remove-item-premium" data-cart-id="${item.id}" aria-label="Remover item do carrinho">
+            <button class="remove-item-premium" data-cart-id="${item.id}">
                 <i class="fas fa-trash"></i>
             </button>
         `;

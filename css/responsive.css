@@ -16,10 +16,6 @@
     .banner-carousel {
         margin-bottom: var(--spacing-medium);
     }
-    
-    .special-offers {
-        margin-bottom: var(--spacing-medium);
-    }
 
     .categories-bar-premium {
         margin-bottom: var(--spacing-large);
@@ -78,37 +74,9 @@
     .filter-icon {
         font-size: 1rem;
     }
-    
-    .offers-grid {
+
+    .favorites-items-premium {
         grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
-    }
-    
-    .offer-card {
-        padding: 0.8rem;
-    }
-    
-    .offer-card-image {
-        height: 80px;
-    }
-    
-    .timer-value {
-        min-width: 35px;
-        font-size: 0.9rem;
-        padding: 0.2rem 0.4rem;
-    }
-    
-    .timer-label {
-        font-size: 0.6rem;
-    }
-    
-    .product-header-premium {
-        flex-direction: column;
-    }
-    
-    .price-display-compact {
-        margin-top: 0.5rem;
-        align-self: flex-start;
     }
 }
 
@@ -138,10 +106,6 @@
     .custom-design-features-premium {
         grid-template-columns: repeat(3, 1fr);
     }
-    
-    .offers-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
 }
 
 @media (min-width: 992px) {
@@ -155,10 +119,6 @@
     
     .grade-container.todos {
         grid-template-columns: repeat(4, 1fr);
-    }
-    
-    .offers-grid {
-        grid-template-columns: repeat(5, 1fr);
     }
 }
 
@@ -174,10 +134,6 @@
     .grade-container.todos {
         grid-template-columns: repeat(5, 1fr);
     }
-    
-    .offers-grid {
-        grid-template-columns: repeat(6, 1fr);
-    }
 }
 
 /* Prefers reduced motion */
@@ -186,7 +142,7 @@
         transition: none;
     }
     
-    .grade-card, .offer-card {
+    .grade-card {
         animation: none;
     }
     

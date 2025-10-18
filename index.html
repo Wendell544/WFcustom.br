@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WFcustom - Camisetas e Canecas Personalizadas</title>
-    <meta name="description" content="Loja de camisetas e canecas personalizadas com designs exclusivos. Qualidade premium e preços acessíveis.">
-    <meta name="keywords" content="camisetas personalizadas, canecas, estampas, moda, roupas customizadas">
+    <meta name="description" content="WFcustom - Loja de camisetas e canecas personalizadas com designs exclusivos. Enviamos para todo Brasil. Qualidade premium e preços acessíveis.">
+    <meta name="keywords" content="camisetas personalizadas, canecas personalizadas, estampas, moda, roupas customizadas">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
-    
-    <!-- Schema Markup -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Store",
-        "name": "WFcustom - Camisetas e Canecas Personalizadas",
+        "name": "WFcustom",
         "description": "Loja de camisetas e canecas personalizadas com designs exclusivos",
         "url": "https://wfcustom.com",
         "telephone": "+55-83-99966-7578",
@@ -26,8 +24,8 @@
             "addressRegion": "PB",
             "addressCountry": "BR"
         },
-        "openingHours": "Mo-Sa 09:00-18:00",
-        "priceRange": "R$ 30 - R$ 50"
+        "openingHours": "Mo-Fr 09:00-18:00",
+        "priceRange": "R$ 30 - R$ 100"
     }
     </script>
 </head>
@@ -42,13 +40,13 @@
         <div class="container">
             <nav class="navbar">
                 <div class="logo logo-header">WFcustom</div>
-                <button class="mobile-menu-btn" aria-label="Menu mobile">
+                <button class="mobile-menu-btn" aria-label="Abrir menu">
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="nav-buttons">
-                    <button class="favorites-icon" id="favorites-icon" aria-label="Favoritos">
+                    <button class="favorite-icon" id="favorite-icon" aria-label="Favoritos">
                         <i class="far fa-heart"></i>
-                        <span class="favorites-count">0</span>
+                        <span class="favorite-count">0</span>
                     </button>
                     <button class="cart-icon icone-carrinho" id="cart-icon" aria-label="Carrinho de compras">
                         <i class="fas fa-shopping-cart"></i>
@@ -76,75 +74,66 @@
             </div>
         </section>
 
-        <!-- Seção de Ofertas Especiais -->
-        <section class="special-offers" id="special-offers" aria-label="Ofertas especiais">
-            <div class="container">
-                <div class="offers-header">
-                    <h2>Ofertas Especiais</h2>
-                    <p>Promoções por tempo limitado</p>
-                    <div class="offer-timer" id="offer-timer">
-                        <span class="timer-item">
-                            <span class="timer-value" id="timer-hours">24</span>
-                            <span class="timer-label">Horas</span>
-                        </span>
-                        <span class="timer-separator">:</span>
-                        <span class="timer-item">
-                            <span class="timer-value" id="timer-minutes">00</span>
-                            <span class="timer-label">Minutos</span>
-                        </span>
-                        <span class="timer-separator">:</span>
-                        <span class="timer-item">
-                            <span class="timer-value" id="timer-seconds">00</span>
-                            <span class="timer-label">Segundos</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="offers-grid" id="offers-grid">
-                    <!-- Ofertas serão preenchidas via JavaScript -->
-                </div>
-            </div>
-        </section>
-
         <!-- Barra de Categorias Premium -->
         <div class="categories-bar-premium">
             <div class="container">
                 <div class="categories-container-premium">
-                    <button class="category-filter-premium active" data-category="todos" aria-label="Mostrar todos os produtos">
+                    <button class="category-filter-premium active" data-category="todos">
                         <div class="filter-icon">
                             <i class="fas fa-th-large"></i>
                         </div>
                         <span>Todos</span>
                     </button>
-                    <button class="category-filter-premium" data-category="masculino" aria-label="Filtrar produtos masculinos">
+                    <button class="category-filter-premium" data-category="masculino">
                         <div class="filter-icon">
                             <i class="fas fa-mars"></i>
                         </div>
                         <span>Masculino</span>
                     </button>
-                    <button class="category-filter-premium" data-category="unissexo" aria-label="Filtrar produtos femininos">
+                    <button class="category-filter-premium" data-category="unissexo">
                         <div class="filter-icon">
                             <i class="fas fa-venus-mars"></i>
                         </div>
                         <span>Feminino</span>
                     </button>
-                    <button class="category-filter-premium" data-category="canecas" aria-label="Filtrar canecas">
+                    <button class="category-filter-premium" data-category="canecas">
                         <div class="filter-icon">
                             <i class="fas fa-mug-hot"></i>
                         </div>
                         <span>Canecas</span>
+                    </button>
+                    <button class="category-filter-premium" data-category="ofertas">
+                        <div class="filter-icon">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <span>Ofertas</span>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Seção de Produtos -->
-        <section class="products" id="products" aria-label="Nossos produtos">
+        <section class="products" id="products">
             <div class="container">
+                <!-- Grade Ofertas Especiais -->
+                <section class="grade-produtos premium-ofertas" id="grade-produtos-ofertas" data-category="ofertas">
+                    <div class="grade-header-premium">
+                        <h2 class="grade-title-premium">
+                            <i class="fas fa-tag"></i>
+                            Ofertas Especiais
+                        </h2>
+                        <div class="header-accent"></div>
+                    </div>
+                    <div class="grade-container" id="grade-container-ofertas">
+                        <!-- Cards serão preenchidos via JavaScript -->
+                    </div>
+                </section>
+
                 <!-- Grade Masculino -->
                 <section class="grade-produtos premium-masculino" id="grade-produtos-masculino" data-category="masculino">
                     <div class="grade-header-premium">
                         <h2 class="grade-title-premium">
-                            <i class="fas fa-mars" aria-hidden="true"></i>
+                            <i class="fas fa-mars"></i>
                             Coleção Masculina
                         </h2>
                         <div class="header-accent"></div>
@@ -158,7 +147,7 @@
                 <section class="grade-produtos premium-unissexo" id="grade-produtos-unissexo" data-category="unissexo">
                     <div class="grade-header-premium">
                         <h2 class="grade-title-premium">
-                            <i class="fas fa-venus-mars" aria-hidden="true"></i>
+                            <i class="fas fa-venus-mars"></i>
                             Coleção Feminina
                         </h2>
                         <div class="header-accent"></div>
@@ -172,7 +161,7 @@
                 <section class="grade-produtos premium-canecas" id="grade-produtos-canecas" data-category="canecas">
                     <div class="grade-header-premium">
                         <h2 class="grade-title-premium">
-                            <i class="fas fa-mug-hot" aria-hidden="true"></i>
+                            <i class="fas fa-mug-hot"></i>
                             Coleção Canecas
                         </h2>
                         <div class="header-accent"></div>
@@ -181,11 +170,12 @@
                         <!-- Cards serão preenchidos via JavaScript -->
                     </div>
                 </section>
+
             </div>
         </section>
 
         <!-- Seção Personalize -->
-        <section class="custom-design-premium" id="custom-design" aria-label="Serviços de personalização">
+        <section class="custom-design-premium" id="custom-design">
             <div class="container">
                 <div class="section-title">
                     <h2>Personalize Seu Produto</h2>
@@ -194,33 +184,33 @@
                 
                 <div class="custom-business-premium">
                     <div class="business-icon">
-                        <i class="fas fa-palette" aria-hidden="true"></i>
+                        <i class="fas fa-palette"></i>
                     </div>
                     <h3>Precisa de produtos personalizados para sua empresa ou evento?</h3>
                     <p>Nós criamos camisetas e canecas exclusivas com sua marca ou design. Entre em contato conosco e faça um orçamento!</p>
-                    <a href="https://wa.me/5583999667578" class="btn btn-whatsapp-premium" target="_blank" aria-label="Falar no WhatsApp">
-                        <i class="fab fa-whatsapp" aria-hidden="true"></i> Falar no WhatsApp
+                    <a href="https://wa.me/5583999667578" class="btn btn-whatsapp-premium" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Falar no WhatsApp
                     </a>
                 </div>
                 
                 <div class="custom-design-features-premium">
                     <div class="feature-item-premium">
                         <div class="feature-icon-premium">
-                            <i class="fas fa-palette" aria-hidden="true"></i>
+                            <i class="fas fa-palette"></i>
                         </div>
                         <h3>Design Exclusivo</h3>
                         <p>Criamos designs únicos e personalizados para seus produtos</p>
                     </div>
                     <div class="feature-item-premium">
                         <div class="feature-icon-premium">
-                            <i class="fas fa-award" aria-hidden="true"></i>
+                            <i class="fas fa-award"></i>
                         </div>
                         <h3>Qualidade Premium</h3>
                         <p>Materiais de alta qualidade e acabamento impecável</p>
                     </div>
                     <div class="feature-item-premium">
                         <div class="feature-icon-premium">
-                            <i class="fas fa-shipping-fast" aria-hidden="true"></i>
+                            <i class="fas fa-shipping-fast"></i>
                         </div>
                         <h3>Entrega Rápida</h3>
                         <p>Seu pedido personalizado pronto em até 3 dias úteis</p>
@@ -232,7 +222,7 @@
 
     <!-- Página do Produto -->
     <div id="product-page" class="page">
-        <div class="back-button" id="back-from-product" aria-label="Fechar página do produto">
+        <div class="back-button" id="back-from-product" aria-label="Fechar">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
@@ -241,11 +231,9 @@
                     <img id="detail-image" src="" alt="Produto" loading="eager">
                 </div>
                 <div class="product-options-premium">
-                    <div class="product-header-premium">
-                        <h2 id="detail-title">Nome do Produto</h2>
-                        <div class="price-display-compact">
-                            <div class="price-premium">R$ <span id="detail-price">0</span></div>
-                        </div>
+                    <h2 id="detail-title">Nome do Produto</h2>
+                    <div class="price-display-premium">
+                        <div class="price-premium">R$ <span id="detail-price">0</span></div>
                     </div>
                     <p id="detail-description">Descrição do produto</p>
                     
@@ -288,7 +276,7 @@
 
     <!-- Página do Carrinho -->
     <div id="cart-page" class="page">
-        <div class="back-button" id="back-from-cart" aria-label="Fechar carrinho">
+        <div class="back-button" id="back-from-cart" aria-label="Fechar">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
@@ -316,22 +304,18 @@
 
     <!-- Página de Favoritos -->
     <div id="favorites-page" class="page">
-        <div class="back-button" id="back-from-favorites" aria-label="Fechar favoritos">
+        <div class="back-button" id="back-from-favorites" aria-label="Fechar">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
             <div class="section-title">
                 <h2>Seus Favoritos</h2>
-                <p>Produtos que você salvou para comprar depois</p>
+                <p>Seus produtos favoritados</p>
             </div>
             
             <div class="favorites-container-premium">
                 <div class="favorites-items-premium" id="favorites-items">
-                    <!-- Itens favoritos serão inseridos via JavaScript -->
-                </div>
-                
-                <div class="action-buttons-premium">
-                    <button class="btn btn-outline-premium" id="continue-from-favorites">Continuar Comprando</button>
+                    <!-- Itens dos favoritos serão inseridos via JavaScript -->
                 </div>
             </div>
         </div>
@@ -339,7 +323,7 @@
 
     <!-- Página de Localização -->
     <div id="location-page" class="page">
-        <div class="back-button" id="back-from-location" aria-label="Fechar localização">
+        <div class="back-button" id="back-from-location" aria-label="Fechar">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
@@ -348,19 +332,19 @@
                 <form id="location-form">
                     <div class="form-group-premium">
                         <label for="city">Cidade</label>
-                        <input type="text" id="city" class="form-control-premium" required aria-required="true">
+                        <input type="text" id="city" class="form-control-premium" required>
                     </div>
                     <div class="form-group-premium">
                         <label for="neighborhood">Bairro</label>
-                        <input type="text" id="neighborhood" class="form-control-premium" required aria-required="true">
+                        <input type="text" id="neighborhood" class="form-control-premium" required>
                     </div>
                     <div class="form-group-premium">
                         <label for="street">Rua</label>
-                        <input type="text" id="street" class="form-control-premium" required aria-required="true">
+                        <input type="text" id="street" class="form-control-premium" required>
                     </div>
                     <div class="form-group-premium">
                         <label for="address">Número e Complemento</label>
-                        <input type="text" id="address" class="form-control-premium" required aria-required="true" placeholder="Número, apartamento, etc.">
+                        <input type="text" id="address" class="form-control-premium" required placeholder="Número, apartamento, etc.">
                     </div>
                     
                     <div class="delivery-options-premium" id="delivery-options" style="display: none;">
@@ -409,6 +393,7 @@
                         <li><a href="#" class="footer-nav-link" data-section="masculino">Masculino</a></li>
                         <li><a href="#" class="footer-nav-link" data-section="unissexo">Feminino</a></li>
                         <li><a href="#" class="footer-nav-link" data-section="canecas">Canecas</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="ofertas">Ofertas</a></li>
                     </ul>
                 </div>
                 <div class="footer-column-premium">
@@ -429,7 +414,7 @@
     <!-- Modal de Confirmação -->
     <div class="modal-premium" id="confirmation-modal">
         <div class="modal-content-premium">
-            <span class="close-modal-premium" aria-label="Fechar modal">&times;</span>
+            <span class="close-modal-premium" aria-label="Fechar">&times;</span>
             <div class="modal-icon-premium">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -443,7 +428,7 @@
 
     <script src="js/products.js"></script>
     <script src="js/cart.js"></script>
-    <script src="js/offers.js"></script>
+    <script src="js/favorites.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
