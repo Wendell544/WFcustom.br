@@ -477,9 +477,7 @@ header {
     height: 100%;
     object-fit: cover;
     transition: var(--transition-slow);
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+    display: block;
 }
 
 .grade-card:hover .grade-card-image {
@@ -592,6 +590,11 @@ header {
 }
 
 /* Sistema de carregamento otimizado para imagens */
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
 .image-loading-overlay {
     position: absolute;
     top: 0;
@@ -620,8 +623,19 @@ header {
     100% { transform: rotate(360deg); }
 }
 
+.grade-card-image {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
 .grade-card-image.loading {
     opacity: 0.5;
+}
+
+/* Otimização de performance para imagens */
+.grade-card-image {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 /* Transição suave para mudança de cores */
@@ -632,16 +646,6 @@ header {
 .color-dot.active {
     transform: scale(1.2);
     transition: all 0.3s ease;
-}
-
-/* Feedback visual durante o carregamento */
-.grade-card:not(.image-loaded) .grade-card-image {
-    opacity: 0;
-}
-
-.grade-card.image-loaded .grade-card-image {
-    opacity: 1;
-    transition: opacity 0.5s ease;
 }
 
 /* Seção Ofertas - Pacotes Personalizados */
@@ -1248,7 +1252,6 @@ header {
     padding: 1.5rem;
     box-shadow: var(--shadow-md);
     text-align: center;
-    position: relative;
 }
 
 .product-image-large-premium img {
@@ -1256,7 +1259,7 @@ header {
     max-height: 400px;
     object-fit: contain;
     border-radius: var(--border-radius);
-    transition: opacity 0.3s ease;
+    display: block;
 }
 
 .product-options-premium {
@@ -1746,21 +1749,6 @@ header {
     color: #ff4757;
 }
 
-/* Loading overlay para página de produto */
-.product-image-loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    border-radius: var(--border-radius);
-}
-
 /* Responsividade para mobile */
 @media (max-width: 768px) {
     .banner-carousel {
@@ -1779,154 +1767,5 @@ header {
     
     .packages-container {
         grid-template-columns: 1fr;
-    }
-    
-    .grade-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
-    }
-    
-    .product-detail-container-premium {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-    
-    .action-buttons-premium {
-        gap: 0.8rem;
-    }
-    
-    .btn-primary-premium, .btn-outline-premium {
-        padding: 0.7rem 1rem;
-        font-size: 0.8rem;
-    }
-}
-
-/* Tablet */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .grade-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .product-detail-container-premium {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .packages-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Desktop */
-@media (min-width: 1025px) {
-    .grade-container {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    
-    .product-detail-container-premium {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .packages-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
-    }
-}
-
-/* Ajustes para telas muito pequenas */
-@media (max-width: 480px) {
-    .grade-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .categories-container-premium {
-        gap: 0.5rem;
-    }
-    
-    .category-filter-premium {
-        min-width: 70px;
-        padding: 0.6rem 0.8rem;
-        font-size: 0.75rem;
-    }
-    
-    .package-card {
-        padding: 1rem;
-    }
-    
-    .package-content h4 {
-        font-size: 1rem;
-    }
-    
-    .final-price {
-        font-size: 1.2rem;
-    }
-}
-
-/* Prefers reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .banner-track {
-        transition: none;
-    }
-    
-    .grade-card {
-        animation: none;
-    }
-    
-    .btn:before {
-        display: none;
-    }
-    
-    .loading-spinner {
-        animation: none;
-    }
-    
-    .grade-card:hover {
-        transform: none;
-    }
-    
-    .grade-card:hover .grade-card-image {
-        transform: none;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .grade-card {
-        border: 2px solid var(--premium-black);
-    }
-    
-    .color-dot {
-        border: 2px solid var(--premium-black);
-    }
-    
-    .btn-outline-premium {
-        border: 3px solid var(--premium-black);
-    }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1a1a1a;
-        color: #e5e5e5;
-    }
-    
-    .grade-card {
-        background: #2d2d2d;
-        border-color: #404040;
-    }
-    
-    .grade-card-info {
-        background: #2d2d2d;
-    }
-    
-    .grade-card-title {
-        color: #e5e5e5;
-    }
-    
-    .cart-container-premium,
-    .product-options-premium,
-    .location-form-premium {
-        background: #2d2d2d;
-        color: #e5e5e5;
     }
 }
