@@ -1525,11 +1525,11 @@ const products = {
             },
             positions: [],
             description: "Caneca final da coleção premium"
-       }
+        }
     ],
     ofertas: [
         {
-
+ 
             id: 101,
             name: "Camiseta Premium Oferta 1",
             category: "ofertas",
@@ -1643,6 +1643,52 @@ const products = {
     ]
 };
 
+// Cache de imagens para carregamento instantâneo
+const imageCache = new Map();
+
+// Função para pré-carregar imagens
+function preloadProductImages() {
+    console.log('Iniciando pré-carregamento de imagens...');
+    
+    let totalImages = 0;
+    let loadedImages = 0;
+    
+    // Coletar todas as URLs de imagens únicas
+    const imageUrls = new Set();
+    
+    Object.values(products).forEach(categoryProducts => {
+        categoryProducts.forEach(product => {
+            Object.values(product.variants).forEach(variant => {
+                if (variant.image && !imageCache.has(variant.image)) {
+                    imageUrls.add(variant.image);
+                    totalImages++;
+                }
+            });
+        });
+    });
+    
+    console.log(`Pré-carregando ${totalImages} imagens...`);
+    
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.onload = () => {
+            loadedImages++;
+            imageCache.set(url, img);
+            console.log(`Imagem carregada: ${loadedImages}/${totalImages}`);
+            
+            // Atualizar progresso se necessário
+            if (loadedImages === totalImages) {
+                console.log('Todas as imagens foram pré-carregadas!');
+            }
+        };
+        img.onerror = () => {
+            loadedImages++;
+            console.warn(`Erro ao carregar imagem: ${url}`);
+        };
+        img.src = url;
+    });
+}
+
 // Função auxiliar para calcular preço final
 function calculateFinalPrice(basePrice, position) {
     let finalPrice = basePrice;
@@ -1721,6 +1767,9 @@ function createGradeCard(product) {
                 <i class="${favIconClass}"></i>
             </div>
             <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
+            <div class="image-loading-overlay">
+                <div class="loading-spinner"></div>
+            </div>
         </div>
         <div class="grade-card-info">
             <h3 class="grade-card-title">${product.name}</h3>
@@ -1767,9 +1816,10 @@ function createGradeCard(product) {
         }
     });
 
-    // Adicionar event listeners para cores
+    // Adicionar event listeners para cores com carregamento otimizado
     const colorDotsElements = card.querySelectorAll('.color-dot');
     const cardImage = card.querySelector('.grade-card-image');
+    const loadingOverlay = card.querySelector('.image-loading-overlay');
     const priceElement = card.querySelector('.price-value');
     const sizeContainer = card.querySelector('.grade-card-sizes');
     
@@ -1783,37 +1833,37 @@ function createGradeCard(product) {
             const selectedColor = dot.getAttribute('data-color');
             const selectedVariant = product.variants[selectedColor];
             
-            // Adicionar estado de loading
-            cardImage.classList.add('loading');
+            // Mostrar loading overlay
+            loadingOverlay.style.display = 'flex';
+            cardImage.style.opacity = '0.5';
             
-            // Pré-carregar a imagem
-            const newImage = new Image();
-            newImage.src = selectedVariant.image;
-            newImage.onload = () => {
+            // Verificar se a imagem já está em cache
+            if (imageCache.has(selectedVariant.image)) {
+                // Imagem já carregada - mostrar instantaneamente
+                const cachedImage = imageCache.get(selectedVariant.image);
                 cardImage.src = selectedVariant.image;
-                cardImage.classList.remove('loading');
-                cardImage.setAttribute('data-color', selectedColor);
-                cardImage.alt = `${product.name} - Cor ${selectedColor}`;
+                cardImage.style.opacity = '1';
+                loadingOverlay.style.display = 'none';
+                updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
+            } else {
+                // Carregar imagem
+                const newImage = new Image();
+                newImage.onload = () => {
+                    imageCache.set(selectedVariant.image, newImage);
+                    cardImage.src = selectedVariant.image;
+                    cardImage.style.opacity = '1';
+                    loadingOverlay.style.display = 'none';
+                    updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
+                };
                 
-                // Obter posição atual para calcular preço
-                const activePositionDot = card.querySelector('.position-dot.active');
-                const currentPosition = activePositionDot ? activePositionDot.getAttribute('data-position') : firstPosition;
+                newImage.onerror = () => {
+                    console.error('Erro ao carregar imagem:', selectedVariant.image);
+                    cardImage.style.opacity = '1';
+                    loadingOverlay.style.display = 'none';
+                };
                 
-                // Calcular preço final considerando cor E posição
-                const basePrice = product.discount ? 
-                    selectedVariant.price * (1 - product.discount / 100) : 
-                    selectedVariant.price;
-                const finalPrice = calculateFinalPrice(basePrice, currentPosition);
-                priceElement.textContent = finalPrice.toFixed(2);
-                
-                // Atualizar tamanhos disponíveis
-                updateSizesForColor(sizeContainer, selectedVariant.sizes);
-            };
-            
-            newImage.onerror = () => {
-                cardImage.classList.remove('loading');
-                console.error('Erro ao carregar imagem:', selectedVariant.image);
-            };
+                newImage.src = selectedVariant.image;
+            }
         });
     });
 
@@ -1855,6 +1905,26 @@ function createGradeCard(product) {
     });
 
     return card;
+}
+
+// Função auxiliar para atualizar detalhes do produto
+function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition) {
+    cardImage.setAttribute('data-color', selectedColor);
+    cardImage.alt = `${product.name} - Cor ${selectedColor}`;
+    
+    // Obter posição atual para calcular preço
+    const activePositionDot = card.querySelector('.position-dot.active');
+    const currentPosition = activePositionDot ? activePositionDot.getAttribute('data-position') : firstPosition;
+    
+    // Calcular preço final considerando cor E posição
+    const basePrice = product.discount ? 
+        selectedVariant.price * (1 - product.discount / 100) : 
+        selectedVariant.price;
+    const finalPrice = calculateFinalPrice(basePrice, currentPosition);
+    priceElement.textContent = finalPrice.toFixed(2);
+    
+    // Atualizar tamanhos disponíveis
+    updateSizesForColor(sizeContainer, selectedVariant.sizes);
 }
 
 // Atualizar tamanhos disponíveis para uma cor
@@ -1988,8 +2058,12 @@ function debugDOMStructure() {
 // Inicializar as grades quando o DOM estiver pronto
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
+        // Pré-carregar imagens primeiro
+        preloadProductImages();
+        // Popular grades após um pequeno delay para garantir que o DOM está pronto
         setTimeout(populateAllGrades, 100);
     });
 } else {
+    preloadProductImages();
     setTimeout(populateAllGrades, 100);
 }
