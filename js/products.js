@@ -1899,4 +1899,171 @@ function createGradeCard(product) {
             const basePrice = product.discount ? 
                 selectedVariant.price * (1 - product.discount / 100) : 
                 selectedVariant.price;
-            const finalPrice
+            const finalPrice = calculateFinalPrice(basePrice, selectedPosition);
+            priceElement.textContent = finalPrice.toFixed(2);
+        });
+    });
+
+    return card;
+}
+
+// Função auxiliar para atualizar detalhes do produto
+function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition) {
+    cardImage.setAttribute('data-color', selectedColor);
+    cardImage.alt = `${product.name} - Cor ${selectedColor}`;
+    
+    // Obter posição atual para calcular preço
+    const activePositionDot = card.querySelector('.position-dot.active');
+    const currentPosition = activePositionDot ? activePositionDot.getAttribute('data-position') : firstPosition;
+    
+    // Calcular preço final considerando cor E posição
+    const basePrice = product.discount ? 
+        selectedVariant.price * (1 - product.discount / 100) : 
+        selectedVariant.price;
+    const finalPrice = calculateFinalPrice(basePrice, currentPosition);
+    priceElement.textContent = finalPrice.toFixed(2);
+    
+    // Atualizar tamanhos disponíveis
+    updateSizesForColor(sizeContainer, selectedVariant.sizes);
+}
+
+// Atualizar tamanhos disponíveis para uma cor
+function updateSizesForColor(sizeContainer, sizes) {
+    sizeContainer.innerHTML = '';
+    
+    sizes.forEach((size, index) => {
+        const sizeDot = document.createElement('div');
+        sizeDot.className = `size-dot ${index === 0 ? 'active' : ''}`;
+        sizeDot.setAttribute('data-size', size);
+        sizeDot.textContent = size;
+        
+        sizeDot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            sizeContainer.querySelectorAll('.size-dot').forEach(d => d.classList.remove('active'));
+            sizeDot.classList.add('active');
+        });
+        
+        sizeContainer.appendChild(sizeDot);
+    });
+}
+
+// Popular uma grade
+function populateGrade(containerId, productList) {
+    const gradeContainer = document.getElementById(containerId);
+    if (!gradeContainer) {
+        console.error(`Container não encontrado: ${containerId}`);
+        return false;
+    }
+    
+    console.log(`Populando ${containerId} com ${productList.length} produtos`);
+    gradeContainer.innerHTML = '';
+
+    productList.forEach(product => {
+        const card = createGradeCard(product);
+        gradeContainer.appendChild(card);
+    });
+    
+    return true;
+}
+
+// Encontrar produto por ID
+function findProductById(id) {
+    for (const subcategory in products) {
+        const product = products[subcategory].find(p => p.id == id);
+        if (product) return product;
+    }
+    
+    return null;
+}
+
+// Popular todas as grades
+function populateAllGrades() {
+    console.log('Iniciando população das grades...');
+    
+    const containers = [
+        'grade-container-masculino',
+        'grade-container-unissexo', 
+        'grade-container-canecas',
+        'grade-container-ofertas'
+    ];
+    
+    let successCount = 0;
+    
+    containers.forEach(containerId => {
+        const category = containerId.split('-')[2];
+        if (populateGrade(containerId, products[category])) {
+            successCount++;
+        }
+    });
+    
+    console.log(`Grades populadas: ${successCount}/${containers.length}`);
+    
+    // Se nenhum container foi encontrado, criar dinamicamente
+    if (successCount === 0) {
+        console.log('Nenhum container encontrado. Criando estrutura dinâmica...');
+        createDynamicGradeStructure();
+    }
+}
+
+// Criar estrutura dinâmica se os containers não existirem
+function createDynamicGradeStructure() {
+    const productsSection = document.getElementById('products');
+    if (!productsSection) {
+        console.error('Seção de produtos não encontrada');
+        return;
+    }
+    
+    // Criar containers dinamicamente
+    const categories = ['masculino', 'unissexo', 'canecas', 'ofertas'];
+    
+    categories.forEach(category => {
+        const containerId = `grade-container-${category}`;
+        
+        // Verificar se já existe
+        if (!document.getElementById(containerId)) {
+            const gradeSection = document.createElement('div');
+            gradeSection.className = 'grade-produtos';
+            gradeSection.id = `grade-${category}`;
+            gradeSection.setAttribute('data-category', category);
+            
+            gradeSection.innerHTML = `
+                <div class="grade-header">
+                    <h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+                </div>
+                <div id="${containerId}" class="grade-container"></div>
+            `;
+            
+            productsSection.appendChild(gradeSection);
+            console.log(`Container criado: ${containerId}`);
+        }
+        
+        // Popular o container
+        populateGrade(containerId, products[category]);
+    });
+}
+
+// Debug function para verificar estrutura do DOM
+function debugDOMStructure() {
+    console.log('=== DEBUG DOM STRUCTURE ===');
+    console.log('Products section:', document.getElementById('products'));
+    console.log('Masculino container:', document.getElementById('grade-container-masculino'));
+    console.log('Unissexo container:', document.getElementById('grade-container-unissexo'));
+    console.log('Canecas container:', document.getElementById('grade-container-canecas'));
+    console.log('Ofertas container:', document.getElementById('grade-container-ofertas'));
+    console.log('All grade containers:', document.querySelectorAll('.grade-container'));
+    console.log('=== END DEBUG ===');
+}
+
+// Inicializar as grades quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Pré-carregar imagens primeiro
+        preloadProductImages();
+        // Popular grades após um pequeno delay para garantir que o DOM está pronto
+        setTimeout(populateAllGrades, 100);
+    });
+} else {
+    preloadProductImages();
+    setTimeout(populateAllGrades, 100);
+}
