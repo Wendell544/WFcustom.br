@@ -1519,23 +1519,6 @@ header {
     font-weight: 800;
 }
 
-/* Menu Mobile */
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    color: var(--premium-black);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: var(--border-radius);
-    transition: var(--transition);
-}
-
-.mobile-menu-btn:hover {
-    background: var(--light-gray);
-}
-
 /* Opções de entrega */
 .delivery-options-premium {
     margin-top: 1.5rem;

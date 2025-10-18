@@ -17,7 +17,7 @@ let homePage, productPage, cartPage, favoritesPage, locationPage, detailImage, d
 let detailPrice, modalColorOptions, detailSizeOptions, stampPositionGroup, addToCartDetailButton;
 let buyNowDetailButton, locationForm, shippingPrice, shippingInfo;
 let shippingPriceContainer, finalizeOrderButton, confirmationModal, closeModal, closeConfirmation;
-let mobileMenuBtn, navLinks, navLinksItems, footerNavLinks, cartIcon, favoriteIcon, cartItemsContainer;
+let navLinks, navLinksItems, footerNavLinks, cartIcon, favoriteIcon, cartItemsContainer;
 let cartSummary, continueShoppingBtn, checkoutBtn, cartCount, favoriteCount, backFromProduct, backFromCart;
 let backFromFavorites, backFromLocation, categoryFilters, backToHomeFromProduct, deliveryOptions;
 
@@ -84,7 +84,6 @@ function initializeDOMElements() {
     confirmationModal = document.getElementById('confirmation-modal');
     closeModal = document.querySelector('.close-modal-premium');
     closeConfirmation = document.getElementById('close-confirmation');
-    mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     navLinks = document.querySelector('.nav-links');
     navLinksItems = document.querySelectorAll('.nav-link');
     footerNavLinks = document.querySelectorAll('.footer-nav-link');
@@ -161,19 +160,12 @@ function pauseBannerAutoplay() {
 // Configurar event listeners
 function setupEventListeners() {
     // Navegação principal
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-    }
-    
     if (navLinksItems) {
         navLinksItems.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const section = e.currentTarget.getAttribute('data-section');
                 showSection(section);
-                if (window.innerWidth <= 992) {
-                    navLinks.classList.remove('active');
-                }
             });
         });
     }
@@ -301,13 +293,6 @@ function setupEventListeners() {
             handlePackageSelection(packageType);
         }
     });
-}
-
-// Alternar menu mobile
-function toggleMobileMenu() {
-    if (navLinks) {
-        navLinks.classList.toggle('active');
-    }
 }
 
 // Mostrar seção

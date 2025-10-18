@@ -93,6 +93,7 @@ function renderFavorites() {
     // Adicionar event listeners para remover favoritos
     document.querySelectorAll('.remove-favorite').forEach(button => {
         button.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impedir a propagação do evento
             const productId = e.currentTarget.getAttribute('data-product-id');
             toggleFavorite(productId);
             renderFavorites();
