@@ -1599,7 +1599,7 @@ header {
 
 .favorites-items-premium {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
 }
 
@@ -1715,6 +1715,28 @@ header {
     gap: 0.5rem;
     padding: 0.8rem 1.5rem;
     font-size: 0.9rem;
+}
+
+/* Responsividade para favoritos */
+@media (max-width: 768px) {
+    .favorite-card-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .favorite-image-container {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .favorite-card-info {
+        align-items: center;
+    }
+    
+    .btn-danger-premium {
+        align-self: center;
+    }
 }
 
 /* Badges de produto */
@@ -1852,24 +1874,5 @@ header {
     
     .packages-container {
         grid-template-columns: 1fr;
-    }
-    
-    .favorite-card-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-    
-    .favorite-image-container {
-        width: 100%;
-        height: 200px;
-    }
-    
-    .favorite-card-info {
-        align-items: center;
-    }
-    
-    .btn-danger-premium {
-        align-self: center;
     }
 }

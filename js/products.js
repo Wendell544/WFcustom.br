@@ -1969,12 +1969,32 @@ function populateGrade(containerId, productList) {
 
 // Encontrar produto por ID
 function findProductById(id) {
+    const numericId = parseInt(id);
     for (const subcategory in products) {
-        const product = products[subcategory].find(p => p.id == id);
+        const product = products[subcategory].find(p => p.id === numericId);
         if (product) return product;
     }
     
     return null;
+}
+
+// Popular uma grade
+function populateGrade(containerId, productList) {
+    const gradeContainer = document.getElementById(containerId);
+    if (!gradeContainer) {
+        console.error(`Container não encontrado: ${containerId}`);
+        return false;
+    }
+    
+    console.log(`Populando ${containerId} com ${productList.length} produtos`);
+    gradeContainer.innerHTML = '';
+
+    productList.forEach(product => {
+        const card = createGradeCard(product);
+        gradeContainer.appendChild(card);
+    });
+    
+    return true;
 }
 
 // Popular todas as grades
