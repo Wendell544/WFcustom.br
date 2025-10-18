@@ -1525,10 +1525,123 @@ const products = {
             },
             positions: [],
             description: "Caneca final da coleção premium"
+       }
+    ],
+    ofertas: [
+        {
+
+            id: 101,
+            name: "Camiseta Premium Oferta 1",
+            category: "ofertas",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/8k2J4p7L/1.png",
+                    price: 49.90,
+                    sizes: ['P', 'M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta premium em oferta especial - qualidade superior",
+            discount: 30,
+            isBestSeller: true,
+            limitedStock: true,
+            stockCount: 5
+        },
+        {
+            id: 102,
+            name: "Caneca Exclusiva Oferta",
+            category: "ofertas",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/J0tn8vvD/070bee7b-00d5-46ac-ad24-aca5b61ace35.png",
+                    price: 25.90,
+                    sizes: ['Único']
+                }
+            },
+            positions: [],
+            description: "Caneca exclusiva em promoção relâmpago",
+            discount: 25,
+            limitedStock: true,
+            stockCount: 8,
+            isTrending: true
+        },
+        {
+            id: 103,
+            name: "Kit Personalizado Especial",
+            category: "ofertas",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/8k2J4p7L/1.png",
+                    price: 69.90,
+                    sizes: ['P', 'M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Kit especial com desconto imperdível",
+            discount: 35,
+            isNew: true,
+            limitedStock: true,
+            stockCount: 3
+        },
+        {
+            id: 104,
+            name: "Camiseta Limited Edition",
+            category: "ofertas",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/8k2J4p7L/1.png",
+                    price: 44.90,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/HxJn0RH0/2.png",
+                    price: 47.90,
+                    sizes: ['P', 'M']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Edição limitada com design exclusivo",
+            discount: 20,
+            isBestSeller: true,
+            isNew: true
+        },
+        {
+            id: 105,
+            name: "Caneca Premium Oferta",
+            category: "ofertas",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/J0tn8vvD/070bee7b-00d5-46ac-ad24-aca5b61ace35.png",
+                    price: 28.90,
+                    sizes: ['Único']
+                }
+            },
+            positions: [],
+            description: "Caneca premium com desconto especial",
+            discount: 15,
+            limitedStock: true,
+            stockCount: 6
+        },
+        {
+            id: 106,
+            name: "Camiseta Flash Sale",
+            category: "ofertas",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/8k2J4p7L/1.png",
+                    price: 35.90,
+                    sizes: ['P', 'M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Oferta relâmpago por tempo limitado",
+            discount: 40,
+            limitedStock: true,
+            stockCount: 4,
+            isTrending: true
         }
     ]
 };
-
 
 // Função auxiliar para calcular preço final
 function calculateFinalPrice(basePrice, position) {
@@ -1870,4 +1983,13 @@ function debugDOMStructure() {
     console.log('Ofertas container:', document.getElementById('grade-container-ofertas'));
     console.log('All grade containers:', document.querySelectorAll('.grade-container'));
     console.log('=== END DEBUG ===');
+}
+
+// Inicializar as grades quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(populateAllGrades, 100);
+    });
+} else {
+    setTimeout(populateAllGrades, 100);
 }

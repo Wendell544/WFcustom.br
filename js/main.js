@@ -5,7 +5,7 @@ let currentColor = 'branco';
 let currentSize = 'P';
 let currentPosition = 'frente';
 let currentSection = 'home';
-let currentCategory = 'todos';
+let currentCategory = 'masculino'; // Alterado para masculino como padrão
 
 // Configurações do carrossel de banners
 let currentBannerIndex = 0;
@@ -41,8 +41,8 @@ function init() {
     updateCartCount();
     updateFavoriteCount();
     
-    // Aplicar classe para categoria "todos"
-    updateGridForCategory();
+    // Aplicar categoria padrão "masculino"
+    filterProductsByCategory('masculino');
     
     // Popular grades APÓS garantir que o DOM está pronto
     setTimeout(() => {
@@ -292,6 +292,14 @@ function setupEventListeners() {
             const productId = card.getAttribute('data-product-id');
             showProductDetail(productId);
         }
+        
+        // Event delegation para pacotes
+        const packageBtn = e.target.closest('.package-btn');
+        if (packageBtn) {
+            e.preventDefault();
+            const packageType = packageBtn.getAttribute('data-package');
+            handlePackageSelection(packageType);
+        }
     });
 }
 
@@ -342,6 +350,17 @@ function showCart() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Mostrar favoritos
+function showFavorites() {
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    if (favoritesPage) favoritesPage.classList.add('active');
+    renderFavorites();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // Mostrar página de localização
 function showLocation() {
     document.querySelectorAll('.page').forEach(page => {
@@ -364,27 +383,16 @@ function filterProductsByCategory(category) {
     const activeFilter = document.querySelector(`[data-category="${category}"]`);
     if (activeFilter) activeFilter.classList.add('active');
     
-    // Atualizar grid
-    updateGridForCategory();
-}
-
-// Atualizar grid para categoria selecionada
-function updateGridForCategory() {
+    // Ocultar todas as grades
     const allGrades = document.querySelectorAll('.grade-produtos');
+    allGrades.forEach(grade => {
+        grade.style.display = 'none';
+    });
     
-    if (currentCategory === 'todos') {
-        allGrades.forEach(grade => {
-            grade.style.display = 'block';
-        });
-    } else {
-        allGrades.forEach(grade => {
-            const gradeCategory = grade.getAttribute('data-category');
-            if (gradeCategory === currentCategory) {
-                grade.style.display = 'block';
-            } else {
-                grade.style.display = 'none';
-            }
-        });
+    // Mostrar apenas a grade da categoria selecionada
+    const targetGrade = document.getElementById(`grade-produtos-${category}`);
+    if (targetGrade) {
+        targetGrade.style.display = 'block';
     }
 }
 
@@ -572,6 +580,26 @@ function buyNowFromDetail() {
     showCart();
 }
 
+// Manipular seleção de pacotes
+function handlePackageSelection(packageType) {
+    let message = '';
+    let totalPrice = '';
+    
+    switch(packageType) {
+        case '12-camisetas':
+            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 156,00*.';
+            totalPrice = '156,00';
+            break;
+        case '6-camisetas-6-canecas':
+            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 6 Camisetas + 6 Canecas Personalizadas* no valor de *R$ 215,00*.';
+            totalPrice = '215,00';
+            break;
+    }
+    
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
+
 // Inicializar o site quando carregado
 document.addEventListener('DOMContentLoaded', function() {
     init();
@@ -582,7 +610,7 @@ let resizeTimeout;
 window.addEventListener('resize', function() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(function() {
-        updateGridForCategory();
+        // Recalcular layouts se necessário
     }, 250);
 });
 

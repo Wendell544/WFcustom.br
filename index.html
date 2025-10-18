@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WFcustom - Camisetas e Canecas Personalizadas</title>
-    <meta name="description" content="WFcustom - Loja de camisetas e canecas personalizadas com designs exclusivos. Enviamos para todo Brasil. Qualidade premium e preços acessíveis.">
-    <meta name="keywords" content="camisetas personalizadas, canecas personalizadas, estampas, moda, roupas customizadas">
+    <title>WFcustom - Camisetas e Canecas Personalizadas Premium</title>
+    <meta name="description" content="WFcustom - Loja premium de camisetas e canecas personalizadas com designs exclusivos. Enviamos para todo Brasil. Qualidade premium e preços acessíveis.">
+    <meta name="keywords" content="camisetas personalizadas, canecas personalizadas, estampas, moda, roupas customizadas, ofertas especiais">
+    <meta name="author" content="WFcustom">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="WFcustom - Camisetas e Canecas Personalizadas">
+    <meta property="og:description" content="Loja premium de produtos personalizados com designs exclusivos">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wfcustom.com">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Schema Markup -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Store",
         "name": "WFcustom",
-        "description": "Loja de camisetas e canecas personalizadas com designs exclusivos",
+        "description": "Loja premium de camisetas e canecas personalizadas com designs exclusivos",
         "url": "https://wfcustom.com",
         "telephone": "+55-83-99966-7578",
         "address": {
@@ -24,8 +35,28 @@
             "addressRegion": "PB",
             "addressCountry": "BR"
         },
-        "openingHours": "Mo-Fr 09:00-18:00",
-        "priceRange": "R$ 30 - R$ 100"
+        "openingHours": "Mo-Su 09:00-20:00",
+        "priceRange": "R$ 30 - R$ 100",
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Produtos Personalizados",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Camisetas Personalizadas"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Canecas Personalizadas"
+                    }
+                }
+            ]
+        }
     }
     </script>
 </head>
@@ -63,13 +94,13 @@
         <section class="banner-carousel" aria-label="Banners promocionais">
             <div class="banner-track">
                 <div class="banner-slide active">
-                    <img src="https://i.postimg.cc/J074cQQ6/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo.png" alt="Nova Coleção Moda Feminina" loading="eager">
+                    <img src="https://i.postimg.cc/J074cQQ6/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo.png" alt="Nova Coleção Moda Feminina" loading="eager" width="1200" height="400">
                 </div>
                 <div class="banner-slide">
-                    <img src="https://i.postimg.cc/cHBLnzf4/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo-1.png" alt="Nova Coleção Moda Feminina" loading="eager">
+                    <img src="https://i.postimg.cc/cHBLnzf4/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo-1.png" alt="Nova Coleção Moda Feminina" loading="eager" width="1200" height="400">
                 </div>
                 <div class="banner-slide">
-                    <img src="https://i.postimg.cc/7LXMwqLr/Sua-imagina-o-merece-destaque.png" alt="Sua Imaginação Merece Destaque" loading="eager">
+                    <img src="https://i.postimg.cc/7LXMwqLr/Sua-imagina-o-merece-destaque.png" alt="Sua Imaginação Merece Destaque" loading="eager" width="1200" height="400">
                 </div>
             </div>
         </section>
@@ -78,31 +109,25 @@
         <div class="categories-bar-premium">
             <div class="container">
                 <div class="categories-container-premium">
-                    <button class="category-filter-premium active" data-category="todos">
-                        <div class="filter-icon">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                        <span>Todos</span>
-                    </button>
-                    <button class="category-filter-premium" data-category="masculino">
+                    <button class="category-filter-premium active" data-category="masculino" aria-label="Ver produtos masculinos">
                         <div class="filter-icon">
                             <i class="fas fa-mars"></i>
                         </div>
                         <span>Masculino</span>
                     </button>
-                    <button class="category-filter-premium" data-category="unissexo">
+                    <button class="category-filter-premium" data-category="unissexo" aria-label="Ver produtos femininos">
                         <div class="filter-icon">
                             <i class="fas fa-venus-mars"></i>
                         </div>
                         <span>Feminino</span>
                     </button>
-                    <button class="category-filter-premium" data-category="canecas">
+                    <button class="category-filter-premium" data-category="canecas" aria-label="Ver canecas">
                         <div class="filter-icon">
                             <i class="fas fa-mug-hot"></i>
                         </div>
                         <span>Canecas</span>
                     </button>
-                    <button class="category-filter-premium" data-category="ofertas">
+                    <button class="category-filter-premium" data-category="ofertas" aria-label="Ver ofertas especiais">
                         <div class="filter-icon">
                             <i class="fas fa-tag"></i>
                         </div>
@@ -119,13 +144,56 @@
                 <section class="grade-produtos premium-ofertas" id="grade-produtos-ofertas" data-category="ofertas">
                     <div class="grade-header-premium">
                         <h2 class="grade-title-premium">
-                            <i class="fas fa-tag"></i>
+                            <i class="fas fa-bolt"></i>
                             Ofertas Especiais
                         </h2>
                         <div class="header-accent"></div>
                     </div>
-                    <div class="grade-container" id="grade-container-ofertas">
-                        <!-- Cards serão preenchidos via JavaScript -->
+                    
+                    <!-- Pacotes Personalizados -->
+                    <div class="package-offers-section">
+                        <h3 class="package-section-title">Pacotes para Eventos</h3>
+                        <div class="packages-container">
+                            <div class="package-card premium">
+                                <div class="package-badge">Mais Vendido</div>
+                                <div class="package-content">
+                                    <h4>Pacote 12 Camisetas</h4>
+                                    <p class="package-description">Ideal para empresas e eventos</p>
+                                    <div class="package-price">
+                                        <span class="original-price">R$ 467,40</span>
+                                        <span class="final-price">R$ 156,00</span>
+                                    </div>
+                                    <p class="economy">Economize R$ 311,40</p>
+                                    <button class="btn btn-primary-premium package-btn" data-package="12-camisetas">
+                                        Solicitar Orçamento
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="package-card premium">
+                                <div class="package-badge">Combo</div>
+                                <div class="package-content">
+                                    <h4>Pacote 6 Camisetas + 6 Canecas</h4>
+                                    <p class="package-description">Perfeito para presentear</p>
+                                    <div class="package-price">
+                                        <span class="original-price">R$ 430,20</span>
+                                        <span class="final-price">R$ 215,00</span>
+                                    </div>
+                                    <p class="economy">Economize R$ 215,20</p>
+                                    <button class="btn btn-primary-premium package-btn" data-package="6-camisetas-6-canecas">
+                                        Solicitar Orçamento
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Produtos em Oferta -->
+                    <div class="individual-offers">
+                        <h3 class="individual-offers-title">Produtos em Destaque</h3>
+                        <div class="grade-container" id="grade-container-ofertas">
+                            <!-- Cards serão preenchidos via JavaScript -->
+                        </div>
                     </div>
                 </section>
 
@@ -170,7 +238,6 @@
                         <!-- Cards serão preenchidos via JavaScript -->
                     </div>
                 </section>
-
             </div>
         </section>
 
@@ -188,7 +255,7 @@
                     </div>
                     <h3>Precisa de produtos personalizados para sua empresa ou evento?</h3>
                     <p>Nós criamos camisetas e canecas exclusivas com sua marca ou design. Entre em contato conosco e faça um orçamento!</p>
-                    <a href="https://wa.me/5583999667578" class="btn btn-whatsapp-premium" target="_blank">
+                    <a href="https://wa.me/5583999667578" class="btn btn-whatsapp-premium" target="_blank" aria-label="Falar no WhatsApp para orçamento">
                         <i class="fab fa-whatsapp"></i> Falar no WhatsApp
                     </a>
                 </div>
@@ -222,19 +289,22 @@
 
     <!-- Página do Produto -->
     <div id="product-page" class="page">
-        <div class="back-button" id="back-from-product" aria-label="Fechar">
+        <div class="back-button" id="back-from-product" aria-label="Fechar detalhes do produto">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
             <div class="product-detail-container-premium">
                 <div class="product-image-large-premium">
-                    <img id="detail-image" src="" alt="Produto" loading="eager">
+                    <img id="detail-image" src="" alt="Produto" loading="eager" width="500" height="500">
                 </div>
                 <div class="product-options-premium">
-                    <h2 id="detail-title">Nome do Produto</h2>
-                    <div class="price-display-premium">
-                        <div class="price-premium">R$ <span id="detail-price">0</span></div>
+                    <div class="product-header-premium">
+                        <h2 id="detail-title">Nome do Produto</h2>
+                        <div class="price-display-compact">
+                            <div class="price-premium">R$ <span id="detail-price">0</span></div>
+                        </div>
                     </div>
+                    
                     <p id="detail-description">Descrição do produto</p>
                     
                     <div class="option-group-premium">
@@ -276,7 +346,7 @@
 
     <!-- Página do Carrinho -->
     <div id="cart-page" class="page">
-        <div class="back-button" id="back-from-cart" aria-label="Fechar">
+        <div class="back-button" id="back-from-cart" aria-label="Fechar carrinho">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
@@ -304,7 +374,7 @@
 
     <!-- Página de Favoritos -->
     <div id="favorites-page" class="page">
-        <div class="back-button" id="back-from-favorites" aria-label="Fechar">
+        <div class="back-button" id="back-from-favorites" aria-label="Fechar favoritos">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
@@ -323,7 +393,7 @@
 
     <!-- Página de Localização -->
     <div id="location-page" class="page">
-        <div class="back-button" id="back-from-location" aria-label="Fechar">
+        <div class="back-button" id="back-from-location" aria-label="Fechar localização">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
@@ -332,29 +402,29 @@
                 <form id="location-form">
                     <div class="form-group-premium">
                         <label for="city">Cidade</label>
-                        <input type="text" id="city" class="form-control-premium" required>
+                        <input type="text" id="city" class="form-control-premium" required aria-required="true">
                     </div>
                     <div class="form-group-premium">
                         <label for="neighborhood">Bairro</label>
-                        <input type="text" id="neighborhood" class="form-control-premium" required>
+                        <input type="text" id="neighborhood" class="form-control-premium" required aria-required="true">
                     </div>
                     <div class="form-group-premium">
                         <label for="street">Rua</label>
-                        <input type="text" id="street" class="form-control-premium" required>
+                        <input type="text" id="street" class="form-control-premium" required aria-required="true">
                     </div>
                     <div class="form-group-premium">
                         <label for="address">Número e Complemento</label>
-                        <input type="text" id="address" class="form-control-premium" required placeholder="Número, apartamento, etc.">
+                        <input type="text" id="address" class="form-control-premium" required placeholder="Número, apartamento, etc." aria-required="true">
                     </div>
                     
                     <div class="delivery-options-premium" id="delivery-options" style="display: none;">
                         <h3>Opções de Entrega</h3>
                         <div class="delivery-option-premium">
-                            <input type="radio" id="delivery" name="delivery-method" value="delivery" checked>
+                            <input type="radio" id="delivery" name="delivery-method" value="delivery" checked aria-checked="true">
                             <label for="delivery">Entrega (R$ 4,00)</label>
                         </div>
                         <div class="delivery-option-premium">
-                            <input type="radio" id="pickup" name="delivery-method" value="pickup">
+                            <input type="radio" id="pickup" name="delivery-method" value="pickup" aria-checked="false">
                             <label for="pickup">Retirar no Local (Grátis)</label>
                         </div>
                     </div>
@@ -389,19 +459,19 @@
                 <div class="footer-column-premium">
                     <h3>Links Rápidos</h3>
                     <ul class="footer-links-premium">
-                        <li><a href="#" class="footer-nav-link" data-section="home">Início</a></li>
-                        <li><a href="#" class="footer-nav-link" data-section="masculino">Masculino</a></li>
-                        <li><a href="#" class="footer-nav-link" data-section="unissexo">Feminino</a></li>
-                        <li><a href="#" class="footer-nav-link" data-section="canecas">Canecas</a></li>
-                        <li><a href="#" class="footer-nav-link" data-section="ofertas">Ofertas</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="home" aria-label="Ir para início">Início</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="masculino" aria-label="Ver produtos masculinos">Masculino</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="unissexo" aria-label="Ver produtos femininos">Feminino</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="canecas" aria-label="Ver canecas">Canecas</a></li>
+                        <li><a href="#" class="footer-nav-link" data-section="ofertas" aria-label="Ver ofertas">Ofertas</a></li>
                     </ul>
                 </div>
                 <div class="footer-column-premium">
                     <h3>Informações</h3>
                     <ul class="footer-links-premium">
-                        <li><a href="#">Política de Entregas</a></li>
-                        <li><a href="#">Trocas e Devoluções</a></li>
-                        <li><a href="#">Perguntas Frequentes</a></li>
+                        <li><a href="#" aria-label="Política de entregas">Política de Entregas</a></li>
+                        <li><a href="#" aria-label="Trocas e devoluções">Trocas e Devoluções</a></li>
+                        <li><a href="#" aria-label="Perguntas frequentes">Perguntas Frequentes</a></li>
                     </ul>
                 </div>
             </div>
@@ -414,7 +484,7 @@
     <!-- Modal de Confirmação -->
     <div class="modal-premium" id="confirmation-modal">
         <div class="modal-content-premium">
-            <span class="close-modal-premium" aria-label="Fechar">&times;</span>
+            <span class="close-modal-premium" aria-label="Fechar modal">&times;</span>
             <div class="modal-icon-premium">
                 <i class="fas fa-check-circle"></i>
             </div>

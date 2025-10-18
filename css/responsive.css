@@ -78,6 +78,24 @@
     .favorites-items-premium {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    /* Pacotes responsivos */
+    .packages-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .package-card {
+        padding: 1rem;
+    }
+
+    .package-content h4 {
+        font-size: 1rem;
+    }
+
+    .final-price {
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 992px) {
@@ -106,6 +124,10 @@
     .custom-design-features-premium {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    .packages-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (min-width: 992px) {
@@ -120,6 +142,10 @@
     .grade-container.todos {
         grid-template-columns: repeat(4, 1fr);
     }
+
+    .packages-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (min-width: 1200px) {
@@ -133,6 +159,11 @@
     
     .grade-container.todos {
         grid-template-columns: repeat(5, 1fr);
+    }
+
+    .packages-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
     }
 }
 
