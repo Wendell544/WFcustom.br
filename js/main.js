@@ -20,6 +20,7 @@ let shippingPriceContainer, finalizeOrderButton, confirmationModal, closeModal, 
 let navLinks, navLinksItems, footerNavLinks, cartIcon, favoriteIcon, cartItemsContainer;
 let cartSummary, continueShoppingBtn, checkoutBtn, cartCount, favoriteCount, backFromProduct, backFromCart;
 let backFromFavorites, backFromLocation, categoryFilters, backToHomeFromProduct, deliveryOptions;
+let favoritesBackToHome;
 
 // Elementos do carrossel de banners
 let bannerTrack, bannerSlides;
@@ -102,6 +103,7 @@ function initializeDOMElements() {
     categoryFilters = document.querySelectorAll('.category-filter-premium');
     backToHomeFromProduct = document.getElementById('back-to-home-from-product');
     deliveryOptions = document.getElementById('delivery-options');
+    favoritesBackToHome = document.getElementById('favorites-back-to-home');
     
     // Elementos do carrossel de banners
     bannerTrack = document.querySelector('.banner-track');
@@ -216,6 +218,11 @@ function setupEventListeners() {
     if (backToHomeFromProduct) {
         backToHomeFromProduct.addEventListener('click', showHome);
     }
+
+    // Botão de voltar dos favoritos
+    if (favoritesBackToHome) {
+        favoritesBackToHome.addEventListener('click', showHome);
+    }
     
     // Filtros de categoria
     if (categoryFilters) {
@@ -277,11 +284,8 @@ function setupEventListeners() {
         }
     });
     
-    // Event delegation para cards de produto - APENAS NA HOME PAGE
+    // Event delegation para cards de produto
     document.addEventListener('click', (e) => {
-        // Só processa se estiver na home page
-        if (!homePage.classList.contains('active')) return;
-        
         const card = e.target.closest('.grade-card');
         if (card) {
             const productId = card.getAttribute('data-product-id');

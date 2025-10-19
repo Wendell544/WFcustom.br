@@ -117,13 +117,15 @@ function renderFavorites() {
         `;
         
         // Adicionar event listener para o botão de voltar
-        const backButton = document.getElementById('favorites-back-to-home-btn');
-        if (backButton) {
-            backButton.onclick = function(e) {
-                e.preventDefault();
-                showHome();
-            };
-        }
+        setTimeout(() => {
+            const backButton = document.getElementById('favorites-back-to-home-btn');
+            if (backButton) {
+                backButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showHome();
+                });
+            }
+        }, 100);
         
         return;
     }
@@ -187,43 +189,37 @@ function renderFavorites() {
     favoritesContainer.appendChild(backButtonContainer);
 
     // ADICIONAR EVENT LISTENERS - MÉTODO COMPLETAMENTE CORRIGIDO
-    // Usando onclick para evitar duplicação de event listeners
     setTimeout(() => {
         // Remover favoritos - CORREÇÃO FINAL
         document.querySelectorAll('.remove-favorite-btn').forEach(button => {
-            button.onclick = function(e) {
+            // Remover event listeners antigos primeiro
+            button.replaceWith(button.cloneNode(true));
+        });
+
+        // Adicionar novos event listeners
+        document.querySelectorAll('.remove-favorite-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 const productId = this.getAttribute('data-product-id');
                 console.log('Clicou em remover favorito:', productId);
                 toggleFavorite(productId);
-            };
+            });
         });
 
         // Botão voltar ao início - CORREÇÃO FINAL
         const backButton = document.getElementById('favorites-back-to-home-btn');
         if (backButton) {
-            backButton.onclick = function(e) {
+            // Remover event listeners antigos primeiro
+            backButton.replaceWith(backButton.cloneNode(true));
+            
+            // Adicionar novo event listener
+            document.getElementById('favorites-back-to-home-btn').addEventListener('click', function(e) {
                 e.preventDefault();
                 console.log('Clicou em voltar ao início');
                 showHome();
-            };
+            });
         }
-
-        // Event listener para clicar no CARD do favorito (não no botão remover)
-        document.querySelectorAll('.favorite-card-premium').forEach(card => {
-            card.onclick = function(e) {
-                // Se o clique foi no botão remover, não faz nada (já foi tratado)
-                if (e.target.closest('.remove-favorite-btn')) {
-                    return;
-                }
-                
-                // Se o clique foi no card (não no botão), mostra o detalhe do produto
-                const productId = this.getAttribute('data-product-id');
-                console.log('Clicou no card do favorito:', productId);
-                showProductDetail(productId);
-            };
-        });
     }, 150);
 }
 
