@@ -61,8 +61,8 @@ function renderFavorites() {
                 <i class="far fa-heart"></i>
                 <h3>Nenhum produto favoritado</h3>
                 <p>Adicione alguns produtos aos favoritos</p>
-                <div class="favorites-back-button-container">
-                    <button class="btn btn-outline-premium favorites-back-btn" id="favorites-back-to-home">
+                <div class="favorites-back-button-container" style="margin-top: 2rem;">
+                    <button class="btn btn-outline-premium favorites-back-btn" id="favorites-back-to-home-btn">
                         <i class="fas fa-arrow-left"></i> Voltar ao Início
                     </button>
                 </div>
@@ -70,7 +70,7 @@ function renderFavorites() {
         `;
         
         // Adicionar event listener para o botão de voltar
-        const backButton = document.getElementById('favorites-back-to-home');
+        const backButton = document.getElementById('favorites-back-to-home-btn');
         if (backButton) {
             backButton.addEventListener('click', showHome);
         }
@@ -102,12 +102,9 @@ function renderFavorites() {
                     <h3 class="favorite-card-title">${product.name}</h3>
                     <div class="favorite-card-price">R$ ${initialPrice.toFixed(2)}</div>
                     <p class="favorite-card-description">${product.description}</p>
-                    <div class="favorite-card-actions">
-                        <button class="btn btn-primary-premium view-product" data-product-id="${product.id}">Ver Produto</button>
-                        <button class="btn btn-danger-premium remove-favorite" data-product-id="${product.id}">
-                            <i class="fas fa-trash"></i> Remover
-                        </button>
-                    </div>
+                    <button class="btn btn-danger-premium remove-favorite-btn" data-product-id="${product.id}">
+                        <i class="fas fa-trash"></i> Remover dos Favoritos
+                    </button>
                 </div>
             </div>
         `;
@@ -115,8 +112,18 @@ function renderFavorites() {
         favoritesContainer.appendChild(card);
     });
 
+    // Adicionar container do botão de voltar
+    const backButtonContainer = document.createElement('div');
+    backButtonContainer.className = 'favorites-back-button-container';
+    backButtonContainer.innerHTML = `
+        <button class="btn btn-outline-premium favorites-back-btn" id="favorites-back-to-home-btn">
+            <i class="fas fa-arrow-left"></i> Voltar ao Início
+        </button>
+    `;
+    favoritesContainer.appendChild(backButtonContainer);
+
     // Adicionar event listeners para remover favoritos
-    document.querySelectorAll('.remove-favorite').forEach(button => {
+    document.querySelectorAll('.remove-favorite-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.stopPropagation();
             const productId = e.currentTarget.getAttribute('data-product-id');
@@ -124,27 +131,8 @@ function renderFavorites() {
         });
     });
 
-    // Adicionar event listeners para ver produtos
-    document.querySelectorAll('.view-product').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const productId = e.currentTarget.getAttribute('data-product-id');
-            showProductDetail(productId);
-        });
-    });
-
-    // Adicionar botão de voltar ao início
-    const backButtonContainer = document.createElement('div');
-    backButtonContainer.className = 'favorites-back-button-container';
-    backButtonContainer.innerHTML = `
-        <button class="btn btn-outline-premium favorites-back-btn" id="favorites-back-to-home-main">
-            <i class="fas fa-arrow-left"></i> Voltar ao Início
-        </button>
-    `;
-    favoritesContainer.appendChild(backButtonContainer);
-
     // Adicionar event listener para o botão de voltar
-    const backButton = document.getElementById('favorites-back-to-home-main');
+    const backButton = document.getElementById('favorites-back-to-home-btn');
     if (backButton) {
         backButton.addEventListener('click', showHome);
     }

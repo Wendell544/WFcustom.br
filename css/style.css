@@ -1732,7 +1732,22 @@ header {
     color: #ff4757;
 }
 
-/* Estilos para página de favoritos - CORRIGIDOS */
+/* Estilos para página de favoritos */
+.favorites-back-button-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--medium-gray);
+}
+
+.favorites-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+}
+
 .favorite-card-premium {
     background: white;
     border-radius: var(--border-radius-lg);
@@ -1800,12 +1815,6 @@ header {
     flex: 1;
 }
 
-.favorite-card-actions {
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-}
-
 .btn-danger-premium {
     background: #EF4444;
     color: white;
@@ -1816,6 +1825,7 @@ header {
     cursor: pointer;
     transition: var(--transition);
     font-size: 0.85rem;
+    align-self: flex-start;
 }
 
 .btn-danger-premium:hover {
