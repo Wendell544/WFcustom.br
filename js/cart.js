@@ -233,3 +233,13 @@ function finalizeOrder() {
     
     showHome();
 }
+
+// Função para mostrar a página inicial
+function showHome() {
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    if (homePage) homePage.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}

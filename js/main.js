@@ -342,14 +342,24 @@ function showCart() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Mostrar favoritos
+// Mostrar favoritos - FUNÇÃO CORRIGIDA
 function showFavorites() {
+    console.log('Abrindo favoritos...');
+    
+    // Ocultar todas as páginas
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
-    if (favoritesPage) favoritesPage.classList.add('active');
-    renderFavorites();
+    // Mostrar página de favoritos
+    if (favoritesPage) {
+        favoritesPage.classList.add('active');
+        // Renderizar DEPOIS de mostrar a página
+        setTimeout(() => {
+            renderFavorites();
+        }, 50);
+    }
+    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
