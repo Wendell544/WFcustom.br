@@ -103,7 +103,6 @@ function initializeDOMElements() {
     categoryFilters = document.querySelectorAll('.category-filter-premium');
     backToHomeFromProduct = document.getElementById('back-to-home-from-product');
     deliveryOptions = document.getElementById('delivery-options');
-    favoritesBackToHome = document.getElementById('favorites-back-to-home');
     
     // Elementos do carrossel de banners
     bannerTrack = document.querySelector('.banner-track');
@@ -217,11 +216,6 @@ function setupEventListeners() {
     
     if (backToHomeFromProduct) {
         backToHomeFromProduct.addEventListener('click', showHome);
-    }
-
-    // Botão de voltar dos favoritos
-    if (favoritesBackToHome) {
-        favoritesBackToHome.addEventListener('click', showHome);
     }
     
     // Filtros de categoria

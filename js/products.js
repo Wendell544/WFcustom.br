@@ -1756,21 +1756,21 @@ function createGradeCard(product) {
     const finalPrice = calculateFinalPrice(discountPrice, firstPosition);
 
     // Ícone de favoritos - CORREÇÃO FINAL
-const isFav = isProductFavorite(product.id);
-const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
-const favActiveClass = isFav ? 'active' : '';
+    const isFav = isProductFavorite(product.id);
+    const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
+    const favActiveClass = isFav ? 'active' : '';
 
-card.innerHTML = `
-    <div class="image-container">
-        ${badges.join('')}
-        <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
-            <i class="${favIconClass}"></i>
+    card.innerHTML = `
+        <div class="image-container">
+            ${badges.join('')}
+            <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
+                <i class="${favIconClass}"></i>
+            </div>
+            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
+            <div class="image-loading-overlay">
+                <div class="loading-spinner"></div>
+            </div>
         </div>
-        <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
-        <div class="image-loading-overlay">
-            <div class="loading-spinner"></div>
-        </div>
-    </div>
         <div class="grade-card-info">
             <h3 class="grade-card-title">${product.name}</h3>
             
@@ -1802,16 +1802,14 @@ card.innerHTML = `
     `;
 
     // Adicionar event listener para o ícone de favoritos - CORREÇÃO FINAL
-const favoriteIcon = card.querySelector('.favorite-icon');
-favoriteIcon.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const productId = this.getAttribute('data-product-id');
-    console.log('Clicou no ícone de favorito:', productId);
-    toggleFavorite(productId);
-});
-
-return card;
+    const favoriteIcon = card.querySelector('.favorite-icon');
+    favoriteIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const productId = this.getAttribute('data-product-id');
+        console.log('Clicou no ícone de favorito:', productId);
+        toggleFavorite(productId);
+    });
 
     // Adicionar event listeners para cores com carregamento otimizado
     const colorDotsElements = card.querySelectorAll('.color-dot');
@@ -1973,25 +1971,6 @@ function findProductById(id) {
     }
     
     return null;
-}
-
-// Popular uma grade
-function populateGrade(containerId, productList) {
-    const gradeContainer = document.getElementById(containerId);
-    if (!gradeContainer) {
-        console.error(`Container não encontrado: ${containerId}`);
-        return false;
-    }
-    
-    console.log(`Populando ${containerId} com ${productList.length} produtos`);
-    gradeContainer.innerHTML = '';
-
-    productList.forEach(product => {
-        const card = createGradeCard(product);
-        gradeContainer.appendChild(card);
-    });
-    
-    return true;
 }
 
 // Popular todas as grades
