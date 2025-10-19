@@ -20,7 +20,6 @@ let shippingPriceContainer, finalizeOrderButton, confirmationModal, closeModal, 
 let navLinks, navLinksItems, footerNavLinks, cartIcon, favoriteIcon, cartItemsContainer;
 let cartSummary, continueShoppingBtn, checkoutBtn, cartCount, favoriteCount, backFromProduct, backFromCart;
 let backFromFavorites, backFromLocation, categoryFilters, backToHomeFromProduct, deliveryOptions;
-let favoritesBackToHome;
 
 // Elementos do carrossel de banners
 let bannerTrack, bannerSlides;
@@ -278,8 +277,11 @@ function setupEventListeners() {
         }
     });
     
-    // Event delegation para cards de produto
+    // Event delegation para cards de produto - APENAS NA HOME PAGE
     document.addEventListener('click', (e) => {
+        // Só processa se estiver na home page
+        if (!homePage.classList.contains('active')) return;
+        
         const card = e.target.closest('.grade-card');
         if (card) {
             const productId = card.getAttribute('data-product-id');

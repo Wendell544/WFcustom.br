@@ -97,10 +97,10 @@ function renderCart() {
     
     // Adicionar event listeners para remover itens
     document.querySelectorAll('.remove-item-premium').forEach(button => {
-        button.addEventListener('click', (e) => {
+        button.onclick = (e) => {
             const cartId = e.currentTarget.getAttribute('data-cart-id');
             removeFromCart(cartId);
-        });
+        };
     });
     
     // Renderizar resumo do carrinho
