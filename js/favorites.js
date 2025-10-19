@@ -89,7 +89,7 @@ function showFavorites() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Renderizar favoritos - COMPLETAMENTE REFEITA
+// Renderizar favoritos - COMPLETAMENTE REFEITA E CORRIGIDA
 function renderFavorites() {
     console.log('Renderizando favoritos...');
     const favoritesContainer = document.getElementById('favorites-items');
@@ -176,6 +176,27 @@ function renderFavorites() {
         `;
 
         favoritesContainer.appendChild(card);
+
+        // ADICIONAR EVENT LISTENERS DIRETAMENTE - CORREÇÃO FINAL
+        const removeBtn = card.querySelector('.remove-favorite-btn');
+        removeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const productId = this.getAttribute('data-product-id');
+            console.log('Clicou em remover favorito:', productId);
+            toggleFavorite(productId);
+        });
+
+        // TORNAR O CARD CLICÁVEL PARA VER DETALHES DO PRODUTO - NOVA FUNCIONALIDADE
+        card.addEventListener('click', function(e) {
+            // Não abrir detalhes se clicar no botão de remover
+            if (e.target.closest('.remove-favorite-btn')) {
+                return;
+            }
+            const productId = this.getAttribute('data-product-id');
+            console.log('Clicou no card de favorito:', productId);
+            showProductDetail(productId);
+        });
     });
 
     // Adicionar container do botão de voltar
@@ -188,33 +209,11 @@ function renderFavorites() {
     `;
     favoritesContainer.appendChild(backButtonContainer);
 
-    // ADICIONAR EVENT LISTENERS - MÉTODO COMPLETAMENTE CORRIGIDO
+    // ADICIONAR EVENT LISTENER PARA O BOTÃO VOLTAR
     setTimeout(() => {
-        // Remover favoritos - CORREÇÃO FINAL
-        document.querySelectorAll('.remove-favorite-btn').forEach(button => {
-            // Remover event listeners antigos primeiro
-            button.replaceWith(button.cloneNode(true));
-        });
-
-        // Adicionar novos event listeners
-        document.querySelectorAll('.remove-favorite-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const productId = this.getAttribute('data-product-id');
-                console.log('Clicou em remover favorito:', productId);
-                toggleFavorite(productId);
-            });
-        });
-
-        // Botão voltar ao início - CORREÇÃO FINAL
         const backButton = document.getElementById('favorites-back-to-home-btn');
         if (backButton) {
-            // Remover event listeners antigos primeiro
-            backButton.replaceWith(backButton.cloneNode(true));
-            
-            // Adicionar novo event listener
-            document.getElementById('favorites-back-to-home-btn').addEventListener('click', function(e) {
+            backButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 console.log('Clicou em voltar ao início');
                 showHome();
