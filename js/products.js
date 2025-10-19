@@ -1755,22 +1755,22 @@ function createGradeCard(product) {
     
     const finalPrice = calculateFinalPrice(discountPrice, firstPosition);
 
-    // Ícone de favoritos
-    const isFav = isProductFavorite(product.id);
-    const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
-    const favActiveClass = isFav ? 'active' : '';
+    // Ícone de favoritos - CORREÇÃO FINAL
+const isFav = isProductFavorite(product.id);
+const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
+const favActiveClass = isFav ? 'active' : '';
 
-    card.innerHTML = `
-        <div class="image-container">
-            ${badges.join('')}
-            <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
-                <i class="${favIconClass}"></i>
-            </div>
-            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
-            <div class="image-loading-overlay">
-                <div class="loading-spinner"></div>
-            </div>
+card.innerHTML = `
+    <div class="image-container">
+        ${badges.join('')}
+        <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
+            <i class="${favIconClass}"></i>
         </div>
+        <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
+        <div class="image-loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
         <div class="grade-card-info">
             <h3 class="grade-card-title">${product.name}</h3>
             
@@ -1801,20 +1801,17 @@ function createGradeCard(product) {
         </div>
     `;
 
-    // Adicionar event listener para o ícone de favoritos
-    const favoriteIcon = card.querySelector('.favorite-icon');
-    favoriteIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleFavorite(product.id);
-        const icon = favoriteIcon.querySelector('i');
-        if (isProductFavorite(product.id)) {
-            favoriteIcon.classList.add('active');
-            icon.className = 'fas fa-heart';
-        } else {
-            favoriteIcon.classList.remove('active');
-            icon.className = 'far fa-heart';
-        }
-    });
+    // Adicionar event listener para o ícone de favoritos - CORREÇÃO FINAL
+const favoriteIcon = card.querySelector('.favorite-icon');
+favoriteIcon.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const productId = this.getAttribute('data-product-id');
+    console.log('Clicou no ícone de favorito:', productId);
+    toggleFavorite(productId);
+});
+
+return card;
 
     // Adicionar event listeners para cores com carregamento otimizado
     const colorDotsElements = card.querySelectorAll('.color-dot');
