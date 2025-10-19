@@ -16,19 +16,25 @@ function saveFavoritesToLocalStorage() {
 
 // Verificar se um produto é favorito
 function isProductFavorite(productId) {
-    return favoriteItems.includes(productId);
+    return favoriteItems.includes(parseInt(productId));
 }
 
 // Alternar favorito
 function toggleFavorite(productId) {
-    const index = favoriteItems.indexOf(productId);
+    const numericId = parseInt(productId);
+    const index = favoriteItems.indexOf(numericId);
     if (index === -1) {
-        favoriteItems.push(productId);
+        favoriteItems.push(numericId);
     } else {
         favoriteItems.splice(index, 1);
     }
     updateFavoriteCount();
     saveFavoritesToLocalStorage();
+    
+    // Atualizar a página de favoritos se estiver ativa
+    if (document.getElementById('favorites-page').classList.contains('active')) {
+        renderFavorites();
+    }
 }
 
 // Mostrar favoritos
@@ -55,8 +61,19 @@ function renderFavorites() {
                 <i class="far fa-heart"></i>
                 <h3>Nenhum produto favoritado</h3>
                 <p>Adicione alguns produtos aos favoritos</p>
+                <div class="favorites-back-button-container">
+                    <button class="btn btn-outline-premium favorites-back-btn" id="favorites-back-to-home">
+                        <i class="fas fa-arrow-left"></i> Voltar ao Início
+                    </button>
+                </div>
             </div>
         `;
+        
+        // Adicionar event listener para o botão de voltar
+        const backButton = document.getElementById('favorites-back-to-home');
+        if (backButton) {
+            backButton.addEventListener('click', showHome);
+        }
         return;
     }
 
@@ -73,17 +90,25 @@ function renderFavorites() {
         const initialPrice = calculateFinalPrice(firstPrice, firstPosition);
 
         const card = document.createElement('div');
-        card.className = 'grade-card';
+        card.className = 'favorite-card-premium';
         card.setAttribute('data-product-id', product.id);
 
         card.innerHTML = `
-            <div class="image-container">
-                <img src="${firstImage}" alt="${product.name}" class="grade-card-image" loading="lazy">
-            </div>
-            <div class="grade-card-info">
-                <h3 class="grade-card-title">${product.name}</h3>
-                <div class="grade-card-price">R$ ${initialPrice.toFixed(2)}</div>
-                <button class="btn btn-outline-premium remove-favorite" data-product-id="${product.id}">Remover dos Favoritos</button>
+            <div class="favorite-card-content">
+                <div class="favorite-image-container">
+                    <img src="${firstImage}" alt="${product.name}" class="favorite-card-image" loading="lazy">
+                </div>
+                <div class="favorite-card-info">
+                    <h3 class="favorite-card-title">${product.name}</h3>
+                    <div class="favorite-card-price">R$ ${initialPrice.toFixed(2)}</div>
+                    <p class="favorite-card-description">${product.description}</p>
+                    <div class="favorite-card-actions">
+                        <button class="btn btn-primary-premium view-product" data-product-id="${product.id}">Ver Produto</button>
+                        <button class="btn btn-danger-premium remove-favorite" data-product-id="${product.id}">
+                            <i class="fas fa-trash"></i> Remover
+                        </button>
+                    </div>
+                </div>
             </div>
         `;
 
@@ -93,12 +118,36 @@ function renderFavorites() {
     // Adicionar event listeners para remover favoritos
     document.querySelectorAll('.remove-favorite').forEach(button => {
         button.addEventListener('click', (e) => {
-            e.stopPropagation(); // Impedir a propagação do evento
+            e.stopPropagation();
             const productId = e.currentTarget.getAttribute('data-product-id');
             toggleFavorite(productId);
-            renderFavorites();
         });
     });
+
+    // Adicionar event listeners para ver produtos
+    document.querySelectorAll('.view-product').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const productId = e.currentTarget.getAttribute('data-product-id');
+            showProductDetail(productId);
+        });
+    });
+
+    // Adicionar botão de voltar ao início
+    const backButtonContainer = document.createElement('div');
+    backButtonContainer.className = 'favorites-back-button-container';
+    backButtonContainer.innerHTML = `
+        <button class="btn btn-outline-premium favorites-back-btn" id="favorites-back-to-home-main">
+            <i class="fas fa-arrow-left"></i> Voltar ao Início
+        </button>
+    `;
+    favoritesContainer.appendChild(backButtonContainer);
+
+    // Adicionar event listener para o botão de voltar
+    const backButton = document.getElementById('favorites-back-to-home-main');
+    if (backButton) {
+        backButton.addEventListener('click', showHome);
+    }
 }
 
 // Inicializar favoritos

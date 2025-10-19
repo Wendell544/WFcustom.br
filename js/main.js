@@ -579,8 +579,7 @@ function handlePackageSelection(packageType) {
     
     switch(packageType) {
         case '12-camisetas':
-            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 156,00*.';
-            totalPrice = '156,00';
+            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 156,00*.';            totalPrice = '156,00';
             break;
         case '6-camisetas-6-canecas':
             message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 6 Camisetas + 6 Canecas Personalizadas* no valor de *R$ 215,00*.';

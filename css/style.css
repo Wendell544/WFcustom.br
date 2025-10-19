@@ -1732,7 +1732,7 @@ header {
     color: #ff4757;
 }
 
-/* Estilos para página de favoritos */
+/* Estilos para página de favoritos - CORRIGIDOS */
 .favorite-card-premium {
     background: white;
     border-radius: var(--border-radius-lg);
@@ -1800,6 +1800,12 @@ header {
     flex: 1;
 }
 
+.favorite-card-actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
 .btn-danger-premium {
     background: #EF4444;
     color: white;
@@ -1810,7 +1816,6 @@ header {
     cursor: pointer;
     transition: var(--transition);
     font-size: 0.85rem;
-    align-self: flex-start;
 }
 
 .btn-danger-premium:hover {
@@ -1869,6 +1874,10 @@ header {
         align-items: center;
     }
     
+    .favorite-card-actions {
+        justify-content: center;
+    }
+    
     .btn-danger-premium {
         align-self: center;
     }
@@ -1891,7 +1900,195 @@ header {
         align-items: center;
     }
     
+    .favorite-card-actions {
+        justify-content: center;
+    }
+    
     .btn-danger-premium {
         align-self: center;
+    }
+}
+
+/* Media Queries para Mobile First */
+@media (max-width: 480px) {
+    :root {
+        --container-max-width: 420px;
+        --base-font-size: 13px;
+        --card-image-height: 140px;
+        --spacing-small: 0.4rem;
+        --spacing-medium: 0.8rem;
+        --spacing-large: 1.2rem;
+    }
+
+    .container {
+        max-width: var(--container-max-width);
+    }
+
+    .banner-carousel {
+        margin-bottom: var(--spacing-medium);
+    }
+
+    .categories-bar-premium {
+        margin-bottom: var(--spacing-large);
+    }
+
+    .grade-header-premium {
+        margin-bottom: 1rem;
+    }
+
+    .grade-title-premium {
+        font-size: 1.2rem;
+    }
+
+    .custom-design-premium {
+        padding: 2rem 0;
+    }
+
+    .feature-item-premium {
+        padding: 1.2rem;
+    }
+
+    .feature-icon-premium {
+        font-size: 2rem;
+    }
+
+    .feature-item-premium h3 {
+        font-size: 0.9rem;
+    }
+
+    .feature-item-premium p {
+        font-size: 0.75rem;
+    }
+
+    .custom-business-premium {
+        padding: 1.2rem;
+    }
+
+    .custom-business-premium h3 {
+        font-size: 1.1rem;
+    }
+
+    .custom-business-premium p {
+        font-size: 0.8rem;
+    }
+
+    .categories-container-premium {
+        gap: 0.5rem;
+    }
+
+    .category-filter-premium {
+        min-width: 70px;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .filter-icon {
+        font-size: 1rem;
+    }
+
+    .favorites-items-premium {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Pacotes responsivos */
+    .packages-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .package-card {
+        padding: 1rem;
+    }
+
+    .package-content h4 {
+        font-size: 1rem;
+    }
+
+    .final-price {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --container-max-width: 720px;
+    }
+    
+    .grade-container:not(.todos) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .grade-container.todos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .product-detail-container-premium {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .custom-design-features-premium {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .packages-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    :root {
+        --container-max-width: 960px;
+    }
+    
+    .grade-container:not(.todos) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .grade-container.todos {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .packages-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    :root {
+        --container-max-width: 1140px;
+    }
+    
+    .grade-container:not(.todos) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .grade-container.todos {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .packages-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .banner-track {
+        transition: none;
+    }
+    
+    .grade-card {
+        animation: none;
+    }
+    
+    .btn:before {
+        display: none;
     }
 }
