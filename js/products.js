@@ -1,4 +1,4 @@
-// Dados dos produtos
+// Dados dois produtos
 const products = {
     masculino: [
         {
@@ -8,17 +8,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/8k2J4p7L/1.png",
-                    price: 38.90,
+                    price: 39.50,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/HxJn0RH0/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/wj0jCgjm/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -32,17 +32,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/kg4mt87T/1.png",
-                    price: 38.90,
+                    price: 41.20,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/26xcwcwF/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/6qmhjDGv/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -56,7 +56,7 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/2jMvtdKn/03.png",
-                    price: 38.90,
+                    price: 40.80,
                     sizes: ['P', 'M', 'G']
 
                 }
@@ -71,7 +71,7 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/2jZ7F8zF/04.png",
-                    price: 38.90,
+                    price: 39.90,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -85,12 +85,12 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/RCf3hWdx/1.png",
-                    price: 38.90,
+                    price: 41.75,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/rscqKwy8/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 }
             },
@@ -104,17 +104,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/VkSPsC9r/1.png",
-                    price: 38.90,
+                    price: 40.25,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/Y9MPFGFg/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/sXHJ2v4V/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -128,17 +128,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/PNsYLZpt/1.png",
-                    price: 38.90,
+                    price: 39.60,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/DfbCzPR2/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/x8r3mBBT/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -152,7 +152,7 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/brTSvMhS/08.png",
-                    price: 38.90,
+                    price: 41.90,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -166,7 +166,7 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/KYBzzV7b/09.png",
-                    price: 38.90,
+                    price: 40.45,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -180,17 +180,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/YqTMWRCb/1.png",
-                    price: 38.90,
+                    price: 39.80,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/SKk06vF7/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/1tXjMxW5/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -204,17 +204,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/259DC7Mf/1.png",
-                    price: 38.90,
+                    price: 41.30,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/YS95Dm00/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/fLdg17hr/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -228,7 +228,7 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/1t0rpvSN/12.png",
-                    price: 38.90,
+                    price: 40.15,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -242,17 +242,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/PJrY1hKK/1.png",
-                    price: 38.90,
+                    price: 41.65,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/SsVzS3qs/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/gcTngv0z/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -266,17 +266,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/L53RFFp4/1.png",
-                    price: 38.90,
+                    price: 39.95,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/FHqMqHLR/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/2y89ysWm/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -290,7 +290,7 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/HkG0hGL1/15.png",
-                    price: 38.90,
+                    price: 40.50,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -304,17 +304,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/7YzQBrkj/1.png",
-                    price: 38.90,
+                    price: 41.10,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/qgHtjTxD/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/KvTs9h2W/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -328,17 +328,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/6515hRBC/1.png",
-                    price: 38.90,
+                    price: 39.70,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/02ZJ1bPJ/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/8PnPbWT7/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -352,17 +352,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/tTmmcX7b/1.png",
-                    price: 38.90,
+                    price: 41.40,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/k4hhHnDm/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/jjc1z6b5/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -376,7 +376,7 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/dtFSSSVM/19.png",
-                    price: 38.90,
+                    price: 40.20,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -390,17 +390,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/jdRZhwMs/1.png",
-                    price: 38.90,
+                    price: 41.80,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/fyf5NDR3/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/28C2xb0C/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -414,17 +414,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/fR9tt5Yc/1.png",
-                    price: 38.90,
+                    price: 39.85,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/13qnnMDf/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/MpQMMt1b/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -438,12 +438,12 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/5NPTYSf0/1.png",
-                    price: 38.90,
+                    price: 40.75,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/025hyBRF/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 }
             },
@@ -457,12 +457,12 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/Dzhr7RRw/1.png",
-                    price: 38.90,
+                    price: 41.55,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/Dzhr7RRw/1.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 }
             },
@@ -476,17 +476,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/jjv7t2zN/1.png",
-                    price: 38.90,
+                    price: 40.05,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/Z58NsV0C/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/SKmMBCzV/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -500,17 +500,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/Zqqr96YX/1.png",
-                    price: 38.90,
+                    price: 41.25,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/4xP6NWGV/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/g00vw3cM/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -524,17 +524,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/3xxy9YM2/1.png",
-                    price: 38.90,
+                    price: 39.65,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/x11kgnrK/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/6502dTPQ/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -548,17 +548,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/SNNNbdgD/1.png",
-                    price: 38.90,
+                    price: 40.95,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/j2vxJnjq/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/SQGNP3fw/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -572,17 +572,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/Hxd14WRT/1.png",
-                    price: 38.90,
+                    price: 41.70,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/cH0GM120/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/pdDtF50j/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -596,17 +596,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/gjLsx8D1/1.png",
-                    price: 38.90,
+                    price: 40.35,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/FRBGFDjP/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/NMzbGp6B/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -620,17 +620,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/JzxFV3d2/1.png",
-                    price: 38.90,
+                    price: 39.55,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/JzMF2YKk/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/FHp65bnC/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -644,17 +644,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/P554Dg2M/1.png",
-                    price: 38.90,
+                    price: 41.15,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/L8QV3xWR/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/Hkvt96NC/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -668,17 +668,17 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/4xYcssW0/1.png",
-                    price: 38.90,
+                    price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/vHH92Wfb/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/L6CPcnVM/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -692,33 +692,432 @@ const products = {
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/8C87GWJY/1.png",
-                    price: 38.90,
+                    price: 41.85,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/0yKzhZQD/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/VNyJwMrV/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
             description: "Camiseta masculina final"
+        },
+        {
+            id: 34,
+            name: "Camisa Masculina 34",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/BQxFMbCS/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/WbMZXz7Z/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/ncvm0r1B/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina premium edition"
+        },
+        {
+            id: 35,
+            name: "Camisa Masculina 35",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/GmfbDJs2/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/jS1RfQJK/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/qvFpKXCM/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina street style"
+        },
+        {
+            id: 36,
+            name: "Camisa Masculina 36",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/NFXdNtdd/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/PJDS6HS6/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/xChsy83Z/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina urban vibe"
+        },
+        {
+            id: 37,
+            name: "Camisa Masculina 37",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/9fN1C0Kz/1.png",
+                    price: 40.85,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/PqFKTJ9C/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/rpYgMs38/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina modern classic"
+        },
+        {
+            id: 38,
+            name: "Camisa Masculina 38",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/fyQcR9KN/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/hjd8nrVy/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/yxCm8ZPz/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina essential"
+        },
+        {
+            id: 39,
+            name: "Camisa Masculina 39",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/282ZPJP6/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/5NnCZGDh/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/bwrt8ghf/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina signature"
+        },
+        {
+            id: 40,
+            name: "Camisa Masculina 40",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/rwDK7p1f/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/QdFHvMQk/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/bwZs4vx6/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina limited edition"
+        },
+        {
+            id: 41,
+            name: "Camisa Masculina 41",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/VLVN9cxc/1.png",
+                    price: 41.35,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/m25r3G00/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/X7zvK0RW/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina collector's item"
+        },
+        {
+            id: 42,
+            name: "Camisa Masculina 42",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/0yS9pKGJ/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/CLXFBs8q/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/JzXRbH3k/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina urban collection"
+        },
+        {
+            id: 43,
+            name: "Camisa Masculina 43",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/ZqZzp75q/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/rpc2xnwc/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/VN1PnGk6/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina premium fit"
+        },
+        {
+            id: 44,
+            name: "Camisa Masculina 44",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/dVPbcHdL/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/htWkRyx0/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/zGZsYtW0/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina comfort plus"
+        },
+        {
+            id: 45,
+            name: "Camisa Masculina 45",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/90wnvZfX/1.png",
+                    price: 40.95,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/QCKyR1MZ/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/GtT5ZGpL/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina ultimate"
+        },
+        {
+            id: 46,
+            name: "Camisa Masculina 46",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/DZRTJ2JV/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/fL1Ntw3v/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/fL1Ntw36/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina core collection"
+        },
+        {
+            id: 47,
+            name: "Camisa Masculina 47",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/GmfbDJs2/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina essential wear"
+        },
+        {
+            id: 48,
+            name: "Camisa Masculina 48",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/s2t651cT/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/GpZ7v9QP/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/Zq1760cV/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina daily basic"
+        },
+        {
+            id: 49,
+            name: "Camisa Masculina 49",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/ZK7LrCYK/1.png",
+                    price: 41.50,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/Nff491tG/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/Gh7jkH32/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina urban essential"
+        },
+        {
+            id: 50,
+            name: "Camisa Masculina 50",
+            category: "masculino",
+            variants: {
+                'branco': {
+                    image: "https://i.postimg.cc/RVDcWyGd/1.png",
+                    price: 40.65,
+                    sizes: ['P', 'M', 'G']
+                },
+                'rosa claro': {
+                    image: "https://i.postimg.cc/sDNpMqKY/2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
+                'azul claro': {
+                    image: "https://i.postimg.cc/MKFynNtD/3.png",
+                    price: 43.42,
+                    sizes: ['M', 'G']
+                }
+            },
+            positions: ['frente', 'atras', 'ambos'],
+            description: "Camiseta masculina final edition"
         }
     ],
     unissexo: [
         {
-            id: 34,
+            id: 51,
             name: "Camisa Unissexo 1",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/fLgjhNp0/1.png",
-                    price: 38.90,
+                    price: 39.90,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -726,23 +1125,23 @@ const products = {
             description: "Camiseta unissexo versátil e confortável"
         },
         {
-            id: 35,
+            id: 52,
             name: "Camisa Unissexo 2",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/g0zvXjP2/1.png",
-                    price: 38.90,
+                    price: 41.15,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/0ydYymhz/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/zfznbv1X/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -750,23 +1149,23 @@ const products = {
             description: "Camiseta unissexo para todos os estilos"
         },
         {
-            id: 36,
+            id: 53,
             name: "Camisa Unissexo 3",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/13c0dNQN/1.png",
-                    price: 38.90,
+                    price: 40.45,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/x1yGZb2Y/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/GmJPfsC8/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -774,23 +1173,23 @@ const products = {
             description: "Camiseta unissexo moderna"
         },
         {
-            id: 37,
+            id: 54,
             name: "Camisa Unissexo 4",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/GhvvBs9s/1.png",
-                    price: 38.90,
+                    price: 39.75,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/RCkcVTCw/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/pVwDXBVC/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -798,23 +1197,23 @@ const products = {
             description: "Camiseta unissexo casual"
         },
         {
-            id: 38,
+            id: 55,
             name: "Camisa Unissexo 5",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/cLstr9py/1.png",
-                    price: 38.90,
+                    price: 41.30,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/TYjW2M4X/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/3xK0dSsM/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -822,23 +1221,23 @@ const products = {
             description: "Camiseta unissexo confortável"
         },
         {
-            id: 39,
+            id: 56,
             name: "Camisa Unissexo 6",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/0jRbxcG2/1.png",
-                    price: 38.90,
+                    price: 40.20,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/kG3B9fQh/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/WzLhjXmp/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -846,23 +1245,23 @@ const products = {
             description: "Camiseta unissexo prática"
         },
         {
-            id: 40,
+            id: 57,
             name: "Camisa Unissexo 7",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/Fz4sw1mc/1.png",
-                    price: 38.90,
+                    price: 39.55,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/hvBPNhgc/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/1XQ5b4Pq/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -870,23 +1269,23 @@ const products = {
             description: "Camiseta unissexo estilosa"
         },
         {
-            id: 41,
+            id: 58,
             name: "Camisa Unissexo 8",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/jSLKgyNN/1.png",
-                    price: 38.90,
+                    price: 41.65,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/VL7mWKSS/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/Vkd1GXMt/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -894,23 +1293,23 @@ const products = {
             description: "Camiseta unissexo fashion"
         },
         {
-            id: 42,
+            id: 59,
             name: "Camisa Unissexo 9",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/rFpLs5hw/1.png",
-                    price: 38.90,
+                    price: 40.85,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/wTbYm3PT/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/9FNH7zSQ/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -918,23 +1317,23 @@ const products = {
             description: "Camiseta unissexo trend"
         },
         {
-            id: 43,
+            id: 60,
             name: "Camisa Unissexo 10",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/tR2LKY9f/1.png",
-                    price: 38.90,
+                    price: 39.80,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/KcJd6RmB/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/jqZGpLR1/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -942,23 +1341,23 @@ const products = {
             description: "Camiseta unissexo cool"
         },
         {
-            id: 44,
+            id: 61,
             name: "Camisa Unissexo 11",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/44LS8q11/1.png",
-                    price: 38.90,
+                    price: 41.40,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/L4CbywVw/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/gcSTMQK1/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -966,23 +1365,23 @@ const products = {
             description: "Camiseta unissexo básica"
         },
         {
-            id: 45,
+            id: 62,
             name: "Camisa Unissexo 12",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/0Q5Vn0Km/1.png",
-                    price: 38.90,
+                    price: 40.50,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/Y9XbsLQN/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/xCst4NL3/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -990,23 +1389,23 @@ const products = {
             description: "Camiseta unissexo urbana"
         },
         {
-            id: 46,
+            id: 63,
             name: "Camisa Unissexo 13",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/prwQwfr8/1.png",
-                    price: 38.90,
+                    price: 39.65,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/L5ckct5P/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/8c2d2Rc7/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1014,18 +1413,18 @@ const products = {
             description: "Camiseta unissexo esportiva"
         },
         {
-            id: 47,
+            id: 64,
             name: "Camisa Unissexo 14",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/QN9yySnB/1.png",
-                    price: 38.90,
+                    price: 41.25,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/7PGWWXQg/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 }
             },
@@ -1033,23 +1432,23 @@ const products = {
             description: "Camiseta unissexo descontraída"
         },
         {
-            id: 48,
+            id: 65,
             name: "Camisa Unissexo 15",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/CKxvH4fW/1.png",
-                    price: 38.90,
+                    price: 40.70,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/k5gjFybm/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/fbRHjv9h/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1057,23 +1456,23 @@ const products = {
             description: "Camiseta unissexo elegante"
         },
         {
-            id: 49,
+            id: 66,
             name: "Camisa Unissexo 16",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/tCG2mb69/1.png",
-                    price: 38.90,
+                    price: 39.95,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/4NRBFGcG/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/SNbDt4M6/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1081,23 +1480,23 @@ const products = {
             description: "Camiseta unissexo premium"
         },
         {
-            id: 50,
+            id: 67,
             name: "Camisa Unissexo 17",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/pVzBjS6s/1.png",
-                    price: 38.90,
+                    price: 41.55,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/jqPhf1FZ/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/zDKkhQcS/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1105,23 +1504,23 @@ const products = {
             description: "Camiseta unissexo comfort"
         },
         {
-            id: 51,
+            id: 68,
             name: "Camisa Unissexo 18",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/9XdG07DG/1.png",
-                    price: 38.90,
+                    price: 40.35,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/PfWmJwCF/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/J7Nb0ksY/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1129,23 +1528,23 @@ const products = {
             description: "Camiseta unissexo style"
         },
         {
-            id: 52,
+            id: 69,
             name: "Camisa Unissexo 19",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/GpTDC80D/1.png",
-                    price: 38.90,
+                    price: 39.70,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/6Q4ZX2sh/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/BvPF0LWB/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1153,23 +1552,23 @@ const products = {
             description: "Camiseta unissexo exclusiva"
         },
         {
-            id: 53,
+            id: 70,
             name: "Camisa Unissexo 20",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/BQhPPc4L/1.png",
-                    price: 38.90,
+                    price: 41.10,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/kXMt5h3S/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/FsPkkgNf/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1177,23 +1576,23 @@ const products = {
             description: "Camiseta unissexo personalizada"
         },
         {
-            id: 54,
+            id: 71,
             name: "Camisa Unissexo 21",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/285VYbh4/1.png",
-                    price: 38.90,
+                    price: 40.60,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/GhpHR8GL/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/xTdcQJMM/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1201,13 +1600,13 @@ const products = {
             description: "Camiseta unissexo única"
         },
         {
-            id: 55,
+            id: 72,
             name: "Camisa Unissexo 22",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/CxqMMj1y/22.png",
-                    price: 38.90,
+                    price: 39.85,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -1215,23 +1614,23 @@ const products = {
             description: "Camiseta unissexo especial"
         },
         {
-            id: 56,
+            id: 73,
             name: "Camisa Unissexo 23",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/RCpvcPJS/1.png",
-                    price: 38.90,
+                    price: 41.45,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/gj7dmJb4/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/7PtqgBJx/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1239,23 +1638,23 @@ const products = {
             description: "Camiseta unissexo premium plus"
         },
         {
-            id: 57,
+            id: 74,
             name: "Camisa Unissexo 24",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/tRcH1Y8d/1.png",
-                    price: 38.90,
+                    price: 40.15,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/Y2Pw4hTf/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/MZL8cvgX/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1263,23 +1662,23 @@ const products = {
             description: "Camiseta unissexo comfort plus"
         },
         {
-            id: 58,
+            id: 75,
             name: "Camisa Unissexo 25",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/0ys5QzJ0/1.png",
-                    price: 38.90,
+                    price: 39.60,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/Qx5xhQVV/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/3xTrRkDj/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1287,23 +1686,23 @@ const products = {
             description: "Camiseta unissexo urban style"
         },
         {
-            id: 59,
+            id: 76,
             name: "Camisa Unissexo 26",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/gkPbyfkw/1.png",
-                    price: 38.90,
+                    price: 41.20,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/RCtzHMmy/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/ZKhzP1K0/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1311,23 +1710,23 @@ const products = {
             description: "Camiseta unissexo modern fit"
         },
         {
-            id: 60,
+            id: 77,
             name: "Camisa Unissexo 27",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/Ss8tJx96/1.png",
-                    price: 38.90,
+                    price: 40.40,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/C1D6zx86/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/Hngv510w/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1335,23 +1734,23 @@ const products = {
             description: "Camiseta unissexo casual comfort"
         },
         {
-            id: 61,
+            id: 78,
             name: "Camisa Unissexo 28",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/nr3KLy3M/1.png",
-                    price: 38.90,
+                    price: 39.75,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/XqsKvRsL/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/Rhg10kgR/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1359,23 +1758,23 @@ const products = {
             description: "Camiseta unissexo everyday"
         },
         {
-            id: 62,
+            id: 79,
             name: "Camisa Unissexo 29",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/15LnKRVy/1.png",
-                    price: 38.90,
+                    price: 41.35,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/NfW9xG2Y/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/X7ZBFBqb/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1383,23 +1782,23 @@ const products = {
             description: "Camiseta unissexo street style"
         },
         {
-            id: 63,
+            id: 80,
             name: "Camisa Unissexo 30",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/rwXsrh7r/1.png",
-                    price: 38.90,
+                    price: 40.55,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/WbJttRYh/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/9Q507xsw/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1407,23 +1806,23 @@ const products = {
             description: "Camiseta unissexo urban comfort"
         },
         {
-            id: 64,
+            id: 81,
             name: "Camisa Unissexo 31",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/9QhThFm8/1.png",
-                    price: 38.90,
+                    price: 39.95,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/dVYdYts5/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/nc77gQJT/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1431,23 +1830,23 @@ const products = {
             description: "Camiseta unissexo basic style"
         },
         {
-            id: 65,
+            id: 82,
             name: "Camisa Unissexo 32",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/9Qb4HdNm/1.png",
-                    price: 38.90,
+                    price: 41.50,
                     sizes: ['P', 'M', 'G']
                 },
                 'rosa claro': {
                     image: "https://i.postimg.cc/Bnp8fTwP/2.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['P', 'M']
                 },
                 'azul claro': {
                     image: "https://i.postimg.cc/P5yLnWFw/3.png",
-                    price: 41.90,
+                    price: 43.42,
                     sizes: ['M', 'G']
                 }
             },
@@ -1455,13 +1854,13 @@ const products = {
             description: "Camiseta unissexo final touch"
         },
         {
-            id: 66,
+            id: 83,
             name: "Camisa Unissexo 33",
             category: "unissexo",
             variants: {
                 'branco': {
                     image: "https://i.postimg.cc/4xfdPKNK/33.png",
-                    price: 38.90,
+                    price: 40.25,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -1471,7 +1870,7 @@ const products = {
     ],
     canecas: [
         {
-            id: 67,
+            id: 84,
             name: "Caneca 1",
             category: "canecas",
             variants: {
@@ -1485,7 +1884,7 @@ const products = {
             description: "Caneca personalizada de alta qualidade para seu dia a dia"
         },
         {
-            id: 68,
+            id: 85,
             name: "Caneca 2",
             category: "canecas",
             variants: {
@@ -1499,7 +1898,7 @@ const products = {
             description: "Caneca premium com design exclusivo"
         },
         {
-            id: 69,
+            id: 86,
             name: "Caneca 3",
             category: "canecas",
             variants: {
@@ -1513,7 +1912,7 @@ const products = {
             description: "Caneca especial para momentos únicos"
         },
         {
-            id: 70,
+            id: 87,
             name: "Caneca 4",
             category: "canecas",
             variants: {
@@ -1529,8 +1928,7 @@ const products = {
     ],
     ofertas: [
         {
- 
-            id: 101,
+            id: 88,
             name: "Camiseta Premium Oferta 1",
             category: "ofertas",
             variants: {
@@ -1548,7 +1946,7 @@ const products = {
             stockCount: 5
         },
         {
-            id: 102,
+            id: 89,
             name: "Caneca Exclusiva Oferta",
             category: "ofertas",
             variants: {
@@ -1566,7 +1964,7 @@ const products = {
             isTrending: true
         },
         {
-            id: 103,
+            id: 90,
             name: "Kit Personalizado Especial",
             category: "ofertas",
             variants: {
@@ -1584,7 +1982,7 @@ const products = {
             stockCount: 3
         },
         {
-            id: 104,
+            id: 91,
             name: "Camiseta Limited Edition",
             category: "ofertas",
             variants: {
@@ -1606,7 +2004,7 @@ const products = {
             isNew: true
         },
         {
-            id: 105,
+            id: 92,
             name: "Caneca Premium Oferta",
             category: "ofertas",
             variants: {
@@ -1623,7 +2021,7 @@ const products = {
             stockCount: 6
         },
         {
-            id: 106,
+            id: 93,
             name: "Camiseta Flash Sale",
             category: "ofertas",
             variants: {
