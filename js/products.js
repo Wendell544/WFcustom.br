@@ -1027,7 +1027,7 @@ const products = {
             category: "masculino",
             variants: {
                 'branco': {
-                    image: "https://i.postimg.cc/GmfbDJs2/1.png",
+                    image: "https://i.postimg.cc/xCNdFpMs/1.png",
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
 
