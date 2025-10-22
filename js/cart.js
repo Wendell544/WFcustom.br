@@ -60,15 +60,6 @@ function calculateAutomaticDiscounts(cartItems) {
         });
     }
     
-    // OFERTA 4: Brinde para 3+ camisetas
-    if (camisetasCount >= 3) {
-        discountMessages.push({
-            type: 'brinde',
-            message: '🎁 PRESENTE: Você ganhou 1 camiseta extra de brinde!',
-            value: 0
-        });
-    }
-    
     return {
         totalDiscount: Math.min(totalDiscount, subtotal * 0.10), // Máximo 10% de desconto
         discountMessages,
@@ -269,7 +260,7 @@ function renderCartSummary() {
         ${offers.camisetasCount === 2 ? `
             <div class="product-incentive">
                 <i class="fas fa-crown"></i>
-                Leve mais 1 camiseta e ganhe 10% de desconto + 1 BRINDE!
+                Leve mais 1 camiseta e ganhe 10% de desconto!
             </div>
         ` : ''}
         

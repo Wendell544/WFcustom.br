@@ -102,19 +102,87 @@
             </div>
         </section>
 
-        <!-- Banner de Ofertas Especiais -->
-        <section class="special-offers-banner">
+        <!-- Seção Ofertas Premium - TOTALMENTE REFORMULADA -->
+        <section class="offers-hero-section">
             <div class="container">
-                <h3>🎊 OFERTAS ESPECIAIS AUTOMÁTICAS!</h3>
-                <p>
-                    <span class="offer-highlight">FRETE GRÁTIS</span> acima de R$ 100 • 
-                    <span class="offer-highlight">5% OFF</span> em 2 camisetas • 
-                    <span class="offer-highlight">10% OFF + BRINDE</span> em 3+ camisetas • 
-                    <span class="offer-highlight">5% OFF</span> em 3+ canecas
-                </p>
-                <p style="font-size: 0.75rem; opacity: 0.9;">
-                    ⚡ Descontos aplicados automaticamente no carrinho!
-                </p>
+                <div class="offers-hero-content">
+                    <h1 class="offers-hero-title">🎊 OFERTAS EXCLUSIVAS</h1>
+                    <p class="offers-hero-subtitle">Descontos automáticos e condições especiais para você</p>
+                    
+                    <!-- Timer de Ofertas -->
+                    <div class="offers-timer-section">
+                        <div class="timer-title">⏰ Ofertas por tempo limitado</div>
+                        <div class="timer-container">
+                            <div class="timer-unit">
+                                <span class="timer-value" id="days">00</span>
+                                <span class="timer-label">Dias</span>
+                            </div>
+                            <div class="timer-unit">
+                                <span class="timer-value" id="hours">00</span>
+                                <span class="timer-label">Horas</span>
+                            </div>
+                            <div class="timer-unit">
+                                <span class="timer-value" id="minutes">00</span>
+                                <span class="timer-label">Minutos</span>
+                            </div>
+                            <div class="timer-unit">
+                                <span class="timer-value" id="seconds">00</span>
+                                <span class="timer-label">Segundos</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grid de Ofertas -->
+                    <div class="offers-grid-premium">
+                        <div class="offer-card-premium" data-offer="frete_gratis">
+                            <div class="offer-icon-premium">🚚</div>
+                            <h3>Frete Grátis</h3>
+                            <p>Em compras acima de R$ 100 para todo Brasil</p>
+                            <span class="offer-badge-premium">ECONOMIZE ATÉ R$ 15</span>
+                        </div>
+                        
+                        <div class="offer-card-premium" data-offer="desconto_camisetas">
+                            <div class="offer-icon-premium">👕</div>
+                            <h3>Combo Camisetas</h3>
+                            <p>5% OFF em 2 peças ou 10% OFF em 3+ peças</p>
+                            <span class="offer-badge-premium">ATÉ 10% OFF</span>
+                        </div>
+                        
+                        <div class="offer-card-premium" data-offer="desconto_canecas">
+                            <div class="offer-icon-premium">☕</div>
+                            <h3>Kit Canecas</h3>
+                            <p>5% de desconto na compra de 3+ canecas</p>
+                            <span class="offer-badge-premium">5% OFF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Banner Ofertas Relâmpago -->
+        <section class="flash-sales-banner">
+            <div class="container">
+                <div class="flash-sales-content">
+                    <h3 class="flash-sales-title">⚡ OFERTAS RELÂMPAGO</h3>
+                    <p class="flash-sales-subtitle">Produtos selecionados com descontos especiais por tempo limitado</p>
+                    <button class="btn btn-whatsapp-premium" id="flash-sales-btn">
+                        <i class="fas fa-bolt"></i> Ver Ofertas no WhatsApp
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Produtos em Oferta -->
+        <section class="offers-products-section">
+            <div class="container">
+                <div class="offers-section-header">
+                    <h2 class="offers-section-title">Produtos em Destaque</h2>
+                    <p class="offers-section-subtitle">Confira nossos produtos mais populares com condições especiais</p>
+                </div>
+                
+                <div class="offers-products-grid" id="offers-products-container">
+                    <!-- Os produtos em oferta serão inseridos aqui via JavaScript -->
+                </div>
             </div>
         </section>
 
@@ -153,63 +221,6 @@
         <!-- Seção de Produtos -->
         <section class="products" id="products">
             <div class="container">
-                <!-- Grade Ofertas Especiais -->
-                <section class="grade-produtos premium-ofertas" id="grade-produtos-ofertas" data-category="ofertas">
-                    <div class="grade-header-premium">
-                        <h2 class="grade-title-premium">
-                            <i class="fas fa-bolt"></i>
-                            Ofertas Especiais
-                        </h2>
-                        <div class="header-accent"></div>
-                    </div>
-                    
-                    <!-- Pacotes Personalizados -->
-                    <div class="package-offers-section">
-                        <h3 class="package-section-title">Pacotes para Eventos</h3>
-                        <div class="packages-container">
-                            <div class="package-card premium">
-                                <div class="package-badge">Mais Vendido</div>
-                                <div class="package-content">
-                                    <h4>Pacotes a parti 12 Camisetas</h4>
-                                    <p class="package-description">Ideal para empresas e eventos</p>
-                                    <div class="package-price">
-                                        <span class="original-price">R$ 512,00</span>
-                                        <span class="final-price">R$ 423,00</span>
-                                    </div>
-                                    <p class="economy">Economize R$ 81,00</p>
-                                    <button class="btn btn-primary-premium package-btn" data-package="12-camisetas">
-                                        Solicitar Orçamento
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="package-card premium">
-                                <div class="package-badge">Combo</div>
-                                <div class="package-content">
-                                    <h4>Pacotes a parti de 10 Canecas</h4>
-                                    <p class="package-description">Perfeito para presentear</p>
-                                    <div class="package-price">
-                                        <span class="original-price">R$ 430,20</span>
-                                        <span class="final-price">R$ 329,00</span>
-                                    </div>
-                                    <p class="economy">Economize R$ 101,20</p>
-                                    <button class="btn btn-primary-premium package-btn" data-package="6-camisetas-6-canecas">
-                                        Solicitar Orçamento
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Produtos em Oferta -->
-                    <div class="individual-offers">
-                        <h3 class="individual-offers-title">Produtos em Destaque</h3>
-                        <div class="grade-container" id="grade-container-ofertas">
-                            <!-- Cards serão preenchidos via JavaScript -->
-                        </div>
-                    </div>
-                </section>
-
                 <!-- Grade Masculino -->
                 <section class="grade-produtos premium-masculino" id="grade-produtos-masculino" data-category="masculino">
                     <div class="grade-header-premium">

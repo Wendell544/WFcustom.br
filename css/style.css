@@ -2003,6 +2003,435 @@ header {
     margin: 0 0.2rem;
 }
 
+/* ===== SISTEMA DE OFERTAS PREMIUM - TOTALMENTE REFORMULADO ===== */
+.offers-hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-radius: var(--border-radius-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.offers-hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><polygon fill="white" points="0,1000 1000,0 1000,1000"/></svg>');
+    background-size: cover;
+}
+
+.offers-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.offers-hero-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.offers-hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.offers-grid-premium {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.offer-card-premium {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.offer-card-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: var(--transition-slow);
+}
+
+.offer-card-premium:hover::before {
+    left: 100%;
+}
+
+.offer-card-premium:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: var(--shadow-xl);
+}
+
+.offer-icon-premium {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.offer-card-premium h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.offer-card-premium p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.offer-badge-premium {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+/* Timer de Ofertas */
+.offers-timer-section {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+}
+
+.timer-title {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.timer-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.timer-unit {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    min-width: 70px;
+}
+
+.timer-value {
+    font-size: 2rem;
+    font-weight: 800;
+    display: block;
+    line-height: 1;
+}
+
+.timer-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-top: 0.3rem;
+    display: block;
+}
+
+/* Seção de Produtos em Oferta Reformulada */
+.offers-products-section {
+    margin: 3rem 0;
+}
+
+.offers-section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.offers-section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--premium-black);
+    margin-bottom: 0.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.offers-section-subtitle {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+.offers-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Cards de Produto em Oferta Especiais */
+.offer-product-card {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.offer-product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--ofertas-primary) 0%, var(--ofertas-secondary) 100%);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 1;
+}
+
+.offer-product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--ofertas-accent);
+}
+
+.offer-product-card:hover::before {
+    opacity: 0.03;
+}
+
+.offer-product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: var(--shadow-lg);
+    animation: pulse 2s infinite;
+}
+
+.offer-product-ribbon {
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: var(--success-color);
+    color: white;
+    padding: 0.5rem 2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    transform: rotate(45deg);
+    box-shadow: var(--shadow-md);
+    z-index: 10;
+}
+
+/* Sistema de Progresso de Oferta */
+.offer-progress-container {
+    background: var(--light-gray);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+}
+
+.offer-progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.offer-progress-bar {
+    height: 6px;
+    background: var(--medium-gray);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.offer-progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, var(--ofertas-primary), var(--ofertas-secondary));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+/* Banner de Ofertas Relâmpago */
+.flash-sales-banner {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-lg);
+    margin: 2rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.flash-sales-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.1"><polygon fill="white" points="500,0 650,350 1000,400 700,650 800,1000 500,800 200,1000 300,650 0,400 350,350"/></svg>');
+    background-size: 200px;
+    animation: float 20s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateX(0) translateY(0); }
+    100% { transform: translateX(-200px) translateY(-200px); }
+}
+
+.flash-sales-content {
+    position: relative;
+    z-index: 2;
+}
+
+.flash-sales-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.flash-sales-subtitle {
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+/* Modal de Detalhes da Oferta */
+.offer-details-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.offer-modal-content {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    max-width: 90%;
+    width: 500px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    animation: modalAppear 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.offer-modal-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.offer-modal-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.offer-modal-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--premium-black);
+    margin-bottom: 0.5rem;
+}
+
+.offer-modal-description {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.offer-conditions {
+    background: var(--light-gray);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+}
+
+.offer-conditions h4 {
+    margin-bottom: 0.5rem;
+    color: var(--premium-black);
+    font-size: 1rem;
+}
+
+.offer-conditions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.offer-conditions li {
+    padding: 0.3rem 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.offer-conditions li::before {
+    content: '✓';
+    color: var(--success-color);
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+/* Animações Especiais para Ofertas */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.offer-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+}
+
+.offer-glow {
+    animation: glow 2s infinite;
+}
+
 /* ===== ANIMAÇÕES EXTRAS ===== */
 @keyframes slideInRight {
     from {
@@ -2082,6 +2511,32 @@ header {
 
     .special-offers-banner p {
         font-size: 0.8rem;
+    }
+    
+    .offers-grid-premium {
+        grid-template-columns: 1fr;
+    }
+    
+    .offers-hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .timer-container {
+        gap: 0.5rem;
+    }
+    
+    .timer-unit {
+        min-width: 60px;
+        padding: 0.8rem;
+    }
+    
+    .timer-value {
+        font-size: 1.5rem;
+    }
+    
+    .offers-products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
     }
 }
 
@@ -2182,6 +2637,26 @@ header {
 
     .final-price {
         font-size: 1.2rem;
+    }
+    
+    .offers-hero-section {
+        padding: 1.5rem 0;
+    }
+    
+    .offer-card-premium {
+        padding: 1.5rem;
+    }
+    
+    .offer-icon-premium {
+        font-size: 2.5rem;
+    }
+    
+    .flash-sales-banner {
+        padding: 1rem;
+    }
+    
+    .flash-sales-title {
+        font-size: 1.3rem;
     }
 }
 

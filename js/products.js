@@ -1983,21 +1983,37 @@ function calculateFinalPrice(basePrice, position) {
     return finalPrice;
 }
 
-// Função para adicionar badges de oferta nos produtos
+// Adicionar badges de oferta melhorados nos produtos
 function addOfferBadges() {
-    document.querySelectorAll('.grade-card').forEach(card => {
+    document.querySelectorAll('.grade-card').forEach((card, index) => {
         const productId = card.getAttribute('data-product-id');
         const product = findProductById(productId);
         
         if (product) {
-            // Adicionar badge de oferta especial
-            const offerBadge = document.createElement('div');
-            offerBadge.className = 'badge badge-offer';
-            offerBadge.innerHTML = '🎁 OFERTAS ATIVAS';
+            // Adicionar badge de oferta especial baseado no índice
+            let offerText = '';
+            if (index % 5 === 0) {
+                offerText = '🔥 OFERTA ESPECIAL';
+            } else if (index % 3 === 0) {
+                offerText = '⚡ PROMOÇÃO';
+            } else if (index % 7 === 0) {
+                offerText = '🎊 DESTAQUE';
+            }
             
-            const imageContainer = card.querySelector('.image-container');
-            if (imageContainer) {
-                imageContainer.appendChild(offerBadge);
+            if (offerText) {
+                const offerBadge = document.createElement('div');
+                offerBadge.className = 'badge badge-offer offer-glow';
+                offerBadge.innerHTML = offerText;
+                
+                const imageContainer = card.querySelector('.image-container');
+                if (imageContainer) {
+                    // Remover badge existente se houver
+                    const existingBadge = imageContainer.querySelector('.badge-offer');
+                    if (existingBadge) {
+                        existingBadge.remove();
+                    }
+                    imageContainer.appendChild(offerBadge);
+                }
             }
         }
     });
@@ -2414,3 +2430,4 @@ if (document.readyState === 'loading') {
     preloadProductImages();
     setTimeout(populateAllGrades, 100);
 }
+[file content end]
