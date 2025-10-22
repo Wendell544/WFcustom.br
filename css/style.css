@@ -1882,6 +1882,159 @@ header {
     color: #ff3742;
 }
 
+/* ===== SISTEMA DE OFERTAS NO CARRINHO ===== */
+.offers-container {
+    margin: 1rem 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.offer-message {
+    padding: 0.8rem 1rem;
+    margin: 0.3rem 0;
+    border-radius: var(--border-radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.offer-message.frete_gratis {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    border-left: 4px solid #047857;
+}
+
+.offer-message.desconto_camisetas {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    color: white;
+    border-left: 4px solid #B45309;
+}
+
+.offer-message.desconto_canecas {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    color: white;
+    border-left: 4px solid #6D28D9;
+}
+
+.offer-message.brinde {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+    color: white;
+    border-left: 4px solid #B91C1C;
+}
+
+.discount-row {
+    color: #10B981;
+    font-weight: 700;
+}
+
+/* Incentivos de compra */
+.shipping-incentive,
+.product-incentive {
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border-radius: var(--border-radius);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+.shipping-incentive {
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+    color: white;
+    border: 2px dashed #60A5FA;
+}
+
+.product-incentive {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    color: white;
+    border: 2px dashed #A78BFA;
+}
+
+/* Badge de oferta nos produtos */
+.product-badge-offer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 5;
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+    animation: bounce 2s infinite;
+}
+
+/* Banner de ofertas especiais */
+.special-offers-banner {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+    box-shadow: var(--shadow-lg);
+}
+
+.special-offers-banner h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.special-offers-banner p {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.offer-highlight {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-weight: 700;
+    margin: 0 0.2rem;
+}
+
+/* ===== ANIMAÇÕES EXTRAS ===== */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.offer-notification {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.offer-notification strong {
+    font-weight: 700;
+}
+
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
     .favorite-card-content {
@@ -1905,6 +2058,30 @@ header {
     
     .favorites-container-premium {
         padding: 1rem;
+    }
+
+    /* Responsividade para ofertas */
+    .offer-message {
+        font-size: 0.75rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .shipping-incentive,
+    .product-incentive {
+        font-size: 0.7rem;
+        padding: 0.6rem;
+    }
+
+    .special-offers-banner {
+        padding: 0.8rem;
+    }
+
+    .special-offers-banner h3 {
+        font-size: 1rem;
+    }
+
+    .special-offers-banner p {
+        font-size: 0.8rem;
     }
 }
 

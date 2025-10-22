@@ -34,6 +34,48 @@ function calculateFinalPrice(basePrice, position) {
     return finalPrice;
 }
 
+// Função para mostrar ofertas ao adicionar ao carrinho
+function showOfferNotification(product, offers) {
+    // Criar notificação flutuante
+    const notification = document.createElement('div');
+    notification.className = 'offer-notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #10B981, #059669);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-xl);
+        z-index: 10000;
+        max-width: 300px;
+        animation: slideInRight 0.5s ease-out;
+    `;
+    
+    let message = `✅ <strong>${product.name}</strong> adicionado!<br>`;
+    
+    if (offers.discountMessages.length > 0) {
+        message += `<br>🎊 <strong>Ofertas ativas:</strong><br>`;
+        offers.discountMessages.forEach(offer => {
+            message += `• ${offer.message}<br>`;
+        });
+    }
+    
+    notification.innerHTML = message;
+    document.body.appendChild(notification);
+    
+    // Remover após 5 segundos
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.5s ease-out';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 500);
+    }, 5000);
+}
+
 // Funções de inicialização
 function init() {
     initializeDOMElements();
@@ -540,7 +582,7 @@ function updatePositionOptions() {
     });
 }
 
-// Adicionar ao carrinho da página de detalhes
+// Adicionar ao carrinho da página de detalhes - FUNÇÃO MODIFICADA
 function addToCartFromDetail() {
     if (!currentProduct) return;
     
@@ -552,7 +594,13 @@ function addToCartFromDetail() {
     
     addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
     
-    // Feedback visual
+    // Calcular ofertas atuais
+    const offers = calculateAutomaticDiscounts(cartItems);
+    
+    // Mostrar notificação de ofertas
+    showOfferNotification(currentProduct, offers);
+    
+    // Feedback visual no botão
     if (addToCartDetailButton) {
         const originalText = addToCartDetailButton.textContent;
         addToCartDetailButton.textContent = '✓ Adicionado!';
@@ -578,6 +626,12 @@ function buyNowFromDetail() {
     
     addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
     
+    // Calcular ofertas atuais
+    const offers = calculateAutomaticDiscounts(cartItems);
+    
+    // Mostrar notificação de ofertas
+    showOfferNotification(currentProduct, offers);
+    
     // Ir para carrinho
     showCart();
 }
@@ -589,7 +643,8 @@ function handlePackageSelection(packageType) {
     
     switch(packageType) {
         case '12-camisetas':
-            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 156,00*.';            totalPrice = '156,00';
+            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 156,00*.';
+            totalPrice = '156,00';
             break;
         case '6-camisetas-6-canecas':
             message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 6 Camisetas + 6 Canecas Personalizadas* no valor de *R$ 215,00*.';

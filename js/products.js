@@ -1962,7 +1962,6 @@ function preloadProductImages() {
             imageCache.set(url, img);
             console.log(`Imagem carregada: ${loadedImages}/${totalImages}`);
             
-            // Atualizar progresso se necessário
             if (loadedImages === totalImages) {
                 console.log('Todas as imagens foram pré-carregadas!');
             }
@@ -1982,6 +1981,67 @@ function calculateFinalPrice(basePrice, position) {
         finalPrice += 2.00;
     }
     return finalPrice;
+}
+
+// Função para adicionar badges de oferta nos produtos
+function addOfferBadges() {
+    document.querySelectorAll('.grade-card').forEach(card => {
+        const productId = card.getAttribute('data-product-id');
+        const product = findProductById(productId);
+        
+        if (product) {
+            // Adicionar badge de oferta especial
+            const offerBadge = document.createElement('div');
+            offerBadge.className = 'badge badge-offer';
+            offerBadge.innerHTML = '🎁 OFERTAS ATIVAS';
+            
+            const imageContainer = card.querySelector('.image-container');
+            if (imageContainer) {
+                imageContainer.appendChild(offerBadge);
+            }
+        }
+    });
+}
+
+// Função para verificar se produto é favorito
+function isProductFavorite(productId) {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    return favorites.includes(parseInt(productId));
+}
+
+// Função para alternar favoritos
+function toggleFavorite(productId) {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const numericId = parseInt(productId);
+    
+    const index = favorites.indexOf(numericId);
+    if (index > -1) {
+        favorites.splice(index, 1);
+        console.log(`Produto ${productId} removido dos favoritos`);
+    } else {
+        favorites.push(numericId);
+        console.log(`Produto ${productId} adicionado aos favoritos`);
+    }
+    
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    updateFavoriteIcon(productId);
+}
+
+// Função para atualizar ícone de favoritos
+function updateFavoriteIcon(productId) {
+    const favoriteIcons = document.querySelectorAll(`.favorite-icon[data-product-id="${productId}"]`);
+    const isFav = isProductFavorite(productId);
+    
+    favoriteIcons.forEach(icon => {
+        const heartIcon = icon.querySelector('i');
+        if (isFav) {
+            icon.classList.add('active');
+            heartIcon.className = 'fas fa-heart';
+        } else {
+            icon.classList.remove('active');
+            heartIcon.className = 'far fa-heart';
+        }
+    });
 }
 
 // Criar card de produto para a grade
@@ -2007,6 +2067,9 @@ function createGradeCard(product) {
     if (product.isNew) badges.push('<span class="badge badge-new">🆕 Novidade</span>');
     if (product.isTrending) badges.push('<span class="badge badge-trending">📈 Em Alta</span>');
     if (product.limitedStock) badges.push('<span class="badge badge-limited">⏳ Estoque Limitado</span>');
+    
+    // Badge de oferta especial (adicione para produtos específicos)
+    if (product.specialOffer) badges.push('<span class="badge badge-offer">🎁 OFERTA ESPECIAL</span>');
 
     const colorDots = Object.keys(product.variants).map(color => {
         let bgColor;
@@ -2041,7 +2104,7 @@ function createGradeCard(product) {
     
     const finalPrice = calculateFinalPrice(discountPrice, firstPosition);
 
-    // Ícone de favoritos - CORREÇÃO FINAL
+    // Ícone de favoritos
     const isFav = isProductFavorite(product.id);
     const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
     const favActiveClass = isFav ? 'active' : '';
@@ -2087,13 +2150,12 @@ function createGradeCard(product) {
         </div>
     `;
 
-    // Adicionar event listener para o ícone de favoritos - CORREÇÃO FINAL
+    // Adicionar event listener para o ícone de favoritos
     const favoriteIcon = card.querySelector('.favorite-icon');
     favoriteIcon.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         const productId = this.getAttribute('data-product-id');
-        console.log('Clicou no ícone de favorito:', productId);
         toggleFavorite(productId);
     });
 
@@ -2280,6 +2342,9 @@ function populateAllGrades() {
     });
     
     console.log(`Grades populadas: ${successCount}/${containers.length}`);
+    
+    // Adicionar badges de oferta após popular as grades
+    setTimeout(addOfferBadges, 500);
     
     // Se nenhum container foi encontrado, criar dinamicamente
     if (successCount === 0) {
