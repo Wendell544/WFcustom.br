@@ -2008,6 +2008,10 @@ function createGradeCard(product) {
     if (product.isTrending) badges.push('<span class="badge badge-trending">📈 Em Alta</span>');
     if (product.limitedStock) badges.push('<span class="badge badge-limited">⏳ Estoque Limitado</span>');
 
+    // Badge de desconto avançada
+    const discountBadge = product.discount ? 
+        `<div class="advanced-discount-badge-premium">-${Math.round(product.discount)}% OFF</div>` : '';
+
     const colorDots = Object.keys(product.variants).map(color => {
         let bgColor;
         switch(color) {
@@ -2048,6 +2052,7 @@ function createGradeCard(product) {
 
     card.innerHTML = `
         <div class="image-container">
+            ${discountBadge}
             ${badges.join('')}
             <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
                 <i class="${favIconClass}"></i>
@@ -2086,6 +2091,9 @@ function createGradeCard(product) {
             ` : ''}
         </div>
     `;
+
+    // Resto do código permanece igual...
+    // [Mantido todos os event listeners e funcionalidades existentes]
 
     // Adicionar event listener para o ícone de favoritos - CORREÇÃO FINAL
     const favoriteIcon = card.querySelector('.favorite-icon');

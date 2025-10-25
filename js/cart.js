@@ -116,18 +116,40 @@ function renderCartSummary() {
     
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     
+    // Calcular quantidade de camisetas para desconto progressivo
+    const tShirtCount = cartItems.filter(item => 
+        item.product.category === 'masculino' || item.product.category === 'unissexo'
+    ).length;
+
+    // Calcular desconto progressivo
+    let quantityDiscount = 0;
+    if (tShirtCount >= 3) {
+        quantityDiscount = subtotal * 0.10;
+    } else if (tShirtCount >= 2) {
+        quantityDiscount = subtotal * 0.05;
+    }
+
+    const shippingCost = subtotal >= 100 ? 0 : 9.99;
+    const total = subtotal - quantityDiscount + shippingCost;
+    
     cartSummary.innerHTML = `
         <div class="summary-row-premium">
             <span>Subtotal:</span>
             <span>R$ ${subtotal.toFixed(2)}</span>
         </div>
+        ${quantityDiscount > 0 ? `
+        <div class="summary-row-premium" style="color: var(--success-color);">
+            <span>Desconto Progressivo:</span>
+            <span>- R$ ${quantityDiscount.toFixed(2)}</span>
+        </div>
+        ` : ''}
         <div class="summary-row-premium">
             <span>Frete:</span>
             <span id="cart-shipping">A calcular</span>
         </div>
         <div class="summary-row-premium summary-total-premium">
             <span>Total:</span>
-            <span id="cart-total">R$ ${subtotal.toFixed(2)}</span>
+            <span id="cart-total">R$ ${total.toFixed(2)}</span>
         </div>
     `;
 }
@@ -154,6 +176,12 @@ function calculateShipping() {
         if (deliveryOptions) deliveryOptions.style.display = 'none';
     }
     
+    // Aplicar frete grátis se subtotal for >= 100
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    if (subtotal >= 100) {
+        shippingCost = 0;
+    }
+    
     const shippingPrice = document.getElementById('shipping-price');
     const shippingPriceContainer = document.querySelector('.shipping-price-premium');
     
@@ -166,7 +194,18 @@ function calculateShipping() {
         
         if (cartShipping && cartTotal) {
             const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-            const total = subtotal + shippingCost;
+            const tShirtCount = cartItems.filter(item => 
+                item.product.category === 'masculino' || item.product.category === 'unissexo'
+            ).length;
+
+            let quantityDiscount = 0;
+            if (tShirtCount >= 3) {
+                quantityDiscount = subtotal * 0.10;
+            } else if (tShirtCount >= 2) {
+                quantityDiscount = subtotal * 0.05;
+            }
+
+            const total = subtotal - quantityDiscount + shippingCost;
             
             cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
             cartTotal.textContent = `R$ ${total.toFixed(2)}`;
@@ -188,8 +227,19 @@ function finalizeOrder() {
     const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
     
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    const tShirtCount = cartItems.filter(item => 
+        item.product.category === 'masculino' || item.product.category === 'unissexo'
+    ).length;
+
+    let quantityDiscount = 0;
+    if (tShirtCount >= 3) {
+        quantityDiscount = subtotal * 0.10;
+    } else if (tShirtCount >= 2) {
+        quantityDiscount = subtotal * 0.05;
+    }
+
     const shippingCost = parseFloat(document.getElementById('shipping-price').textContent.replace('R$ ', ''));
-    const totalPrice = subtotal + shippingCost;
+    const totalPrice = subtotal - quantityDiscount + shippingCost;
     
     let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
     
@@ -211,6 +261,9 @@ function finalizeOrder() {
     });
     
     message += `*Subtotal:* R$ ${subtotal.toFixed(2)}%0A`;
+    if (quantityDiscount > 0) {
+        message += `*Desconto Progressivo:* - R$ ${quantityDiscount.toFixed(2)}%0A`;
+    }
     message += `*Frete:* R$ ${shippingCost.toFixed(2)}%0A`;
     message += `*Total:* R$ ${totalPrice.toFixed(2)}%0A%0A`;
     message += `*Endereço de entrega:*%0A`;
