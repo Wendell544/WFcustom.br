@@ -66,11 +66,18 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Header -->
+    <!-- Header Modificado -->
     <header id="topo-site">
         <div class="container">
             <nav class="navbar">
-                <div class="logo logo-header">WFcustom</div>
+                <!-- Logo que vai alternar com anúncios -->
+                <div class="logo logo-header" id="main-logo">WFcustom</div>
+                <div class="ad-space-header" id="ad-space" style="display: none;">
+                    <div class="ad-content">
+                        <span class="ad-badge">ANÚNCIO</span>
+                        <span class="ad-text">🎉 Ofertas Exclusivas - Até 50% OFF!</span>
+                    </div>
+                </div>
                 <div class="nav-buttons">
                     <button class="favorite-icon" id="favorite-icon" aria-label="Favoritos">
                         <i class="far fa-heart"></i>
@@ -102,35 +109,12 @@
             </div>
         </section>
 
-        <!-- Seção Ofertas Premium - TOTALMENTE REFORMULADA -->
+        <!-- Seção Ofertas Premium - SEM TIMER -->
         <section class="offers-hero-section">
             <div class="container">
                 <div class="offers-hero-content">
                     <h1 class="offers-hero-title">🎊 OFERTAS EXCLUSIVAS</h1>
                     <p class="offers-hero-subtitle">Descontos automáticos e condições especiais para você</p>
-                    
-                    <!-- Timer de Ofertas -->
-                    <div class="offers-timer-section">
-                        <div class="timer-title">⏰ Ofertas por tempo limitado</div>
-                        <div class="timer-container">
-                            <div class="timer-unit">
-                                <span class="timer-value" id="days">00</span>
-                                <span class="timer-label">Dias</span>
-                            </div>
-                            <div class="timer-unit">
-                                <span class="timer-value" id="hours">00</span>
-                                <span class="timer-label">Horas</span>
-                            </div>
-                            <div class="timer-unit">
-                                <span class="timer-value" id="minutes">00</span>
-                                <span class="timer-label">Minutos</span>
-                            </div>
-                            <div class="timer-unit">
-                                <span class="timer-value" id="seconds">00</span>
-                                <span class="timer-label">Segundos</span>
-                            </div>
-                        </div>
-                    </div>
                     
                     <!-- Grid de Ofertas -->
                     <div class="offers-grid-premium">
@@ -155,19 +139,6 @@
                             <span class="offer-badge-premium">5% OFF</span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Banner Ofertas Relâmpago -->
-        <section class="flash-sales-banner">
-            <div class="container">
-                <div class="flash-sales-content">
-                    <h3 class="flash-sales-title">⚡ OFERTAS RELÂMPAGO</h3>
-                    <p class="flash-sales-subtitle">Produtos selecionados com descontos especiais por tempo limitado</p>
-                    <button class="btn btn-whatsapp-premium" id="flash-sales-btn">
-                        <i class="fas fa-bolt"></i> Ver Ofertas no WhatsApp
-                    </button>
                 </div>
             </div>
         </section>

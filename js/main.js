@@ -13,6 +13,16 @@ let currentBannerIndex = 0;
 const bannerInterval = 5000; // 5 segundos
 let bannerTimer = null;
 
+// Sistema de anúncios
+let adInterval;
+let isShowingAd = false;
+const adMessages = [
+    "🎉 Frete Grátis acima de R$ 100!",
+    "🔥 Até 50% OFF em Camisetas!",
+    "🚚 Entrega Rápida para São Bento!",
+    "⭐ Ofertas Exclusivas no WhatsApp!"
+];
+
 // Elementos DOM
 let homePage, productPage, cartPage, favoritesPage, locationPage, detailImage, detailTitle, detailDescription;
 let detailPrice, modalColorOptions, detailSizeOptions, stampPositionGroup, addToCartDetailButton;
@@ -25,6 +35,92 @@ let deliveryOptions, favoritesBackToHome;
 
 // Elementos do carrossel de banners
 let bannerTrack, bannerSlides;
+
+// ===== SISTEMA DE ANÚNCIOS =====
+
+function initAdSystem() {
+    // Alternar entre logo e anúncio a cada 4 segundos
+    adInterval = setInterval(toggleHeaderContent, 4000);
+}
+
+function toggleHeaderContent() {
+    const logo = document.getElementById('main-logo');
+    const adSpace = document.getElementById('ad-space');
+    
+    if (!logo || !adSpace) return;
+    
+    if (isShowingAd) {
+        // Mostrar logo
+        logo.style.display = 'block';
+        adSpace.style.display = 'none';
+    } else {
+        // Mostrar anúncio
+        logo.style.display = 'none';
+        adSpace.style.display = 'block';
+        
+        // Atualizar texto do anúncio aleatoriamente
+        const adText = adSpace.querySelector('.ad-text');
+        if (adText) {
+            const randomAd = adMessages[Math.floor(Math.random() * adMessages.length)];
+            adText.textContent = randomAd;
+        }
+    }
+    
+    isShowingAd = !isShowingAd;
+}
+
+// ===== CORREÇÕES DE CLIQUE =====
+
+function fixClickIssues() {
+    // Usar event delegation para elementos dinâmicos
+    document.addEventListener('click', function(e) {
+        // Corrigir cliques em cards de produto
+        const productCard = e.target.closest('.grade-card');
+        if (productCard) {
+            const productId = productCard.getAttribute('data-product-id');
+            if (productId) {
+                showProductDetail(productId);
+                return;
+            }
+        }
+        
+        // Corrigir cliques em botões de oferta
+        const offerCard = e.target.closest('.offer-card-premium');
+        if (offerCard) {
+            const offerType = offerCard.getAttribute('data-offer');
+            if (offerType) {
+                showOfferTypeDetails(offerType);
+                return;
+            }
+        }
+        
+        // Corrigir cliques em botões de favorito
+        const favoriteBtn = e.target.closest('.favorite-btn');
+        if (favoriteBtn) {
+            e.stopPropagation();
+            const productId = favoriteBtn.getAttribute('data-product-id') || 
+                             favoriteBtn.closest('.grade-card')?.getAttribute('data-product-id');
+            if (productId) {
+                toggleFavorite(productId);
+                return;
+            }
+        }
+    });
+}
+
+function fixFavoriteButtons() {
+    // Reaplicar event listeners para botões de favorito
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+        btn.onclick = function(e) {
+            e.stopPropagation();
+            const productId = this.getAttribute('data-product-id') || 
+                             this.closest('.grade-card')?.getAttribute('data-product-id');
+            if (productId) {
+                toggleFavorite(productId);
+            }
+        };
+    });
+}
 
 // Função auxiliar para calcular preço final
 function calculateFinalPrice(basePrice, position) {
@@ -445,8 +541,10 @@ function init() {
     updateCartCount();
     updateFavoriteCount();
     
-    // Inicializar sistema de ofertas
+    // Inicializar sistemas
     initOffersSystem();
+    initAdSystem(); // ← ADICIONAR ESTA LINHA
+    fixClickIssues(); // ← ADICIONAR ESTA LINHA
     
     // Aplicar categoria padrão "masculino"
     filterProductsByCategory('masculino');
@@ -1020,42 +1118,7 @@ function handlePackageSelection(packageType) {
     window.open(url, '_blank');
 }
 
-// Inicializar o site quando carregado
-document.addEventListener('DOMContentLoaded', function() {
-    init();
-});
-
-// Otimizações de performance
-let resizeTimeout;
-window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-        // Recalcular layouts se necessário
-    }, 250);
-});
-
-// Preload de imagens críticas
-function preloadCriticalImages() {
-    const criticalImages = [
-        'https://i.postimg.cc/J074cQQ6/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo.png',
-        'https://i.postimg.cc/cHBLnzf4/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo-1.png',
-        'https://i.postimg.cc/7LXMwqLr/Sua-imagina-o-merece-destaque.png'
-    ];
-    
-    criticalImages.forEach(src => {
-        const img = new Image();
-        img.src = src;
-    });
-}
-
-// Iniciar preload quando DOM estiver pronto
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', preloadCriticalImages);
-} else {
-    preloadCriticalImages();
-}
-
-// ===== FUNÇÕES DE CARRINHO E FAVORITOS (EXISTENTES) =====
+// ===== FUNÇÕES DE CARRINHO E FAVORITOS =====
 
 function addToCart(product, color, size, position, price) {
     const cartItem = {
@@ -1257,7 +1320,7 @@ function removeFromFavorites(productId) {
     updateFavoriteCount();
 }
 
-// ===== FUNÇÕES DE PRODUTOS (EXISTENTES) =====
+// ===== FUNÇÕES DE PRODUTOS =====
 
 function findProductById(productId) {
     for (const category in products) {
@@ -1291,7 +1354,7 @@ function populateGrade(category) {
             <div class="grade-card-image-container">
                 <img src="${firstVariant.image}" alt="${product.name}" class="grade-card-image" loading="lazy">
                 ${product.discount ? `<div class="discount-badge">-${product.discount}%</div>` : ''}
-                <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite('${product.id}')">
+                <button class="favorite-btn" data-product-id="${product.id}">
                     <i class="far fa-heart"></i>
                 </button>
             </div>
@@ -1308,6 +1371,9 @@ function populateGrade(category) {
         
         container.appendChild(card);
     });
+    
+    // Corrigir botões de favorito após popular a grade
+    setTimeout(fixFavoriteButtons, 50);
 }
 
 function toggleFavorite(productId) {
@@ -1327,7 +1393,7 @@ function toggleFavorite(productId) {
     updateFavoriteCount();
     
     // Feedback visual
-    const favoriteBtns = document.querySelectorAll(`[onclick*="${productId}"]`);
+    const favoriteBtns = document.querySelectorAll(`[data-product-id="${productId}"]`);
     favoriteBtns.forEach(btn => {
         const icon = btn.querySelector('i');
         if (icon) {
@@ -1337,7 +1403,7 @@ function toggleFavorite(productId) {
     });
 }
 
-// ===== FUNÇÕES DE FRETE E PEDIDO (EXISTENTES) =====
+// ===== FUNÇÕES DE FRETE E PEDIDO =====
 
 function calculateShipping() {
     // Simulação de cálculo de frete
@@ -1452,6 +1518,41 @@ function calculateAutomaticDiscounts(items) {
     }
     
     return { discountMessages };
+}
+
+// Inicializar o site quando carregado
+document.addEventListener('DOMContentLoaded', function() {
+    init();
+});
+
+// Otimizações de performance
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        // Recalcular layouts se necessário
+    }, 250);
+});
+
+// Preload de imagens críticas
+function preloadCriticalImages() {
+    const criticalImages = [
+        'https://i.postimg.cc/J074cQQ6/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo.png',
+        'https://i.postimg.cc/cHBLnzf4/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo-1.png',
+        'https://i.postimg.cc/7LXMwqLr/Sua-imagina-o-merece-destaque.png'
+    ];
+    
+    criticalImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+// Iniciar preload quando DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', preloadCriticalImages);
+} else {
+    preloadCriticalImages();
 }
 
 // Carregar carrinho ao inicializar
