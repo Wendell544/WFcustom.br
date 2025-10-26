@@ -1931,6 +1931,19 @@ const products = {
     ]
 };
 
+// Dados dos produtos
+const products = {
+    masculino: [
+        // ... (mantenha todos os produtos masculinos existentes)
+    ],
+    unissexo: [
+        // ... (mantenha todos os produtos unissexo existentes)
+    ],
+    canecas: [
+        // ... (mantenha todos os produtos canecas existentes)
+    ]
+};
+
 // Aplicar descontos fictícios em 60% dos produtos
 function applyStrategicDiscounts() {
     console.log('Aplicando descontos estratégicos...');
@@ -1941,7 +1954,6 @@ function applyStrategicDiscounts() {
         ...products.canecas
     ];
     
-    // Selecionar 60% dos produtos aleatoriamente
     const productCount = allProducts.length;
     const discountCount = Math.floor(productCount * 0.6);
     const shuffled = [...allProducts].sort(() => Math.random() - 0.5);
@@ -1950,22 +1962,19 @@ function applyStrategicDiscounts() {
     console.log(`Aplicando descontos em ${discountedProducts.length} de ${productCount} produtos`);
     
     discountedProducts.forEach(product => {
-        // Gerar preço original fictício entre R$45 e R$62
         const originalPrice = parseFloat((Math.random() * (62 - 45) + 45).toFixed(2));
+        const discountPercentage = Math.floor(Math.random() * 20) + 15;
+        const currentPrice = product.variants[Object.keys(product.variants)[0]].price;
         
-        // Calcular desconto entre 15% e 35%
-        const discountPercentage = Math.floor(Math.random() * 20) + 15; // 15% a 35%
-        
-        // Armazenar dados do desconto
         product.originalPriceFicticio = originalPrice;
         product.discountPercentageFicticio = discountPercentage;
         product.hasFictionalDiscount = true;
         
-        console.log(`Produto ${product.id}: De R$ ${originalPrice} por R$ ${product.variants[Object.keys(product.variants)[0]].price} (${discountPercentage}% OFF)`);
+        console.log(`Produto ${product.id}: De R$ ${originalPrice} por R$ ${currentPrice} (${discountPercentage}% OFF)`);
     });
 }
 
-// Cache de imagens para carregamento instantâneo
+// Cache de imagens
 const imageCache = new Map();
 
 // Função para pré-carregar imagens
@@ -1975,7 +1984,6 @@ function preloadProductImages() {
     let totalImages = 0;
     let loadedImages = 0;
     
-    // Coletar todas as URLs de imagens únicas
     const imageUrls = new Set();
     
     Object.values(products).forEach(categoryProducts => {
@@ -2022,24 +2030,22 @@ function calculateFinalPrice(basePrice, position) {
 // Função auxiliar para favoritos
 function isProductFavorite(productId) {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    return favorites.includes(parseInt(productId));
+    return favorites.includes(productId);
 }
 
 // Função auxiliar para toggle favoritos
 function toggleFavorite(productId) {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const numericId = parseInt(productId);
-    const index = favorites.indexOf(numericId);
+    const index = favorites.indexOf(productId);
     
     if (index > -1) {
         favorites.splice(index, 1);
     } else {
-        favorites.push(numericId);
+        favorites.push(productId);
     }
     
     localStorage.setItem('favorites', JSON.stringify(favorites));
     
-    // Atualizar ícone visualmente
     const favoriteIcons = document.querySelectorAll(`.favorite-icon[data-product-id="${productId}"]`);
     favoriteIcons.forEach(icon => {
         const heartIcon = icon.querySelector('i');
@@ -2053,7 +2059,7 @@ function toggleFavorite(productId) {
     });
 }
 
-// Criar card de produto para a grade - VERSÃO SIMPLIFICADA E CORRIGIDA
+// Criar card de produto para a grade - VERSÃO CORRIGIDA
 function createGradeCard(product) {
     const card = document.createElement('div');
     card.className = 'grade-card';
@@ -2064,10 +2070,7 @@ function createGradeCard(product) {
     const firstImage = firstVariant.image;
     const firstPrice = firstVariant.price;
 
-    // Calcular preço inicial
     const initialPrice = firstPrice;
-
-    // Desconto fictício
     const hasFictionalDiscount = product.hasFictionalDiscount;
     const originalPriceFicticio = product.originalPriceFicticio;
     const discountPercentage = product.discountPercentageFicticio;
@@ -2083,7 +2086,6 @@ function createGradeCard(product) {
         return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
     }).join('');
 
-    // Preços com desconto (se aplicável)
     let finalPrice = initialPrice;
     let priceHTML = '';
 
@@ -2110,7 +2112,6 @@ function createGradeCard(product) {
         `;
     }
 
-    // Ícone de favoritos
     const isFav = isProductFavorite(product.id);
     const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
     const favActiveClass = isFav ? 'active' : '';
@@ -2165,17 +2166,14 @@ function createGradeCard(product) {
             const selectedColor = dot.getAttribute('data-color');
             const selectedVariant = product.variants[selectedColor];
             
-            // Mostrar loading overlay
             loadingOverlay.style.display = 'flex';
             cardImage.style.opacity = '0.5';
             
-            // Verificar se a imagem já está em cache
             if (imageCache.has(selectedVariant.image)) {
                 cardImage.src = selectedVariant.image;
                 cardImage.style.opacity = '1';
                 loadingOverlay.style.display = 'none';
             } else {
-                // Carregar imagem
                 const newImage = new Image();
                 newImage.onload = () => {
                     imageCache.set(selectedVariant.image, newImage);
@@ -2195,22 +2193,10 @@ function createGradeCard(product) {
         });
     });
 
-    // Adicionar event listener para clicar no card
-    card.addEventListener('click', function(e) {
-        if (!e.target.closest('.favorite-icon') && !e.target.closest('.color-dot')) {
-            const productId = this.getAttribute('data-product-id');
-            if (typeof showProductDetail === 'function') {
-                showProductDetail(productId);
-            } else {
-                console.warn('Função showProductDetail não disponível');
-            }
-        }
-    });
-
     return card;
 }
 
-// Popular uma grade - VERSÃO CORRIGIDA
+// Popular uma grade
 function populateGrade(containerId, productList) {
     const gradeContainer = document.getElementById(containerId);
     if (!gradeContainer) {
@@ -2220,11 +2206,6 @@ function populateGrade(containerId, productList) {
     
     console.log(`Populando ${containerId} com ${productList.length} produtos`);
     gradeContainer.innerHTML = '';
-
-    if (productList.length === 0) {
-        gradeContainer.innerHTML = '<p class="no-products">Nenhum produto encontrado</p>';
-        return true;
-    }
 
     productList.forEach(product => {
         const card = createGradeCard(product);
@@ -2245,43 +2226,118 @@ function findProductById(id) {
     return null;
 }
 
-// Popular todas as grades - VERSÃO CORRIGIDA
+// Popular todas as grades - FUNÇÃO PRINCIPAL CORRIGIDA
 function populateAllGrades() {
-    console.log('Iniciando população das grades...');
+    console.log('=== INICIANDO POPULAÇÃO DAS GRADES ===');
     
     // Aplicar descontos primeiro
     applyStrategicDiscounts();
     
-    const categories = ['masculino', 'unissexo', 'canecas'];
+    // Pré-carregar imagens
+    preloadProductImages();
+    
+    const containers = [
+        'grade-container-masculino',
+        'grade-container-unissexo', 
+        'grade-container-canecas',
+        'grade-container-ofertas'
+    ];
+    
+    let successCount = 0;
+    
+    containers.forEach(containerId => {
+        const category = containerId.split('-')[2];
+        console.log(`Processando categoria: ${category}`);
+        
+        if (products[category] && products[category].length > 0) {
+            if (populateGrade(containerId, products[category])) {
+                successCount++;
+                console.log(`✅ ${containerId} populado com ${products[category].length} produtos`);
+            }
+        } else {
+            console.warn(`⚠️  Nenhum produto encontrado para categoria: ${category}`);
+        }
+    });
+    
+    console.log(`=== POPULAÇÃO CONCLUÍDA: ${successCount}/${containers.length} grades ===`);
+    
+    // Se nenhum container foi encontrado, criar dinamicamente
+    if (successCount === 0) {
+        console.log('Nenhum container encontrado. Criando estrutura dinâmica...');
+        createDynamicGradeStructure();
+    }
+}
+
+// Criar estrutura dinâmica se os containers não existirem
+function createDynamicGradeStructure() {
+    const productsSection = document.getElementById('products');
+    if (!productsSection) {
+        console.error('Seção de produtos não encontrada');
+        return;
+    }
+    
+    const categories = ['masculino', 'unissexo', 'canecas', 'ofertas'];
     
     categories.forEach(category => {
         const containerId = `grade-container-${category}`;
-        populateGrade(containerId, products[category]);
+        
+        if (!document.getElementById(containerId)) {
+            const gradeSection = document.createElement('div');
+            gradeSection.className = 'grade-produtos';
+            gradeSection.id = `grade-produtos-${category}`;
+            gradeSection.setAttribute('data-category', category);
+            
+            gradeSection.innerHTML = `
+                <div class="grade-header-premium">
+                    <h2 class="grade-title-premium">
+                        <i class="fas fa-${getCategoryIcon(category)}"></i>
+                        ${getCategoryTitle(category)}
+                    </h2>
+                    <div class="header-accent"></div>
+                </div>
+                <div id="${containerId}" class="grade-container"></div>
+            `;
+            
+            productsSection.appendChild(gradeSection);
+            console.log(`Container criado: ${containerId}`);
+        }
+        
+        if (products[category]) {
+            populateGrade(containerId, products[category]);
+        }
     });
-    
-    // Para ofertas, usar produtos com desconto
-    const discountedProducts = [
-        ...products.masculino,
-        ...products.unissexo, 
-        ...products.canecas
-    ].filter(product => product.hasFictionalDiscount);
-    
-    populateGrade('grade-container-ofertas', discountedProducts.slice(0, 8));
-    
-    console.log('Grades populadas com sucesso!');
 }
 
-// Inicializar quando DOM estiver pronto
+// Funções auxiliares para categorias
+function getCategoryIcon(category) {
+    const icons = {
+        'masculino': 'mars',
+        'unissexo': 'venus-mars', 
+        'canecas': 'mug-hot',
+        'ofertas': 'bolt'
+    };
+    return icons[category] || 'tag';
+}
+
+function getCategoryTitle(category) {
+    const titles = {
+        'masculino': 'Coleção Masculina',
+        'unissexo': 'Coleção Feminina',
+        'canecas': 'Coleção Canecas',
+        'ofertas': 'Ofertas Especiais'
+    };
+    return titles[category] || category;
+}
+
+// Inicialização automática quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Carregado - Iniciando produtos...');
-    preloadProductImages();
-    
-    // Pequeno delay para garantir que tudo está pronto
+    console.log('=== PRODUCTS.JS CARREGADO ===');
     setTimeout(() => {
         populateAllGrades();
     }, 100);
 });
 
-// Também exportar funções para uso global
+// Também exportar para uso global
 window.populateAllGrades = populateAllGrades;
 window.findProductById = findProductById;
+window.productsData = products;
