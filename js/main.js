@@ -5,11 +5,11 @@ let currentColor = 'branco';
 let currentSize = 'P';
 let currentPosition = 'frente';
 let currentSection = 'home';
-let currentCategory = 'masculino';
+let currentCategory = 'masculino'; // Alterado para masculino como padrão
 
 // Configurações do carrossel de banners
 let currentBannerIndex = 0;
-const bannerInterval = 5000;
+const bannerInterval = 5000; // 5 segundos
 let bannerTimer = null;
 
 // Elementos DOM
@@ -25,12 +25,16 @@ let favoritesBackToHome;
 // Elementos do carrossel de banners
 let bannerTrack, bannerSlides;
 
-// SISTEMA DE ANÚNCIOS COMPACTO
+// SISTEMA DE ANÚNCIOS COMPACTO - VERSÃO CORRIGIDA (ROTAÇÃO A CADA 3 SEGUNDOS)
 class CompactAnnouncementSystem {
     constructor() {
         this.currentAnnouncement = 0;
         this.announcements = [
-            "🚚 Frete Grátis em compras acima de R$ 100 • 🎯 5% de desconto em 2 camisas • 10% em 3+ • 🎨 Personalização Grátis"
+            "🚚 Frete Grátis em compras acima de R$ 100",
+            "🎯 5% de desconto em 2 camisas • 10% em 3+", 
+            "🎨 Personalização Grátis • 📞 (83) 99966-7578",
+            "⭐ Produtos Premium • 🚀 Entrega Rápida",
+            "💝 Presentes Personalizados • 🎁 Embalagem Especial"
         ];
         this.interval = null;
         this.init();
@@ -38,10 +42,12 @@ class CompactAnnouncementSystem {
 
     init() {
         this.createAnnouncementBar();
+        this.startRotation();
         this.setupEventListeners();
     }
 
     createAnnouncementBar() {
+        // Verificar se já existe uma barra de anúncios
         if (document.querySelector('.announcement-bar-compact')) {
             return;
         }
@@ -50,24 +56,48 @@ class CompactAnnouncementSystem {
         announcementBar.className = 'announcement-bar-compact';
         announcementBar.innerHTML = `
             <div class="announcement-track-compact" id="announcement-track-compact">
-                <div class="announcement-slide-compact active">
-                    ${this.announcements[0]}
-                </div>
+                ${this.announcements.map((announcement, index) => `
+                    <div class="announcement-slide-compact ${index === 0 ? 'active' : ''}">
+                        ${announcement}
+                    </div>
+                `).join('')}
             </div>
             <button class="announcement-close-compact" id="announcement-close-compact">
                 <i class="fas fa-times"></i>
             </button>
         `;
 
+        // Inserir APÓS os banners (após o elemento .banner-carousel)
         const bannerCarousel = document.querySelector('.banner-carousel');
         if (bannerCarousel) {
             bannerCarousel.parentNode.insertBefore(announcementBar, bannerCarousel.nextSibling);
         } else {
+            // Fallback: inserir após o header
             const header = document.querySelector('header');
             if (header) {
                 header.parentNode.insertBefore(announcementBar, header.nextSibling);
             }
         }
+    }
+
+    startRotation() {
+        this.interval = setInterval(() => {
+            this.nextAnnouncement();
+        }, 3000); // 3 segundos
+    }
+
+    nextAnnouncement() {
+        const slides = document.querySelectorAll('.announcement-slide-compact');
+        if (slides.length === 0) return;
+
+        // Remover classe active do slide atual
+        slides.forEach(slide => slide.classList.remove('active'));
+        
+        // Avançar para o próximo
+        this.currentAnnouncement = (this.currentAnnouncement + 1) % slides.length;
+        
+        // Adicionar classe active ao novo slide
+        slides[this.currentAnnouncement].classList.add('active');
     }
 
     setupEventListeners() {
@@ -97,31 +127,44 @@ function calculateFinalPrice(basePrice, position) {
 
 // Funções de inicialização
 function init() {
-    console.log('=== INICIANDO SISTEMA ===');
+    console.log('Inicializando aplicação...');
     initializeDOMElements();
     setupEventListeners();
     initBannerCarousel();
     updateCartCount();
     updateFavoriteCount();
     
+    // Inicializar sistema de anúncios compacto
     new CompactAnnouncementSystem();
     
+    // Aplicar categoria padrão "masculino"
     filterProductsByCategory('masculino');
     
-    // Garantir que as grades sejam populadas
+    // Popular grades APÓS garantir que o DOM está pronto
     setTimeout(() => {
-        console.log('Inicializando grades via main.js...');
-        if (typeof populateAllGrades === 'function') {
-            populateAllGrades();
+        console.log('Inicializando grades...');
+        if (window.populateAllGrades) {
+            window.populateAllGrades();
         } else {
             console.error('populateAllGrades não encontrada!');
-            // Tentar recarregar as grades após um delay
+            // Tentar novamente após mais um delay
             setTimeout(() => {
-                if (typeof populateAllGrades === 'function') {
-                    populateAllGrades();
+                if (window.populateAllGrades) {
+                    window.populateAllGrades();
                 }
-            }, 500);
+            }, 1000);
         }
+        
+        // Forçar redesenho se ainda não aparecer
+        setTimeout(() => {
+            if (document.querySelectorAll('.grade-card').length === 0) {
+                console.log('Nenhum card encontrado, recarregando...');
+                // Tenta novamente
+                if (window.populateAllGrades) {
+                    window.populateAllGrades();
+                }
+            }
+        }, 1000);
     }, 200);
 }
 
@@ -170,6 +213,7 @@ function initializeDOMElements() {
     deliveryOptions = document.getElementById('delivery-options');
     favoritesBackToHome = document.getElementById('favorites-back-to-home');
     
+    // Elementos do carrossel de banners
     bannerTrack = document.querySelector('.banner-track');
     bannerSlides = document.querySelectorAll('.banner-slide');
     
@@ -177,7 +221,7 @@ function initializeDOMElements() {
         homePage: !!homePage,
         productPage: !!productPage,
         cartPage: !!cartPage,
-        categoryFilters: categoryFilters.length
+        gradeContainers: document.querySelectorAll('.grade-container').length
     });
 }
 
@@ -185,9 +229,13 @@ function initializeDOMElements() {
 function initBannerCarousel() {
     if (!bannerTrack || bannerSlides.length === 0) return;
     
+    // Mostrar primeiro banner
     showBanner(0);
+    
+    // Iniciar autoplay
     startBannerAutoplay();
     
+    // Pausar autoplay ao interagir
     bannerTrack.addEventListener('mouseenter', pauseBannerAutoplay);
     bannerTrack.addEventListener('mouseleave', startBannerAutoplay);
     bannerTrack.addEventListener('touchstart', pauseBannerAutoplay);
@@ -195,15 +243,19 @@ function initBannerCarousel() {
 
 // Mostrar banner específico
 function showBanner(index) {
+    // Validar índice
     if (index < 0) index = bannerSlides.length - 1;
     if (index >= bannerSlides.length) index = 0;
     
+    // Atualizar índice atual
     currentBannerIndex = index;
     
+    // Ocultar todos os banners
     bannerSlides.forEach(slide => {
         slide.classList.remove('active');
     });
     
+    // Mostrar banner atual
     bannerSlides[currentBannerIndex].classList.add('active');
 }
 
@@ -226,23 +278,27 @@ function pauseBannerAutoplay() {
 function setupEventListeners() {
     console.log('Configurando event listeners...');
     
-    // Event delegation para cards de produto - CORREÇÃO CRÍTICA
-    document.addEventListener('click', (e) => {
-        const card = e.target.closest('.grade-card');
-        if (card) {
-            const productId = card.getAttribute('data-product-id');
-            console.log('Card clicado, produto ID:', productId);
-            showProductDetail(productId);
-        }
-        
-        const packageBtn = e.target.closest('.package-btn');
-        if (packageBtn) {
-            e.preventDefault();
-            const packageType = packageBtn.getAttribute('data-package');
-            handlePackageSelection(packageType);
-        }
-    });
-
+    // Navegação principal
+    if (navLinksItems) {
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = e.currentTarget.getAttribute('data-section');
+                showSection(section);
+            });
+        });
+    }
+    
+    if (footerNavLinks) {
+        footerNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = e.currentTarget.getAttribute('data-section');
+                showSection(section);
+            });
+        });
+    }
+    
     // Navegação entre páginas
     if (cartIcon) {
         cartIcon.addEventListener('click', showCart);
@@ -280,6 +336,7 @@ function setupEventListeners() {
         backToHomeFromProduct.addEventListener('click', showHome);
     }
 
+    // Botão de voltar dos favoritos
     if (favoritesBackToHome) {
         favoritesBackToHome.addEventListener('click', showHome);
     }
@@ -343,6 +400,44 @@ function setupEventListeners() {
             confirmationModal.style.display = 'none';
         }
     });
+    
+    // Event delegation para cards de produto
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.grade-card');
+        if (card) {
+            const productId = card.getAttribute('data-product-id');
+            showProductDetail(productId);
+        }
+        
+        // Event delegation para pacotes
+        const packageBtn = e.target.closest('.package-btn');
+        if (packageBtn) {
+            e.preventDefault();
+            const packageType = packageBtn.getAttribute('data-package');
+            handlePackageSelection(packageType);
+        }
+    });
+    
+    console.log('Event listeners configurados');
+}
+
+// Mostrar seção
+function showSection(section) {
+    currentSection = section;
+    
+    // Ocultar todas as seções
+    document.querySelectorAll('.nav-section').forEach(sec => {
+        sec.classList.remove('active');
+    });
+    
+    // Mostrar seção selecionada
+    const targetSection = document.getElementById(section);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // Scroll para topo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Mostrar página inicial
@@ -366,16 +461,19 @@ function showCart() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Mostrar favoritos
+// Mostrar favoritos - FUNÇÃO CORRIGIDA
 function showFavorites() {
     console.log('Abrindo favoritos...');
     
+    // Ocultar todas as páginas
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
+    // Mostrar página de favoritos
     if (favoritesPage) {
         favoritesPage.classList.add('active');
+        // Renderizar DEPOIS de mostrar a página
         setTimeout(() => {
             renderFavorites();
         }, 50);
@@ -396,9 +494,9 @@ function showLocation() {
 
 // Filtrar produtos por categoria
 function filterProductsByCategory(category) {
-    console.log('Filtrando categoria:', category);
     currentCategory = category;
     
+    // Atualizar filtros ativos
     categoryFilters.forEach(filter => {
         filter.classList.remove('active');
     });
@@ -406,42 +504,27 @@ function filterProductsByCategory(category) {
     const activeFilter = document.querySelector(`[data-category="${category}"]`);
     if (activeFilter) activeFilter.classList.add('active');
     
+    // Ocultar todas as grades
     const allGrades = document.querySelectorAll('.grade-produtos');
     allGrades.forEach(grade => {
         grade.style.display = 'none';
     });
     
+    // Mostrar apenas a grade da categoria selecionada
     const targetGrade = document.getElementById(`grade-produtos-${category}`);
     if (targetGrade) {
         targetGrade.style.display = 'block';
-        console.log(`Mostrando grade: grade-produtos-${category}`);
         
-        // Garantir que os produtos estão carregados
-        const containerId = `grade-container-${category}`;
-        const container = document.getElementById(containerId);
-        if (container && container.children.length === 0) {
-            console.log(`Container vazio, repopulando: ${containerId}`);
-            if (products[category] && typeof populateGrade === 'function') {
-                populateGrade(containerId, products[category]);
-            }
-        }
-    } else {
-        console.error(`Grade não encontrada: grade-produtos-${category}`);
+        // Scroll suave para a seção
+        setTimeout(() => {
+            targetGrade.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
     }
 }
 
-// Mostrar detalhes do produto - FUNÇÃO CORRIGIDA
+// Mostrar detalhes do produto
 function showProductDetail(productId) {
-    console.log('Mostrando detalhes do produto:', productId);
-    
-    let product;
-    if (typeof findProductById === 'function') {
-        product = findProductById(productId);
-    } else {
-        console.error('findProductById não encontrada!');
-        return;
-    }
-    
+    const product = window.findProductById ? window.findProductById(productId) : null;
     if (!product) {
         console.error('Produto não encontrado:', productId);
         return;
@@ -452,11 +535,13 @@ function showProductDetail(productId) {
     currentSize = product.variants[currentColor].sizes[0];
     currentPosition = product.positions.length > 0 ? product.positions[0] : '';
     
+    // Atualizar elementos DOM
     if (detailTitle) detailTitle.textContent = product.name;
     if (detailDescription) detailDescription.textContent = product.description;
     
     updateProductDetailView();
     
+    // Mostrar página do produto
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
@@ -471,18 +556,27 @@ function updateProductDetailView() {
     
     const variant = currentProduct.variants[currentColor];
     
+    // Atualizar imagem
     if (detailImage) {
         detailImage.src = variant.image;
         detailImage.alt = currentProduct.name;
     }
     
-    const basePrice = variant.price;
+    // Atualizar preço
+    const basePrice = currentProduct.discount ? 
+        variant.price * (1 - currentProduct.discount / 100) : 
+        variant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
     if (detailPrice) detailPrice.textContent = finalPrice.toFixed(2);
     
+    // Atualizar opções de cor
     updateColorOptions();
+    
+    // Atualizar opções de tamanho
     updateSizeOptions();
+    
+    // Atualizar opções de posição (se aplicável)
     updatePositionOptions();
 }
 
@@ -532,6 +626,7 @@ function updateSizeOptions() {
         sizeOption.addEventListener('click', () => {
             currentSize = size;
             
+            // Atualizar estado ativo
             detailSizeOptions.querySelectorAll('.size-option-premium').forEach(option => {
                 option.classList.remove('active');
             });
@@ -546,6 +641,7 @@ function updateSizeOptions() {
 function updatePositionOptions() {
     if (!stampPositionGroup || !currentProduct) return;
     
+    // Esconder seção de posição para canecas
     if (currentProduct.category === 'canecas') {
         stampPositionGroup.style.display = 'none';
         return;
@@ -561,9 +657,11 @@ function updatePositionOptions() {
         option.addEventListener('click', () => {
             currentPosition = position;
             
+            // Atualizar estado ativo
             positionOptions.forEach(opt => opt.classList.remove('active'));
             option.classList.add('active');
             
+            // Atualizar preço
             updateProductDetailView();
         });
     });
@@ -574,11 +672,14 @@ function addToCartFromDetail() {
     if (!currentProduct) return;
     
     const variant = currentProduct.variants[currentColor];
-    const basePrice = variant.price;
+    const basePrice = currentProduct.discount ? 
+        variant.price * (1 - currentProduct.discount / 100) : 
+        variant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
     addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
     
+    // Feedback visual
     if (addToCartDetailButton) {
         const originalText = addToCartDetailButton.textContent;
         addToCartDetailButton.textContent = '✓ Adicionado!';
@@ -595,12 +696,16 @@ function addToCartFromDetail() {
 function buyNowFromDetail() {
     if (!currentProduct) return;
     
+    // Adicionar ao carrinho primeiro
     const variant = currentProduct.variants[currentColor];
-    const basePrice = variant.price;
+    const basePrice = currentProduct.discount ? 
+        variant.price * (1 - currentProduct.discount / 100) : 
+        variant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
     addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
     
+    // Ir para carrinho
     showCart();
 }
 
@@ -611,11 +716,11 @@ function handlePackageSelection(packageType) {
     
     switch(packageType) {
         case '12-camisetas':
-            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 423,00* (original R$ 512,00).';
+            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 423,00* (economia de R$ 81,00).';
             totalPrice = '423,00';
             break;
-        case '10-canecas':
-            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 10 Canecas Personalizadas* no valor de *R$ 329,00* (original R$ 430,20).';
+        case '6-camisetas-6-canecas':
+            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 10 Canecas Personalizadas* no valor de *R$ 329,00* (economia de R$ 101,20).';
             totalPrice = '329,00';
             break;
     }
@@ -624,12 +729,336 @@ function handlePackageSelection(packageType) {
     window.open(url, '_blank');
 }
 
+// Adicionar produto ao carrinho
+function addToCart(product, color, size, position, price) {
+    const cartItem = {
+        id: Date.now(),
+        product: product,
+        color: color,
+        size: size,
+        position: position,
+        price: price
+    };
+    
+    // Obter carrinho atual do localStorage
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    cartItems.push(cartItem);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    
+    updateCartCount();
+    
+    // Feedback visual
+    showCartNotification(product.name);
+}
+
+// Atualizar contador do carrinho
+function updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const cartCount = document.querySelector('.cart-count');
+    if (cartCount) {
+        cartCount.textContent = cartItems.length;
+    }
+}
+
+// Mostrar notificação de produto adicionado
+function showCartNotification(productName) {
+    // Criar elemento de notificação
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span>${productName} adicionado ao carrinho!</span>
+        </div>
+    `;
+    
+    // Adicionar estilos
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: var(--success-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animar entrada
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remover após 3 segundos
+    setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Atualizar contador de favoritos
+function updateFavoriteCount() {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favoriteCount = document.querySelector('.favorite-count');
+    if (favoriteCount) {
+        favoriteCount.textContent = favorites.length;
+    }
+}
+
+// Renderizar favoritos
+function renderFavorites() {
+    const favoritesItems = document.getElementById('favorites-items');
+    if (!favoritesItems) return;
+    
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+    if (favorites.length === 0) {
+        favoritesItems.innerHTML = `
+            <div class="empty-favorites">
+                <i class="far fa-heart"></i>
+                <h3>Nenhum produto favoritado</h3>
+                <p>Adicione produtos aos favoritos clicando no coração</p>
+            </div>
+        `;
+        return;
+    }
+    
+    favoritesItems.innerHTML = '';
+    
+    favorites.forEach(productId => {
+        const product = window.findProductById ? window.findProductById(productId) : null;
+        if (product) {
+            const firstColor = Object.keys(product.variants)[0];
+            const firstVariant = product.variants[firstColor];
+            
+            const favoriteItem = document.createElement('div');
+            favoriteItem.className = 'favorite-item-premium';
+            favoriteItem.innerHTML = `
+                <img src="${firstVariant.image}" alt="${product.name}">
+                <div class="favorite-item-info">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="favorite-item-price">R$ ${firstVariant.price.toFixed(2)}</div>
+                </div>
+                <div class="favorite-item-actions">
+                    <button class="btn btn-primary-premium" onclick="showProductDetail(${product.id})">Ver Detalhes</button>
+                    <button class="btn btn-outline-premium remove-favorite" data-product-id="${product.id}">
+                        <i class="fas fa-trash"></i> Remover
+                    </button>
+                </div>
+            `;
+            
+            favoritesItems.appendChild(favoriteItem);
+        }
+    });
+    
+    // Adicionar event listeners para remover favoritos
+    document.querySelectorAll('.remove-favorite').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            toggleFavorite(productId);
+            renderFavorites();
+            updateFavoriteCount();
+        });
+    });
+}
+
+// Toggle favorito
+function toggleFavorite(productId) {
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const index = favorites.indexOf(parseInt(productId));
+    
+    if (index > -1) {
+        favorites.splice(index, 1);
+    } else {
+        favorites.push(parseInt(productId));
+    }
+    
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    updateFavoriteCount();
+}
+
+// Calcular frete
+function calculateShipping() {
+    const city = document.getElementById('city');
+    if (!city) return;
+    
+    const cityValue = city.value.toLowerCase();
+    let shippingCost = 9.99;
+    
+    if (cityValue.includes('são bento') || cityValue.includes('sao bento')) {
+        shippingCost = 4.00;
+        const deliveryOptions = document.getElementById('delivery-options');
+        if (deliveryOptions) deliveryOptions.style.display = 'block';
+        
+        const pickupOption = document.getElementById('pickup');
+        if (pickupOption && pickupOption.checked) {
+            shippingCost = 0;
+        }
+    } else {
+        const deliveryOptions = document.getElementById('delivery-options');
+        if (deliveryOptions) deliveryOptions.style.display = 'none';
+    }
+    
+    // Aplicar frete grátis se subtotal for >= 100
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    if (subtotal >= 100) {
+        shippingCost = 0;
+    }
+    
+    const shippingPrice = document.getElementById('shipping-price');
+    const shippingPriceContainer = document.querySelector('.shipping-price-premium');
+    
+    if (shippingPrice) shippingPrice.textContent = shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`;
+    if (shippingPriceContainer) shippingPriceContainer.style.display = 'block';
+}
+
+// Finalizar pedido
+function finalizeOrder() {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    if (cartItems.length === 0) return;
+    
+    const city = document.getElementById('city').value;
+    const neighborhood = document.getElementById('neighborhood').value;
+    const street = document.getElementById('street').value;
+    const address = document.getElementById('address').value;
+    
+    if (!city || !neighborhood || !street || !address) {
+        alert('Por favor, preencha todos os campos do endereço.');
+        return;
+    }
+    
+    const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
+    const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
+    
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    
+    // Calcular quantidade de camisetas para desconto progressivo
+    const tShirtCount = cartItems.filter(item => 
+        item.product.category === 'masculino' || item.product.category === 'unissexo'
+    ).length;
+
+    let quantityDiscount = 0;
+    if (tShirtCount >= 3) {
+        quantityDiscount = subtotal * 0.10;
+    } else if (tShirtCount >= 2) {
+        quantityDiscount = subtotal * 0.05;
+    }
+
+    let shippingCost = 9.99;
+    if (city.toLowerCase().includes('são bento') || city.toLowerCase().includes('sao bento')) {
+        shippingCost = deliveryType === 'pickup' ? 0 : 4.00;
+    }
+    
+    // Aplicar frete grátis se subtotal for >= 100
+    if (subtotal >= 100) {
+        shippingCost = 0;
+    }
+    
+    const totalPrice = subtotal - quantityDiscount + shippingCost;
+    
+    let message = `*🛒 NOVO PEDIDO - WFCUSTOM*%0A%0A`;
+    message += `*Itens do Pedido:*%0A%0A`;
+    
+    cartItems.forEach((item, index) => {
+        message += `*${index + 1}. ${item.product.name}*%0A`;
+        message += `   • Cor: ${item.color}%0A`;
+        message += `   • Tamanho: ${item.size}%0A`;
+        if (item.position && item.product.category !== 'canecas') {
+            let positionText = '';
+            switch(item.position) {
+                case 'frente': positionText = 'Frente'; break;
+                case 'atras': positionText = 'Atrás'; break;
+                case 'ambos': positionText = 'Ambos'; break;
+                default: positionText = item.position;
+            }
+            message += `   • Estampa: ${positionText}%0A`;
+        }
+        message += `   • Preço: R$ ${item.price.toFixed(2)}%0A%0A`;
+    });
+    
+    message += `*Resumo do Pedido:*%0A`;
+    message += `Subtotal: R$ ${subtotal.toFixed(2)}%0A`;
+    if (quantityDiscount > 0) {
+        message += `Desconto Progressivo: -R$ ${quantityDiscount.toFixed(2)}%0A`;
+    }
+    message += `Frete: ${shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`}%0A`;
+    message += `*Total: R$ ${totalPrice.toFixed(2)}*%0A%0A`;
+    
+    message += `*Dados de Entrega:*%0A`;
+    message += `Cidade: ${city}%0A`;
+    message += `Bairro: ${neighborhood}%0A`;
+    message += `Rua: ${street}%0A`;
+    message += `Número/Complemento: ${address}%0A`;
+    message += `Entrega: ${deliveryType === 'delivery' ? 'Entregar no endereço' : 'Retirar no local'}%0A%0A`;
+    
+    message += `_Pedido gerado automaticamente pelo site_`;
+    
+    const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(url, '_blank');
+    
+    // Limpar carrinho
+    localStorage.removeItem('cartItems');
+    updateCartCount();
+    
+    // Mostrar confirmação
+    const confirmationModal = document.getElementById('confirmation-modal');
+    if (confirmationModal) {
+        confirmationModal.style.display = 'flex';
+    }
+    
+    // Voltar para home após um tempo
+    setTimeout(() => {
+        showHome();
+        if (confirmationModal) {
+            confirmationModal.style.display = 'none';
+        }
+    }, 3000);
+}
+
 // Inicializar o site quando carregado
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('=== DOM CARREGADO - INICIANDO MAIN.JS ===');
+    console.log('DOM completamente carregado e analisado');
     init();
 });
 
-// Funções globais para outros scripts
-window.showProductDetail = showProductDetail;
-window.filterProductsByCategory = filterProductsByCategory;
+// Otimizações de performance
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        // Recalcular layouts se necessário
+    }, 250);
+});
+
+// Preload de imagens críticas
+function preloadCriticalImages() {
+    const criticalImages = [
+        'https://i.postimg.cc/J074cQQ6/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo.png',
+        'https://i.postimg.cc/cHBLnzf4/Banner-nova-cole-o-moda-feminina-e-commerce-amarelo-1.png',
+        'https://i.postimg.cc/7LXMwqLr/Sua-imagina-o-merece-destaque.png'
+    ];
+    
+    criticalImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+// Iniciar preload quando DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', preloadCriticalImages);
+} else {
+    preloadCriticalImages();
+}
