@@ -1929,6 +1929,43 @@ const products = {
     ]
 };
 
+// Aplicar descontos fictícios em 60% dos produtos
+function applyStrategicDiscounts() {
+    console.log('Aplicando descontos estratégicos...');
+    
+    const allProducts = [
+        ...products.masculino, 
+        ...products.unissexo, 
+        ...products.canecas
+    ];
+    
+    // Selecionar 60% dos produtos aleatoriamente
+    const productCount = allProducts.length;
+    const discountCount = Math.floor(productCount * 0.6);
+    const shuffled = [...allProducts].sort(() => Math.random() - 0.5);
+    const discountedProducts = shuffled.slice(0, discountCount);
+    
+    console.log(`Aplicando descontos em ${discountedProducts.length} de ${productCount} produtos`);
+    
+    discountedProducts.forEach(product => {
+        // Gerar preço original fictício entre R$45 e R$62
+        const originalPrice = parseFloat((Math.random() * (62 - 45) + 45).toFixed(2));
+        
+        // Calcular desconto entre 15% e 35%
+        const discountPercentage = Math.floor(Math.random() * 20) + 15; // 15% a 35%
+        
+        // Calcular preço de venda mantendo o preço real
+        const currentPrice = product.variants[Object.keys(product.variants)[0]].price;
+        
+        // Armazenar dados do desconto
+        product.originalPriceFicticio = originalPrice;
+        product.discountPercentageFicticio = discountPercentage;
+        product.hasFictionalDiscount = true;
+        
+        console.log(`Produto ${product.id}: De R$ ${originalPrice} por R$ ${currentPrice} (${discountPercentage}% OFF)`);
+    });
+}
+
 // Cache de imagens para carregamento instantâneo
 const imageCache = new Map();
 
@@ -1984,10 +2021,43 @@ function calculateFinalPrice(basePrice, position) {
     return finalPrice;
 }
 
-// Criar card de produto PREMIUM super chamativo
+// Função auxiliar para favoritos (placeholder)
+function isProductFavorite(productId) {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    return favorites.includes(productId);
+}
+
+// Função auxiliar para toggle favoritos (placeholder)
+function toggleFavorite(productId) {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const index = favorites.indexOf(productId);
+    
+    if (index > -1) {
+        favorites.splice(index, 1);
+    } else {
+        favorites.push(productId);
+    }
+    
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    
+    // Atualizar ícone visualmente
+    const favoriteIcons = document.querySelectorAll(`.favorite-icon[data-product-id="${productId}"]`);
+    favoriteIcons.forEach(icon => {
+        const heartIcon = icon.querySelector('i');
+        if (heartIcon.classList.contains('fas')) {
+            heartIcon.className = 'far fa-heart';
+            icon.classList.remove('active');
+        } else {
+            heartIcon.className = 'fas fa-heart';
+            icon.classList.add('active');
+        }
+    });
+}
+
+// Criar card de produto para a grade
 function createGradeCard(product) {
     const card = document.createElement('div');
-    card.className = 'grade-card-premium';
+    card.className = 'grade-card';
     card.setAttribute('data-product-id', product.id);
 
     const firstColor = Object.keys(product.variants)[0];
@@ -2000,41 +2070,24 @@ function createGradeCard(product) {
     // Calcular preço inicial considerando posição
     const initialPrice = calculateFinalPrice(firstPrice, firstPosition);
 
-    // Badges dinâmicas premium
+    // Badges do produto
     const badges = [];
-    const isBestSeller = Math.random() > 0.7;
-    const isNew = Math.random() > 0.8;
-    const isTrending = Math.random() > 0.6;
-    const limitedStock = Math.random() > 0.5;
-    const discount = Math.random() > 0.6 ? Math.floor(Math.random() * 40) + 10 : 0;
+    if (product.isBestSeller) badges.push('<span class="badge badge-best-seller">🔥 Mais Vendido</span>');
+    if (product.discount) badges.push(`<span class="badge badge-discount">-${product.discount}% OFF</span>`);
+    if (product.isNew) badges.push('<span class="badge badge-new">🆕 Novidade</span>');
+    if (product.isTrending) badges.push('<span class="badge badge-trending">📈 Em Alta</span>');
+    if (product.limitedStock) badges.push('<span class="badge badge-limited">⏳ Estoque Limitado</span>');
 
-    if (isBestSeller) badges.push('<div class="badge-premium badge-best-seller-premium">🔥 Mais Vendido</div>');
-    if (discount > 0) badges.push(`<div class="badge-premium badge-discount-premium">-${discount}% OFF</div>`);
-    if (isNew) badges.push('<div class="badge-premium badge-new-premium">🆕 Novidade</div>');
-    if (isTrending) badges.push('<div class="badge-premium badge-trending-premium">📈 Em Alta</div>');
-    if (limitedStock) badges.push('<div class="badge-premium badge-limited-premium">⏳ Estoque Limitado</div>');
+    // Desconto fictício
+    const hasFictionalDiscount = product.hasFictionalDiscount;
+    const originalPriceFicticio = product.originalPriceFicticio;
+    const discountPercentage = product.discountPercentageFicticio;
 
-    // Indicador de vendas rápidas
-    const showQuickSales = Math.random() > 0.5;
-    const quickSalesHTML = showQuickSales ? `
-        <div class="quick-sales-indicator-premium">
-            <span class="fire-icon-premium">🔥</span>
-            +${Math.floor(Math.random() * 50) + 10} vendidos esta semana
-        </div>
-    ` : '';
+    // Badge de desconto avançada
+    const discountBadge = product.discount ? 
+        `<div class="advanced-discount-badge-premium">-${Math.round(product.discount)}% OFF</div>` : '';
 
-    // Barra de estoque (simulada)
-    const stockPercentage = Math.floor(Math.random() * 30) + 20;
-
-    // Preços com desconto
-    const discountPrice = discount > 0 ? 
-        firstPrice * (1 - discount / 100) : 
-        firstPrice;
-    
-    const finalPrice = calculateFinalPrice(discountPrice, firstPosition);
-
-    // Cores disponíveis
-    const colorDots = Object.keys(product.variants).slice(0, 3).map(color => {
+    const colorDots = Object.keys(product.variants).map(color => {
         let bgColor;
         switch(color) {
             case 'branco': bgColor = 'white'; break;
@@ -2042,17 +2095,13 @@ function createGradeCard(product) {
             case 'azul claro': bgColor = '#87CEEB'; break;
             default: bgColor = color;
         }
-        return `<div class="color-dot-premium ${color === firstColor ? 'active' : ''}" 
-                  data-color="${color}" 
-                  style="background-color: ${bgColor}; border: 2px solid #f0f0f0;"></div>`;
+        return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
     }).join('');
 
-    // Tamanhos disponíveis
     const sizeDots = firstVariant.sizes.map(size => {
-        return `<div class="size-dot-premium ${size === firstSize ? 'active' : ''}" data-size="${size}">${size}</div>`;
+        return `<div class="size-dot ${size === firstSize ? 'active' : ''}" data-size="${size}">${size}</div>`;
     }).join('');
 
-    // Posições disponíveis
     const positionDots = product.positions.map(position => {
         let positionText = '';
         switch(position) {
@@ -2061,80 +2110,104 @@ function createGradeCard(product) {
             case 'ambos': positionText = 'Ambos'; break;
             default: positionText = position;
         }
-        return `<div class="position-dot-premium ${position === firstPosition ? 'active' : ''}" data-position="${position}">${positionText}</div>`;
+        return `<div class="position-dot ${position === firstPosition ? 'active' : ''}" data-position="${position}">${positionText}</div>`;
     }).join('');
 
+    // Preço com desconto (se aplicável) - agora considerando o desconto fictício
+    let finalPrice = initialPrice;
+    let priceHTML = '';
+
+    if (hasFictionalDiscount && originalPriceFicticio) {
+        priceHTML = `
+            <div class="grade-card-pricing-premium">
+                <div class="original-price-ficticio">
+                    De R$ ${originalPriceFicticio.toFixed(2)}
+                </div>
+                <div class="current-price-with-discount">
+                    <span class="price-por">Por</span> 
+                    R$ ${finalPrice.toFixed(2)}
+                </div>
+                <div class="discount-badge-premium">
+                    -${discountPercentage}% OFF
+                </div>
+            </div>
+        `;
+    } else {
+        priceHTML = `
+            <div class="grade-card-price-simple">
+                R$ ${finalPrice.toFixed(2)}
+            </div>
+        `;
+    }
+
     // Ícone de favoritos
-    const isFav = false; // Simulação - implementar lógica real se necessário
+    const isFav = isProductFavorite(product.id);
     const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
     const favActiveClass = isFav ? 'active' : '';
 
     card.innerHTML = `
-        <div class="image-container-premium">
+        <div class="image-container">
+            ${hasFictionalDiscount ? `
+                <div class="premium-discount-badge">
+                    <span class="discount-percent">-${discountPercentage}%</span>
+                    <span class="discount-text">OFF</span>
+                </div>
+            ` : ''}
+            
+            ${discountBadge}
             ${badges.join('')}
-            <div class="favorite-icon-premium ${favActiveClass}" data-product-id="${product.id}">
+            <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
                 <i class="${favIconClass}"></i>
             </div>
-            <img src="${firstImage}" alt="${product.name}" class="grade-card-image-premium" data-color="${firstColor}" loading="lazy">
-            <div class="image-loading-overlay-premium">
-                <div class="loading-spinner-premium"></div>
+            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
+            <div class="image-loading-overlay">
+                <div class="loading-spinner"></div>
             </div>
         </div>
-        
-        <div class="grade-card-info-premium">
-            <h3 class="grade-card-title-premium">${product.name}</h3>
+        <div class="grade-card-info">
+            <h3 class="grade-card-title">${product.name}</h3>
             
-            <div class="price-container-premium">
-                ${discount > 0 ? `
-                    <span class="original-price-premium">R$ ${firstPrice.toFixed(2)}</span>
-                    <span class="final-price-premium">R$ ${finalPrice.toFixed(2)}</span>
-                    <span class="discount-percentage-premium">-${discount}% OFF</span>
-                ` : `
-                    <span class="final-price-premium no-discount">R$ ${finalPrice.toFixed(2)}</span>
-                `}
+            ${priceHTML}
+            
+            ${Object.keys(product.variants).length > 1 ? `<div class="grade-card-colors">${colorDots}</div>` : ''}
+            <div class="grade-card-sizes">
+                ${sizeDots}
             </div>
+            ${product.positions.length > 0 ? `<div class="grade-card-positions">${positionDots}</div>` : ''}
             
-            <div class="stock-progress-container-premium">
-                <div class="stock-text-premium">
-                    <span>Estoque disponível</span>
-                    <span>${stockPercentage}%</span>
-                </div>
-                <div class="stock-bar-premium">
-                    <div class="stock-progress-premium" style="width: ${stockPercentage}%"></div>
-                </div>
-            </div>
-            
-            ${quickSalesHTML}
-            
-            <div class="selection-container-premium">
-                ${Object.keys(product.variants).length > 1 ? `
-                    <div class="colors-section-premium">
-                        <div class="section-label-premium">Cores:</div>
-                        <div class="color-dots-container-premium">${colorDots}</div>
+            ${product.limitedStock ? `
+                <div class="stock-indicator">
+                    <div class="stock-text">Apenas ${product.stockCount} unidades!</div>
+                    <div class="stock-bar">
+                        <div class="stock-progress" style="width: ${(product.stockCount / 10) * 100}%"></div>
                     </div>
-                ` : ''}
-                
-                ${product.positions.length > 0 ? `
-                    <div class="positions-section-premium">
-                        <div class="section-label-premium">Estampa:</div>
-                        <div class="position-dots-container-premium">${positionDots}</div>
-                    </div>
-                ` : ''}
-                
-                <div class="sizes-section-premium">
-                    <div class="section-label-premium">Tamanhos:</div>
-                    <div class="size-dots-container-premium">${sizeDots}</div>
                 </div>
-            </div>
+            ` : ''}
+            
+            <!-- Botão de ação rápida -->
+            <button class="quick-add-btn" data-product-id="${product.id}">
+                <i class="fas fa-cart-plus"></i>
+                Adicionar ao Carrinho
+            </button>
         </div>
     `;
 
-    // Adicionar event listeners para cores
-    const colorDotsElements = card.querySelectorAll('.color-dot-premium');
-    const cardImage = card.querySelector('.grade-card-image-premium');
-    const loadingOverlay = card.querySelector('.image-loading-overlay-premium');
-    const priceElement = card.querySelector('.final-price-premium');
-    const sizeContainer = card.querySelector('.size-dots-container-premium');
+    // Adicionar event listener para o ícone de favoritos
+    const favoriteIcon = card.querySelector('.favorite-icon');
+    favoriteIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const productId = this.getAttribute('data-product-id');
+        console.log('Clicou no ícone de favorito:', productId);
+        toggleFavorite(productId);
+    });
+
+    // Adicionar event listeners para cores com carregamento otimizado
+    const colorDotsElements = card.querySelectorAll('.color-dot');
+    const cardImage = card.querySelector('.grade-card-image');
+    const loadingOverlay = card.querySelector('.image-loading-overlay');
+    const priceElement = card.querySelector('.price-value');
+    const sizeContainer = card.querySelector('.grade-card-sizes');
     
     colorDotsElements.forEach(dot => {
         dot.addEventListener('click', (e) => {
@@ -2157,7 +2230,7 @@ function createGradeCard(product) {
                 cardImage.src = selectedVariant.image;
                 cardImage.style.opacity = '1';
                 loadingOverlay.style.display = 'none';
-                updateProductDetailsPremium(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition, discount);
+                updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
             } else {
                 // Carregar imagem
                 const newImage = new Image();
@@ -2166,7 +2239,7 @@ function createGradeCard(product) {
                     cardImage.src = selectedVariant.image;
                     cardImage.style.opacity = '1';
                     loadingOverlay.style.display = 'none';
-                    updateProductDetailsPremium(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition, discount);
+                    updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
                 };
                 
                 newImage.onerror = () => {
@@ -2181,18 +2254,21 @@ function createGradeCard(product) {
     });
 
     // Adicionar event listeners para tamanhos
-    const sizeDotsElements = card.querySelectorAll('.size-dot-premium');
-    sizeDotsElements.forEach(dot => {
-        dot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            sizeDotsElements.forEach(d => d.classList.remove('active'));
-            dot.classList.add('active');
+    function setupSizeListeners() {
+        const sizeDotsElements = card.querySelectorAll('.size-dot');
+        sizeDotsElements.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                sizeDotsElements.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+            });
         });
-    });
+    }
+    setupSizeListeners();
 
     // Adicionar event listeners para posições
-    const positionDotsElements = card.querySelectorAll('.position-dot-premium');
+    const positionDotsElements = card.querySelectorAll('.position-dot');
     positionDotsElements.forEach(dot => {
         dot.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -2202,69 +2278,83 @@ function createGradeCard(product) {
             
             // Atualizar preço baseado na posição
             const selectedPosition = dot.getAttribute('data-position');
-            const currentColor = card.querySelector('.color-dot-premium.active').getAttribute('data-color');
+            const currentColor = card.querySelector('.color-dot.active').getAttribute('data-color');
             const selectedVariant = product.variants[currentColor];
             
             // Calcular preço final considerando posição
-            const basePrice = discount > 0 ? 
-                selectedVariant.price * (1 - discount / 100) : 
+            const basePrice = product.discount ? 
+                selectedVariant.price * (1 - product.discount / 100) : 
                 selectedVariant.price;
             const finalPrice = calculateFinalPrice(basePrice, selectedPosition);
             
-            const priceElement = card.querySelector('.final-price-premium');
-            priceElement.textContent = `R$ ${finalPrice.toFixed(2)}`;
+            // Atualizar o elemento de preço
+            const priceElement = card.querySelector('.price-value');
+            if (priceElement) {
+                priceElement.textContent = finalPrice.toFixed(2);
+            }
         });
     });
 
-    // Adicionar event listener para favoritos
-    const favoriteIcon = card.querySelector('.favorite-icon-premium');
-    favoriteIcon.addEventListener('click', function(e) {
+    // Adicionar event listener para o botão de adicionar ao carrinho
+    const quickAddBtn = card.querySelector('.quick-add-btn');
+    quickAddBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         const productId = this.getAttribute('data-product-id');
-        console.log('Clicou no ícone de favorito:', productId);
-        // toggleFavorite(productId); // Implementar se necessário
+        console.log('Adicionar ao carrinho:', productId);
+        // Aqui você pode adicionar a lógica para adicionar ao carrinho
     });
 
     return card;
 }
 
-// Função auxiliar para atualizar detalhes do produto (versão premium)
-function updateProductDetailsPremium(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition, discount) {
+// Função auxiliar para atualizar detalhes do produto
+function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition) {
     cardImage.setAttribute('data-color', selectedColor);
     cardImage.alt = `${product.name} - Cor ${selectedColor}`;
     
     // Obter posição atual para calcular preço
-    const activePositionDot = card.querySelector('.position-dot-premium.active');
+    const activePositionDot = card.querySelector('.position-dot.active');
     const currentPosition = activePositionDot ? activePositionDot.getAttribute('data-position') : firstPosition;
     
     // Calcular preço final considerando cor E posição
-    const basePrice = discount > 0 ? 
-        selectedVariant.price * (1 - discount / 100) : 
+    const basePrice = product.discount ? 
+        selectedVariant.price * (1 - product.discount / 100) : 
         selectedVariant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
-    const priceElementFinal = card.querySelector('.final-price-premium');
-    priceElementFinal.textContent = `R$ ${finalPrice.toFixed(2)}`;
+    // Atualizar o elemento de preço
+    const priceDisplay = card.querySelector('.price-value') || card.querySelector('.current-price-with-discount');
+    if (priceDisplay) {
+        if (priceDisplay.classList && priceDisplay.classList.contains('price-value')) {
+            priceDisplay.textContent = finalPrice.toFixed(2);
+        } else {
+            // Para o novo formato de preço premium
+            const priceSpan = priceDisplay.querySelector('.price-value');
+            if (priceSpan) {
+                priceSpan.textContent = finalPrice.toFixed(2);
+            }
+        }
+    }
     
     // Atualizar tamanhos disponíveis
-    updateSizesForColorPremium(sizeContainer, selectedVariant.sizes);
+    updateSizesForColor(sizeContainer, selectedVariant.sizes);
 }
 
-// Atualizar tamanhos disponíveis para uma cor (versão premium)
-function updateSizesForColorPremium(sizeContainer, sizes) {
+// Atualizar tamanhos disponíveis para uma cor
+function updateSizesForColor(sizeContainer, sizes) {
     sizeContainer.innerHTML = '';
     
     sizes.forEach((size, index) => {
         const sizeDot = document.createElement('div');
-        sizeDot.className = `size-dot-premium ${index === 0 ? 'active' : ''}`;
+        sizeDot.className = `size-dot ${index === 0 ? 'active' : ''}`;
         sizeDot.setAttribute('data-size', size);
         sizeDot.textContent = size;
         
         sizeDot.addEventListener('click', (e) => {
             e.stopPropagation();
             
-            sizeContainer.querySelectorAll('.size-dot-premium').forEach(d => d.classList.remove('active'));
+            sizeContainer.querySelectorAll('.size-dot').forEach(d => d.classList.remove('active'));
             sizeDot.classList.add('active');
         });
         
@@ -2272,7 +2362,7 @@ function updateSizesForColorPremium(sizeContainer, sizes) {
     });
 }
 
-// Popular uma grade (versão premium)
+// Popular uma grade
 function populateGrade(containerId, productList) {
     const gradeContainer = document.getElementById(containerId);
     if (!gradeContainer) {
@@ -2383,12 +2473,15 @@ function debugDOMStructure() {
 // Inicializar as grades quando o DOM estiver pronto
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-        // Pré-carregar imagens primeiro
+        // Aplicar descontos estratégicos primeiro
+        applyStrategicDiscounts();
+        // Pré-carregar imagens
         preloadProductImages();
         // Popular grades após um pequeno delay para garantir que o DOM está pronto
         setTimeout(populateAllGrades, 100);
     });
 } else {
+    applyStrategicDiscounts();
     preloadProductImages();
     setTimeout(populateAllGrades, 100);
 }

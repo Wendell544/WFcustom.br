@@ -38,6 +38,116 @@ function removeFromCart(cartId) {
     renderCart();
 }
 
+// Renderizar benefícios premium
+function renderPremiumBenefits() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    if (!cartItemsContainer) return;
+    
+    // Encontrar a seção de benefícios existente ou criar nova
+    let benefitsSection = document.getElementById('premium-benefits-section');
+    if (!benefitsSection) {
+        benefitsSection = document.createElement('div');
+        benefitsSection.id = 'premium-benefits-section';
+        benefitsSection.className = 'premium-benefits-section';
+        cartItemsContainer.parentNode.insertBefore(benefitsSection, cartItemsContainer);
+    }
+    
+    const tShirtCount = cartItems.filter(item => 
+        item.product.category === 'masculino' || item.product.category === 'unissexo'
+    ).length;
+    
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    const nextDiscount = tShirtCount < 2 ? 2 : 3;
+    const missingForDiscount = nextDiscount - tShirtCount;
+    const missingForFreeShipping = Math.max(0, 100 - subtotal);
+    
+    benefitsSection.innerHTML = `
+        <div class="benefits-header-premium">
+            <div class="benefits-icon-premium">🎁</div>
+            <h3>Seus Benefícios Exclusivos</h3>
+            <p>Aproveite essas vantagens especiais!</p>
+        </div>
+        
+        <div class="benefits-grid-premium">
+            <div class="benefit-card-premium ${tShirtCount >= 2 ? 'unlocked' : ''}">
+                <div class="benefit-icon-card-premium">
+                    <i class="fas ${tShirtCount >= 2 ? 'fa-check-circle' : 'fa-tag'}"></i>
+                </div>
+                <div class="benefit-content-premium">
+                    <h4>5% de Desconto</h4>
+                    <p>Leve 2 camisetas</p>
+                    ${tShirtCount < 2 ? `
+                        <div class="benefit-progress-premium">
+                            <span>Faltam ${2 - tShirtCount}</span>
+                            <div class="progress-bar-premium">
+                                <div class="progress-fill-premium" style="width: ${(tShirtCount / 2) * 100}%"></div>
+                            </div>
+                        </div>
+                    ` : '<div class="benefit-achieved-premium">✅ Conquistado!</div>'}
+                </div>
+            </div>
+            
+            <div class="benefit-card-premium ${tShirtCount >= 3 ? 'unlocked' : ''}">
+                <div class="benefit-icon-card-premium">
+                    <i class="fas ${tShirtCount >= 3 ? 'fa-check-circle' : 'fa-trophy'}"></i>
+                </div>
+                <div class="benefit-content-premium">
+                    <h4>10% de Desconto</h4>
+                    <p>Leve 3+ camisetas</p>
+                    ${tShirtCount < 3 ? `
+                        <div class="benefit-progress-premium">
+                            <span>Faltam ${3 - tShirtCount}</span>
+                            <div class="progress-bar-premium">
+                                <div class="progress-fill-premium" style="width: ${(tShirtCount / 3) * 100}%"></div>
+                            </div>
+                        </div>
+                    ` : '<div class="benefit-achieved-premium">✅ Conquistado!</div>'}
+                </div>
+            </div>
+            
+            <div class="benefit-card-premium ${subtotal >= 100 ? 'unlocked' : ''}">
+                <div class="benefit-icon-card-premium">
+                    <i class="fas ${subtotal >= 100 ? 'fa-check-circle' : 'fa-shipping-fast'}"></i>
+                </div>
+                <div class="benefit-content-premium">
+                    <h4>Frete Grátis</h4>
+                    <p>Acima de R$ 100</p>
+                    ${subtotal < 100 ? `
+                        <div class="benefit-progress-premium">
+                            <span>Faltam R$ ${missingForFreeShipping.toFixed(2)}</span>
+                            <div class="progress-bar-premium">
+                                <div class="progress-fill-premium" style="width: ${(subtotal / 100) * 100}%"></div>
+                            </div>
+                        </div>
+                    ` : '<div class="benefit-achieved-premium">✅ Conquistado!</div>'}
+                </div>
+            </div>
+        </div>
+        
+        ${tShirtCount < 3 || subtotal < 100 ? `
+            <div class="benefits-encouragement-premium">
+                <div class="encouragement-icon-premium">🚀</div>
+                <div class="encouragement-content-premium">
+                    <h4>Continue Comprando e Ganhe Mais!</h4>
+                    <p>
+                        ${tShirtCount < 3 ? `Adicione mais ${missingForDiscount} camisa(s) e ganhe ${tShirtCount === 1 ? '5%' : '10%'} de desconto!` : ''}
+                        ${subtotal < 100 && tShirtCount < 3 ? ' E ' : ''}
+                        ${subtotal < 100 ? `mais R$ ${missingForFreeShipping.toFixed(2)} para frete grátis!` : ''}
+                    </p>
+                </div>
+            </div>
+        ` : `
+            <div class="benefits-congratulations-premium">
+                <div class="congratulations-icon-premium">🎉</div>
+                <div class="congratulations-content-premium">
+                    <h4>Parabéns! Você conquistou todos os benefícios!</h4>
+                    <p>Desconto máximo aplicado + Frete Grátis</p>
+                </div>
+            </div>
+        `}
+    `;
+}
+
 // Renderizar carrinho
 function renderCart() {
     const cartItemsContainer = document.getElementById('cart-items');
@@ -56,6 +166,10 @@ function renderCart() {
                 <p>Adicione alguns produtos para continuar</p>
             </div>
         `;
+        
+        // Limpar seção de benefícios se o carrinho estiver vazio
+        const benefitsSection = document.getElementById('premium-benefits-section');
+        if (benefitsSection) benefitsSection.innerHTML = '';
         
         if (cartSummary) cartSummary.innerHTML = '';
         if (checkoutBtn) checkoutBtn.disabled = true;
@@ -102,6 +216,9 @@ function renderCart() {
             removeFromCart(cartId);
         };
     });
+    
+    // Renderizar benefícios premium
+    renderPremiumBenefits();
     
     // Renderizar resumo do carrinho
     renderCartSummary();

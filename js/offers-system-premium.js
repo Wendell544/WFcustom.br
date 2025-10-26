@@ -8,7 +8,7 @@ class UltraOffersSystem {
     }
 
     init() {
-        this.initPremiumAnnouncements();
+        this.initAnnouncements();
         this.initUltraCartSystem();
         this.applySuperDiscounts();
         this.setupPremiumEventListeners();
@@ -17,51 +17,46 @@ class UltraOffersSystem {
     }
 
     // === SISTEMA DE ANÚNCIOS PREMIUM ===
-    initPremiumAnnouncements() {
-        this.announcementSlides = document.querySelectorAll('.announcement-slide-premium');
+    initAnnouncements() {
+        this.slides = document.querySelectorAll('.announcement-slide-elegant');
         this.announcementSystem = document.getElementById('announcement-system');
         this.closeBtn = document.getElementById('announcement-close');
 
-        if (this.announcementSlides.length === 0) return;
+        if (this.slides.length === 0) return;
 
-        this.startAnnouncementRotation();
+        this.startSlideRotation();
 
         // Fechar anúncio
         if (this.closeBtn) {
             this.closeBtn.addEventListener('click', () => {
                 this.announcementSystem.style.display = 'none';
-                this.stopAnnouncementRotation();
-                localStorage.setItem('premium_announcement_closed', 'true');
+                this.pauseSlideRotation();
+                localStorage.setItem('announcement_closed', 'true');
             });
         }
 
         // Verificar se foi fechado anteriormente
-        if (localStorage.getItem('premium_announcement_closed') === 'true') {
+        if (localStorage.getItem('announcement_closed') === 'true') {
             this.announcementSystem.style.display = 'none';
         }
     }
 
-    startAnnouncementRotation() {
-        if (this.announcementInterval) clearInterval(this.announcementInterval);
+    startSlideRotation() {
+        if (this.slideInterval) clearInterval(this.slideInterval);
         
-        this.announcementInterval = setInterval(() => {
-            this.showNextAnnouncement();
-        }, 4000);
+        this.slideInterval = setInterval(() => {
+            this.showNextSlide();
+        }, 3000); // 3 segundos
     }
 
-    stopAnnouncementRotation() {
-        if (this.announcementInterval) clearInterval(this.announcementInterval);
+    pauseSlideRotation() {
+        if (this.slideInterval) clearInterval(this.slideInterval);
     }
 
-    showNextAnnouncement() {
-        // Ocultar slide atual
-        this.announcementSlides.forEach(slide => slide.classList.remove('active'));
-        
-        // Avançar para próximo
-        this.currentAnnouncement = (this.currentAnnouncement + 1) % this.announcementSlides.length;
-        
-        // Mostrar novo slide
-        this.announcementSlides[this.currentAnnouncement].classList.add('active');
+    showNextSlide() {
+        this.slides.forEach(slide => slide.classList.remove('active'));
+        this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+        this.slides[this.currentSlide].classList.add('active');
     }
 
     // === CARRINHO ULTRA PREMIUM ===
