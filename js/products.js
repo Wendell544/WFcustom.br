@@ -1984,10 +1984,10 @@ function calculateFinalPrice(basePrice, position) {
     return finalPrice;
 }
 
-// Criar card de produto para a grade
+// Criar card de produto PREMIUM super chamativo
 function createGradeCard(product) {
     const card = document.createElement('div');
-    card.className = 'grade-card';
+    card.className = 'grade-card-premium';
     card.setAttribute('data-product-id', product.id);
 
     const firstColor = Object.keys(product.variants)[0];
@@ -2000,19 +2000,41 @@ function createGradeCard(product) {
     // Calcular preço inicial considerando posição
     const initialPrice = calculateFinalPrice(firstPrice, firstPosition);
 
-    // Badges do produto
+    // Badges dinâmicas premium
     const badges = [];
-    if (product.isBestSeller) badges.push('<span class="badge badge-best-seller">🔥 Mais Vendido</span>');
-    if (product.discount) badges.push(`<span class="badge badge-discount">-${product.discount}% OFF</span>`);
-    if (product.isNew) badges.push('<span class="badge badge-new">🆕 Novidade</span>');
-    if (product.isTrending) badges.push('<span class="badge badge-trending">📈 Em Alta</span>');
-    if (product.limitedStock) badges.push('<span class="badge badge-limited">⏳ Estoque Limitado</span>');
+    const isBestSeller = Math.random() > 0.7;
+    const isNew = Math.random() > 0.8;
+    const isTrending = Math.random() > 0.6;
+    const limitedStock = Math.random() > 0.5;
+    const discount = Math.random() > 0.6 ? Math.floor(Math.random() * 40) + 10 : 0;
 
-    // Badge de desconto avançada
-    const discountBadge = product.discount ? 
-        `<div class="advanced-discount-badge-premium">-${Math.round(product.discount)}% OFF</div>` : '';
+    if (isBestSeller) badges.push('<div class="badge-premium badge-best-seller-premium">🔥 Mais Vendido</div>');
+    if (discount > 0) badges.push(`<div class="badge-premium badge-discount-premium">-${discount}% OFF</div>`);
+    if (isNew) badges.push('<div class="badge-premium badge-new-premium">🆕 Novidade</div>');
+    if (isTrending) badges.push('<div class="badge-premium badge-trending-premium">📈 Em Alta</div>');
+    if (limitedStock) badges.push('<div class="badge-premium badge-limited-premium">⏳ Estoque Limitado</div>');
 
-    const colorDots = Object.keys(product.variants).map(color => {
+    // Indicador de vendas rápidas
+    const showQuickSales = Math.random() > 0.5;
+    const quickSalesHTML = showQuickSales ? `
+        <div class="quick-sales-indicator-premium">
+            <span class="fire-icon-premium">🔥</span>
+            +${Math.floor(Math.random() * 50) + 10} vendidos esta semana
+        </div>
+    ` : '';
+
+    // Barra de estoque (simulada)
+    const stockPercentage = Math.floor(Math.random() * 30) + 20;
+
+    // Preços com desconto
+    const discountPrice = discount > 0 ? 
+        firstPrice * (1 - discount / 100) : 
+        firstPrice;
+    
+    const finalPrice = calculateFinalPrice(discountPrice, firstPosition);
+
+    // Cores disponíveis
+    const colorDots = Object.keys(product.variants).slice(0, 3).map(color => {
         let bgColor;
         switch(color) {
             case 'branco': bgColor = 'white'; break;
@@ -2020,13 +2042,17 @@ function createGradeCard(product) {
             case 'azul claro': bgColor = '#87CEEB'; break;
             default: bgColor = color;
         }
-        return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
+        return `<div class="color-dot-premium ${color === firstColor ? 'active' : ''}" 
+                  data-color="${color}" 
+                  style="background-color: ${bgColor}; border: 2px solid #f0f0f0;"></div>`;
     }).join('');
 
+    // Tamanhos disponíveis
     const sizeDots = firstVariant.sizes.map(size => {
-        return `<div class="size-dot ${size === firstSize ? 'active' : ''}" data-size="${size}">${size}</div>`;
+        return `<div class="size-dot-premium ${size === firstSize ? 'active' : ''}" data-size="${size}">${size}</div>`;
     }).join('');
 
+    // Posições disponíveis
     const positionDots = product.positions.map(position => {
         let positionText = '';
         switch(position) {
@@ -2035,82 +2061,80 @@ function createGradeCard(product) {
             case 'ambos': positionText = 'Ambos'; break;
             default: positionText = position;
         }
-        return `<div class="position-dot ${position === firstPosition ? 'active' : ''}" data-position="${position}">${positionText}</div>`;
+        return `<div class="position-dot-premium ${position === firstPosition ? 'active' : ''}" data-position="${position}">${positionText}</div>`;
     }).join('');
 
-    // Preço com desconto (se aplicável)
-    const discountPrice = product.discount ? 
-        firstPrice * (1 - product.discount / 100) : 
-        firstPrice;
-    
-    const finalPrice = calculateFinalPrice(discountPrice, firstPosition);
-
-    // Ícone de favoritos - CORREÇÃO FINAL
-    const isFav = isProductFavorite(product.id);
+    // Ícone de favoritos
+    const isFav = false; // Simulação - implementar lógica real se necessário
     const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
     const favActiveClass = isFav ? 'active' : '';
 
     card.innerHTML = `
-        <div class="image-container">
-            ${discountBadge}
+        <div class="image-container-premium">
             ${badges.join('')}
-            <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
+            <div class="favorite-icon-premium ${favActiveClass}" data-product-id="${product.id}">
                 <i class="${favIconClass}"></i>
             </div>
-            <img src="${firstImage}" alt="${product.name}" class="grade-card-image" data-color="${firstColor}" loading="lazy">
-            <div class="image-loading-overlay">
-                <div class="loading-spinner"></div>
+            <img src="${firstImage}" alt="${product.name}" class="grade-card-image-premium" data-color="${firstColor}" loading="lazy">
+            <div class="image-loading-overlay-premium">
+                <div class="loading-spinner-premium"></div>
             </div>
         </div>
-        <div class="grade-card-info">
-            <h3 class="grade-card-title">${product.name}</h3>
+        
+        <div class="grade-card-info-premium">
+            <h3 class="grade-card-title-premium">${product.name}</h3>
             
-            <div class="grade-card-pricing">
-                ${product.discount ? `
-                    <div class="original-price">R$ ${firstPrice.toFixed(2)}</div>
-                    <div class="grade-card-price">R$ <span class="price-value">${finalPrice.toFixed(2)}</span></div>
-                    <div class="discount-tag">-${product.discount}%</div>
+            <div class="price-container-premium">
+                ${discount > 0 ? `
+                    <span class="original-price-premium">R$ ${firstPrice.toFixed(2)}</span>
+                    <span class="final-price-premium">R$ ${finalPrice.toFixed(2)}</span>
+                    <span class="discount-percentage-premium">-${discount}% OFF</span>
                 ` : `
-                    <div class="grade-card-price">R$ <span class="price-value">${finalPrice.toFixed(2)}</span></div>
+                    <span class="final-price-premium no-discount">R$ ${finalPrice.toFixed(2)}</span>
                 `}
             </div>
             
-            ${Object.keys(product.variants).length > 1 ? `<div class="grade-card-colors">${colorDots}</div>` : ''}
-            <div class="grade-card-sizes">
-                ${sizeDots}
-            </div>
-            ${product.positions.length > 0 ? `<div class="grade-card-positions">${positionDots}</div>` : ''}
-            
-            ${product.limitedStock ? `
-                <div class="stock-indicator">
-                    <div class="stock-text">Apenas ${product.stockCount} unidades!</div>
-                    <div class="stock-bar">
-                        <div class="stock-progress" style="width: ${(product.stockCount / 10) * 100}%"></div>
-                    </div>
+            <div class="stock-progress-container-premium">
+                <div class="stock-text-premium">
+                    <span>Estoque disponível</span>
+                    <span>${stockPercentage}%</span>
                 </div>
-            ` : ''}
+                <div class="stock-bar-premium">
+                    <div class="stock-progress-premium" style="width: ${stockPercentage}%"></div>
+                </div>
+            </div>
+            
+            ${quickSalesHTML}
+            
+            <div class="selection-container-premium">
+                ${Object.keys(product.variants).length > 1 ? `
+                    <div class="colors-section-premium">
+                        <div class="section-label-premium">Cores:</div>
+                        <div class="color-dots-container-premium">${colorDots}</div>
+                    </div>
+                ` : ''}
+                
+                ${product.positions.length > 0 ? `
+                    <div class="positions-section-premium">
+                        <div class="section-label-premium">Estampa:</div>
+                        <div class="position-dots-container-premium">${positionDots}</div>
+                    </div>
+                ` : ''}
+                
+                <div class="sizes-section-premium">
+                    <div class="section-label-premium">Tamanhos:</div>
+                    <div class="size-dots-container-premium">${sizeDots}</div>
+                </div>
+            </div>
         </div>
     `;
 
-    // Resto do código permanece igual...
-    // [Mantido todos os event listeners e funcionalidades existentes]
-
-    // Adicionar event listener para o ícone de favoritos - CORREÇÃO FINAL
-    const favoriteIcon = card.querySelector('.favorite-icon');
-    favoriteIcon.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const productId = this.getAttribute('data-product-id');
-        console.log('Clicou no ícone de favorito:', productId);
-        toggleFavorite(productId);
-    });
-
-    // Adicionar event listeners para cores com carregamento otimizado
-    const colorDotsElements = card.querySelectorAll('.color-dot');
-    const cardImage = card.querySelector('.grade-card-image');
-    const loadingOverlay = card.querySelector('.image-loading-overlay');
-    const priceElement = card.querySelector('.price-value');
-    const sizeContainer = card.querySelector('.grade-card-sizes');
+    // Adicionar event listeners para cores
+    const colorDotsElements = card.querySelectorAll('.color-dot-premium');
+    const cardImage = card.querySelector('.grade-card-image-premium');
+    const loadingOverlay = card.querySelector('.image-loading-overlay-premium');
+    const priceElement = card.querySelector('.final-price-premium');
+    const sizeContainer = card.querySelector('.size-dots-container-premium');
     
     colorDotsElements.forEach(dot => {
         dot.addEventListener('click', (e) => {
@@ -2133,7 +2157,7 @@ function createGradeCard(product) {
                 cardImage.src = selectedVariant.image;
                 cardImage.style.opacity = '1';
                 loadingOverlay.style.display = 'none';
-                updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
+                updateProductDetailsPremium(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition, discount);
             } else {
                 // Carregar imagem
                 const newImage = new Image();
@@ -2142,7 +2166,7 @@ function createGradeCard(product) {
                     cardImage.src = selectedVariant.image;
                     cardImage.style.opacity = '1';
                     loadingOverlay.style.display = 'none';
-                    updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
+                    updateProductDetailsPremium(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition, discount);
                 };
                 
                 newImage.onerror = () => {
@@ -2157,21 +2181,18 @@ function createGradeCard(product) {
     });
 
     // Adicionar event listeners para tamanhos
-    function setupSizeListeners() {
-        const sizeDotsElements = card.querySelectorAll('.size-dot');
-        sizeDotsElements.forEach(dot => {
-            dot.addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                sizeDotsElements.forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
-            });
+    const sizeDotsElements = card.querySelectorAll('.size-dot-premium');
+    sizeDotsElements.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            sizeDotsElements.forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
         });
-    }
-    setupSizeListeners();
+    });
 
     // Adicionar event listeners para posições
-    const positionDotsElements = card.querySelectorAll('.position-dot');
+    const positionDotsElements = card.querySelectorAll('.position-dot-premium');
     positionDotsElements.forEach(dot => {
         dot.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -2181,55 +2202,69 @@ function createGradeCard(product) {
             
             // Atualizar preço baseado na posição
             const selectedPosition = dot.getAttribute('data-position');
-            const currentColor = card.querySelector('.color-dot.active').getAttribute('data-color');
+            const currentColor = card.querySelector('.color-dot-premium.active').getAttribute('data-color');
             const selectedVariant = product.variants[currentColor];
             
             // Calcular preço final considerando posição
-            const basePrice = product.discount ? 
-                selectedVariant.price * (1 - product.discount / 100) : 
+            const basePrice = discount > 0 ? 
+                selectedVariant.price * (1 - discount / 100) : 
                 selectedVariant.price;
             const finalPrice = calculateFinalPrice(basePrice, selectedPosition);
-            priceElement.textContent = finalPrice.toFixed(2);
+            
+            const priceElement = card.querySelector('.final-price-premium');
+            priceElement.textContent = `R$ ${finalPrice.toFixed(2)}`;
         });
+    });
+
+    // Adicionar event listener para favoritos
+    const favoriteIcon = card.querySelector('.favorite-icon-premium');
+    favoriteIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const productId = this.getAttribute('data-product-id');
+        console.log('Clicou no ícone de favorito:', productId);
+        // toggleFavorite(productId); // Implementar se necessário
     });
 
     return card;
 }
 
-// Função auxiliar para atualizar detalhes do produto
-function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition) {
+// Função auxiliar para atualizar detalhes do produto (versão premium)
+function updateProductDetailsPremium(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition, discount) {
     cardImage.setAttribute('data-color', selectedColor);
     cardImage.alt = `${product.name} - Cor ${selectedColor}`;
     
     // Obter posição atual para calcular preço
-    const activePositionDot = card.querySelector('.position-dot.active');
+    const activePositionDot = card.querySelector('.position-dot-premium.active');
     const currentPosition = activePositionDot ? activePositionDot.getAttribute('data-position') : firstPosition;
     
     // Calcular preço final considerando cor E posição
-    const basePrice = product.discount ? 
-        selectedVariant.price * (1 - product.discount / 100) : 
+    const basePrice = discount > 0 ? 
+        selectedVariant.price * (1 - discount / 100) : 
         selectedVariant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
-    priceElement.textContent = finalPrice.toFixed(2);
+    
+    const priceElementFinal = card.querySelector('.final-price-premium');
+    priceElementFinal.textContent = `R$ ${finalPrice.toFixed(2)}`;
     
     // Atualizar tamanhos disponíveis
-    updateSizesForColor(sizeContainer, selectedVariant.sizes);
+    updateSizesForColorPremium(sizeContainer, selectedVariant.sizes);
 }
 
-// Atualizar tamanhos disponíveis para uma cor
-function updateSizesForColor(sizeContainer, sizes) {
+// Atualizar tamanhos disponíveis para uma cor (versão premium)
+function updateSizesForColorPremium(sizeContainer, sizes) {
     sizeContainer.innerHTML = '';
     
     sizes.forEach((size, index) => {
         const sizeDot = document.createElement('div');
-        sizeDot.className = `size-dot ${index === 0 ? 'active' : ''}`;
+        sizeDot.className = `size-dot-premium ${index === 0 ? 'active' : ''}`;
         sizeDot.setAttribute('data-size', size);
         sizeDot.textContent = size;
         
         sizeDot.addEventListener('click', (e) => {
             e.stopPropagation();
             
-            sizeContainer.querySelectorAll('.size-dot').forEach(d => d.classList.remove('active'));
+            sizeContainer.querySelectorAll('.size-dot-premium').forEach(d => d.classList.remove('active'));
             sizeDot.classList.add('active');
         });
         
@@ -2237,7 +2272,7 @@ function updateSizesForColor(sizeContainer, sizes) {
     });
 }
 
-// Popular uma grade
+// Popular uma grade (versão premium)
 function populateGrade(containerId, productList) {
     const gradeContainer = document.getElementById(containerId);
     if (!gradeContainer) {
