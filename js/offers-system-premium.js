@@ -1,242 +1,237 @@
 // 🚀 SISTEMA DE OFERTAS ULTRA PREMIUM - WFCUSTOM
 
-class UltraOffersSystem {
+class PremiumOffersSystem {
     constructor() {
-        this.currentAnnouncement = 0;
-        this.announcementInterval = null;
+        this.closedAnnouncements = JSON.parse(localStorage.getItem('closedAnnouncements')) || [];
         this.init();
     }
 
     init() {
         this.initAnnouncements();
-        this.initUltraCartSystem();
-        this.applySuperDiscounts();
-        this.setupPremiumEventListeners();
+        this.initCartEnhancements();
+        this.applyPromotionalPricing();
+        this.setupEventListeners();
         
-        console.log('🚀 Sistema Ultra Premium Iniciado');
+        console.log('🎯 Sistema Premium Iniciado');
     }
 
     // === SISTEMA DE ANÚNCIOS PREMIUM ===
     initAnnouncements() {
-        this.slides = document.querySelectorAll('.announcement-slide-elegant');
-        this.announcementSystem = document.getElementById('announcement-system');
-        this.closeBtn = document.getElementById('announcement-close');
+        // Esconder anúncios fechados
+        this.closedAnnouncements.forEach(announcement => {
+            const element = document.querySelector(`[data-announcement="${announcement}"]`);
+            if (element) {
+                element.closest('.announcement-card-premium').style.display = 'none';
+            }
+        });
 
-        if (this.slides.length === 0) return;
-
-        this.startSlideRotation();
-
-        // Fechar anúncio
-        if (this.closeBtn) {
-            this.closeBtn.addEventListener('click', () => {
-                this.announcementSystem.style.display = 'none';
-                this.pauseSlideRotation();
-                localStorage.setItem('announcement_closed', 'true');
+        // Event listeners para fechar anúncios
+        document.querySelectorAll('.announcement-close-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const announcement = e.currentTarget.getAttribute('data-announcement');
+                this.closeAnnouncement(announcement);
             });
-        }
+        });
 
-        // Verificar se foi fechado anteriormente
-        if (localStorage.getItem('announcement_closed') === 'true') {
-            this.announcementSystem.style.display = 'none';
+        // Atualizar progresso do frete grátis
+        this.updateShippingProgress();
+    }
+
+    closeAnnouncement(announcement) {
+        const announcementElement = document.querySelector(`[data-announcement="${announcement}"]`);
+        if (announcementElement) {
+            announcementElement.closest('.announcement-card-premium').style.display = 'none';
+            this.closedAnnouncements.push(announcement);
+            localStorage.setItem('closedAnnouncements', JSON.stringify(this.closedAnnouncements));
         }
     }
 
-    startSlideRotation() {
-        if (this.slideInterval) clearInterval(this.slideInterval);
+    updateShippingProgress() {
+        const subtotal = this.getCartSubtotal();
+        const threshold = 100;
+        const progress = Math.min((subtotal / threshold) * 100, 100);
+        const remaining = Math.max(threshold - subtotal, 0);
+
+        const progressBar = document.getElementById('shipping-progress');
+        const remainingText = document.getElementById('shipping-remaining');
+
+        if (progressBar) {
+            progressBar.style.width = `${progress}%`;
+        }
+
+        if (remainingText) {
+            remainingText.textContent = remaining.toFixed(2);
+        }
+    }
+
+    // === MELHORIAS NO CARRINHO ===
+    initCartEnhancements() {
+        this.enhanceCartItems();
+        this.addCartBenefits();
+        this.updateCartStats();
+    }
+
+    enhanceCartItems() {
+        // Adicionar efeitos especiais aos itens do carrinho
+        document.querySelectorAll('.cart-item-ultra-premium').forEach(item => {
+            // Efeito de brilho ao passar o mouse
+            item.addEventListener('mouseenter', () => {
+                item.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.background = 'rgba(248, 250, 252, 0.8)';
+            });
+        });
+    }
+
+    addCartBenefits() {
+        const cartItems = this.getCartItems();
+        const tShirtCount = this.getTShirtCount();
         
-        this.slideInterval = setInterval(() => {
-            this.showNextSlide();
-        }, 3000); // 3 segundos
-    }
-
-    pauseSlideRotation() {
-        if (this.slideInterval) clearInterval(this.slideInterval);
-    }
-
-    showNextSlide() {
-        this.slides.forEach(slide => slide.classList.remove('active'));
-        this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-        this.slides[this.currentSlide].classList.add('active');
-    }
-
-    // === CARRINHO ULTRA PREMIUM ===
-    initUltraCartSystem() {
-        // Integração com o sistema existente
-        this.integrateWithCartSystem();
-    }
-
-    integrateWithCartSystem() {
-        // Sobrescrever função de atualização do carrinho
-        const originalUpdateCart = window.renderCart;
-        window.renderCart = () => {
-            if (originalUpdateCart) originalUpdateCart();
-            this.renderUltraCart();
-        };
-    }
-
-    renderUltraCart() {
-        this.renderUltraBenefits();
-        this.renderUltraCartItems();
-        this.renderUltraSummary();
-    }
-
-    renderUltraBenefits() {
-        const benefitsContainer = document.getElementById('cart-benefits');
-        if (!benefitsContainer) return;
-
-        const tShirtCount = this.getTShirtCount();
-        const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-        const nextBenefit = this.getNextBenefit(tShirtCount, subtotal);
-
-        benefitsContainer.innerHTML = `
-            <h3 style="margin-bottom: 20px; color: var(--premium-black); font-weight: 800; font-size: 1.3rem;">
-                🎁 Seus Benefícios Exclusivos
-            </h3>
-            
-            <div class="benefits-grid-premium">
-                <!-- Frete Grátis -->
-                <div class="benefit-card-premium ${subtotal >= 100 ? 'unlocked' : 'locked'}">
-                    <span class="benefit-icon-premium">🚚</span>
-                    <div class="benefit-title-premium">Frete Grátis</div>
-                    <div class="benefit-desc-premium">Em compras acima de R$100</div>
-                    <div class="benefit-status-premium ${subtotal >= 100 ? 'unlocked' : 'locked'}">
-                        ${subtotal >= 100 ? 'ATIVO' : 'BLOQUEADO'}
-                    </div>
-                </div>
-
-                <!-- 5% OFF -->
-                <div class="benefit-card-premium ${tShirtCount >= 2 ? 'unlocked' : 'locked'}">
-                    <span class="benefit-icon-premium">👕</span>
-                    <div class="benefit-title-premium">5% de Desconto</div>
-                    <div class="benefit-desc-premium">Ao levar 2 camisas</div>
-                    <div class="benefit-status-premium ${tShirtCount >= 2 ? 'unlocked' : 'locked'}">
-                        ${tShirtCount >= 2 ? 'ATIVO' : 'BLOQUEADO'}
-                    </div>
-                </div>
-
-                <!-- 10% OFF -->
-                <div class="benefit-card-premium ${tShirtCount >= 3 ? 'unlocked' : 'locked'}">
-                    <span class="benefit-icon-premium">🔥</span>
-                    <div class="benefit-title-premium">10% de Desconto</div>
-                    <div class="benefit-desc-premium">Ao levar 3+ camisas</div>
-                    <div class="benefit-status-premium ${tShirtCount >= 3 ? 'unlocked' : 'locked'}">
-                        ${tShirtCount >= 3 ? 'ATIVO' : 'BLOQUEADO'}
-                    </div>
-                </div>
-            </div>
-
-            ${nextBenefit ? `
-            <div class="next-benefit-premium">
-                <div class="next-benefit-title-premium">🎯 Seu Próximo Benefício</div>
-                <p style="margin: 0; color: var(--text-dark); font-size: 0.9rem;">
-                    ${nextBenefit.message}
-                </p>
-                ${nextBenefit.progress !== null ? `
-                <div class="next-benefit-progress-premium">
-                    <div class="next-benefit-progress-bar-premium" 
-                         style="width: ${nextBenefit.progress}%"></div>
-                </div>
-                <p style="margin: 0; color: #F59E0B; font-weight: 700; font-size: 0.8rem;">
-                    ${nextBenefit.progressText}
-                </p>
-                ` : ''}
-            </div>
-            ` : ''}
-        `;
-    }
-
-    renderUltraCartItems() {
-        const cartItemsContainer = document.getElementById('cart-items');
-        if (!cartItemsContainer) return;
-
-        if (cartItems.length === 0) {
-            cartItemsContainer.innerHTML = `
-                <div style="text-align: center; padding: 60px 20px; color: var(--text-light);">
-                    <i class="fas fa-shopping-bag" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.3;"></i>
-                    <h3 style="color: var(--text-light); margin-bottom: 10px;">Seu carrinho está vazio</h3>
-                    <p>Adicione alguns produtos incríveis para começar!</p>
-                </div>
-            `;
-            return;
+        if (cartItems.length > 0) {
+            this.showBenefitsSection(tShirtCount);
         }
+    }
 
-        cartItemsContainer.innerHTML = cartItems.map(item => `
-            <div class="cart-item-super-premium" data-cart-id="${item.id}">
-                <img src="${item.product.variants[item.color].image}" 
-                     alt="${item.product.name}" 
-                     class="cart-item-image-super-premium">
-                <div class="cart-item-details-super-premium">
-                    <div class="cart-item-header-premium">
-                        <h3 class="cart-item-title-premium">${item.product.name}</h3>
-                        <div class="cart-item-price-premium">R$ ${item.price.toFixed(2)}</div>
-                    </div>
-                    <div class="cart-item-specs-premium">
-                        <span class="cart-item-spec-premium">Cor: ${item.color}</span>
-                        <span class="cart-item-spec-premium">Tamanho: ${item.size}</span>
-                        ${item.position && item.product.category !== 'canecas' ? 
-                          `<span class="cart-item-spec-premium">Estampa: ${this.getPositionText(item.position)}</span>` : ''}
-                    </div>
-                    <div class="cart-item-actions-premium">
-                        <div class="quantity-controls-premium">
-                            <button class="quantity-btn-premium" onclick="ultraOffersSystem.decreaseQuantity(${item.id})">-</button>
-                            <span style="font-weight: 700;">1</span>
-                            <button class="quantity-btn-premium" onclick="ultraOffersSystem.increaseQuantity(${item.id})">+</button>
+    showBenefitsSection(tShirtCount) {
+        const benefitsHTML = `
+            <div class="cart-benefits-system">
+                <div class="benefits-header-premium">
+                    <h3>🎁 Benefícios Exclusivos</h3>
+                    <p>Aproveite estas vantagens ao aumentar seu pedido</p>
+                </div>
+                <div class="benefits-grid-premium">
+                    <div class="benefit-card-premium">
+                        <div class="benefit-icon-premium">
+                            <i class="fas fa-tags"></i>
                         </div>
-                        <button class="remove-item-super-premium" onclick="ultraOffersSystem.removeFromUltraCart(${item.id})">
-                            <i class="fas fa-trash"></i> Remover
-                        </button>
+                        <h4>Desconto Progressivo</h4>
+                        <p>${this.getNextDiscountMessage(tShirtCount)}</p>
+                    </div>
+                    <div class="benefit-card-premium">
+                        <div class="benefit-icon-premium">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h4>Frete Grátis</h4>
+                        <p>${this.getShippingMessage()}</p>
+                    </div>
+                    <div class="benefit-card-premium">
+                        <div class="benefit-icon-premium">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h4>Brinde Surpresa</h4>
+                        <p>Pedidos acima de R$ 150 ganham um brinde exclusivo!</p>
                     </div>
                 </div>
             </div>
-        `).join('');
+        `;
+
+        const cartContainer = document.querySelector('.cart-container-premium');
+        if (cartContainer) {
+            const existingBenefits = cartContainer.querySelector('.cart-benefits-system');
+            if (existingBenefits) {
+                existingBenefits.remove();
+            }
+            
+            const cartItems = cartContainer.querySelector('.cart-items-premium');
+            if (cartItems) {
+                cartItems.insertAdjacentHTML('afterend', benefitsHTML);
+            }
+        }
     }
 
-    renderUltraSummary() {
-        const summaryContainer = document.getElementById('cart-summary');
-        if (!summaryContainer) return;
+    getNextDiscountMessage(tShirtCount) {
+        if (tShirtCount === 1) return 'Adicione mais 1 camisa e ganhe 5% de desconto!';
+        if (tShirtCount === 2) return 'Adicione mais 1 camisa e ganhe 10% de desconto!';
+        return 'Desconto máximo de 10% aplicado! 🎉';
+    }
 
-        const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    getShippingMessage() {
+        const subtotal = this.getCartSubtotal();
+        const remaining = 100 - subtotal;
+        
+        if (subtotal >= 100) return 'Parabéns! Frete grátis aplicado!';
+        return `Faltam R$ ${remaining.toFixed(2)} para frete grátis`;
+    }
+
+    updateCartStats() {
+        const subtotal = this.getCartSubtotal();
         const tShirtCount = this.getTShirtCount();
-        const quantityDiscount = this.calculateQuantityDiscount(tShirtCount, subtotal);
-        const shippingCost = this.calculateShippingCost();
-        const total = subtotal - quantityDiscount + shippingCost;
-        const totalSavings = quantityDiscount + (shippingCost === 0 ? 9.99 : 0);
+        const savings = this.calculateSavings();
 
-        summaryContainer.innerHTML = `
-            <div class="summary-row-premium">
-                <span class="summary-label-premium">Subtotal</span>
-                <span class="summary-value-premium">R$ ${subtotal.toFixed(2)}</span>
-            </div>
+        document.querySelectorAll('.cart-stat-value').forEach(stat => {
+            const label = stat.nextElementSibling.textContent.toLowerCase();
+            if (label.includes('itens')) {
+                stat.textContent = this.getCartItems().length;
+            } else if (label.includes('camisas')) {
+                stat.textContent = tShirtCount;
+            } else if (label.includes('economia')) {
+                stat.textContent = `R$ ${savings.totalSavings.toFixed(2)}`;
+            }
+        });
+    }
+
+    // === PREÇOS PROMOCIONAIS ===
+    applyPromotionalPricing() {
+        // Aplicar preços promocionais em todos os produtos
+        Object.values(products).forEach(categoryProducts => {
+            categoryProducts.forEach(product => {
+                // Calcular preço fake (40% acima do original)
+                const originalPrice = product.variants[Object.keys(product.variants)[0]].price;
+                product.fakePrice = originalPrice * 1.4;
+                
+                // Calcular economia aparente
+                product.apparentSavings = product.fakePrice - originalPrice;
+            });
+        });
+
+        // Atualizar cards existentes
+        this.updateProductCards();
+    }
+
+    updateProductCards() {
+        document.querySelectorAll('.grade-card').forEach(card => {
+            const productId = parseInt(card.getAttribute('data-product-id'));
+            const product = findProductById(productId);
             
-            ${quantityDiscount > 0 ? `
-            <div class="summary-row-premium highlight">
-                <span class="summary-label-premium">🎉 Desconto Progressivo</span>
-                <span class="summary-value-premium savings">- R$ ${quantityDiscount.toFixed(2)}</span>
-            </div>
-            ` : ''}
-            
-            <div class="summary-row-premium">
-                <span class="summary-label-premium">Frete</span>
-                <span class="summary-value-premium ${shippingCost === 0 ? 'savings' : ''}">
-                    ${shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`}
-                </span>
-            </div>
-            
-            ${totalSavings > 0 ? `
-            <div class="summary-row-premium" style="border-bottom: none;">
-                <span class="summary-label-premium">💰 Total Economizado</span>
-                <span class="summary-value-premium savings">R$ ${totalSavings.toFixed(2)}</span>
-            </div>
-            ` : ''}
-            
-            <div class="summary-total-premium">
-                <div class="total-label-premium">Total do Pedido</div>
-                <div class="total-value-premium">R$ ${total.toFixed(2)}</div>
+            if (product && product.fakePrice) {
+                this.enhanceCardPricing(card, product);
+            }
+        });
+    }
+
+    enhanceCardPricing(card, product) {
+        const pricingContainer = card.querySelector('.grade-card-pricing');
+        if (!pricingContainer) return;
+
+        const originalPrice = product.variants[Object.keys(product.variants)[0]].price;
+        const fakePrice = product.fakePrice;
+        const savings = product.apparentSavings;
+        const savingsPercent = Math.round((savings / fakePrice) * 100);
+
+        // Substituir o conteúdo de preço
+        pricingContainer.innerHTML = `
+            <div class="grade-card-pricing-promo">
+                <div class="original-price-fake">De: R$ ${fakePrice.toFixed(2)}</div>
+                <div class="promo-price-container">
+                    <div class="grade-card-price-promo">Por: R$ ${originalPrice.toFixed(2)}</div>
+                    <div class="promo-savings">Economize ${savingsPercent}%</div>
+                </div>
+                <div class="promo-tag">OFERTA</div>
             </div>
         `;
     }
 
-    // === FUNÇÕES AUXILIARES ULTRA PREMIUM ===
+    // === FUNÇÕES AUXILIARES ===
+    getCartSubtotal() {
+        return cartItems.reduce((total, item) => total + item.price, 0);
+    }
+
+    getCartItems() {
+        return cartItems || [];
+    }
+
     getTShirtCount() {
         return cartItems.filter(item => 
             item.product.category === 'masculino' || 
@@ -244,144 +239,49 @@ class UltraOffersSystem {
         ).length;
     }
 
-    calculateQuantityDiscount(tShirtCount, subtotal) {
-        if (tShirtCount >= 3) return subtotal * 0.10;
-        if (tShirtCount >= 2) return subtotal * 0.05;
-        return 0;
-    }
-
-    calculateShippingCost() {
-        const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-        return subtotal >= 100 ? 0 : 9.99;
-    }
-
-    getNextBenefit(tShirtCount, subtotal) {
-        if (tShirtCount < 2) {
-            const missing = 2 - tShirtCount;
-            return {
-                message: `Adicione mais ${missing} camisa(s) para ganhar 5% de desconto!`,
-                progress: (tShirtCount / 2) * 100,
-                progressText: `${tShirtCount}/2 camisas`
-            };
-        } else if (tShirtCount < 3) {
-            const missing = 3 - tShirtCount;
-            return {
-                message: `Adicione mais ${missing} camisa(s) para ganhar 10% de desconto!`,
-                progress: (tShirtCount / 3) * 100,
-                progressText: `${tShirtCount}/3 camisas`
-            };
-        } else if (subtotal < 100) {
-            const missing = 100 - subtotal;
-            return {
-                message: `Adicione R$ ${missing.toFixed(2)} em produtos para ganhar FRETE GRÁTIS!`,
-                progress: (subtotal / 100) * 100,
-                progressText: `R$ ${subtotal.toFixed(2)}/R$ 100,00`
-            };
-        }
-        return null;
-    }
-
-    getPositionText(position) {
-        const positions = {
-            'frente': 'Frente',
-            'atras': 'Atrás', 
-            'ambos': 'Ambos os Lados'
+    calculateSavings() {
+        const subtotal = this.getCartSubtotal();
+        const tShirtCount = this.getTShirtCount();
+        
+        let quantityDiscount = 0;
+        if (tShirtCount >= 3) quantityDiscount = subtotal * 0.10;
+        else if (tShirtCount >= 2) quantityDiscount = subtotal * 0.05;
+        
+        const shippingSavings = subtotal >= 100 ? 9.99 : 0;
+        
+        return {
+            quantityDiscount,
+            shippingSavings,
+            totalSavings: quantityDiscount + shippingSavings
         };
-        return positions[position] || position;
     }
 
-    // === AÇÕES DO CARRINHO ===
-    removeFromUltraCart(cartId) {
-        removeFromCart(cartId);
-        this.renderUltraCart();
-    }
-
-    increaseQuantity(cartId) {
-        // Implementar aumento de quantidade
-        console.log('Aumentar quantidade do item:', cartId);
-    }
-
-    decreaseQuantity(cartId) {
-        // Implementar diminuição de quantidade
-        console.log('Diminuir quantidade do item:', cartId);
-    }
-
-    // === SISTEMA DE DESCONTOS SUPER PREMIUM ===
-    applySuperDiscounts() {
-        const categories = ['masculino', 'unissexo', 'canecas'];
-        
-        categories.forEach(category => {
-            if (products[category]) {
-                products[category].forEach(product => {
-                    // Desconto base aleatório entre 2% e 7%
-                    const baseDiscount = (Math.floor(Math.random() * 6) + 2) / 100;
-                    
-                    // Desconto adicional baseado na popularidade (simulado)
-                    const popularityBonus = Math.random() * 0.03;
-                    
-                    product.discount = baseDiscount + popularityBonus;
-                    product.originalPrice = product.variants[Object.keys(product.variants)[0]].price;
-                    product.finalPrice = product.originalPrice * (1 - product.discount);
-                    
-                    // Adicionar badges especiais
-                    product.badges = this.generateProductBadges(product);
-                    
-                    // Atualizar preços nos variants
-                    Object.keys(product.variants).forEach(color => {
-                        const variant = product.variants[color];
-                        variant.originalPrice = variant.price;
-                        variant.price = variant.originalPrice * (1 - product.discount);
-                    });
-                });
-            }
-        });
-        
-        console.log('🎯 Descontos Super Premium Aplicados!');
-    }
-
-    generateProductBadges(product) {
-        const badges = [];
-        
-        // Badge de desconto principal
-        badges.push({
-            type: 'discount',
-            text: `-${Math.round(product.discount * 100)}% OFF`,
-            class: 'discount-badge-premium'
-        });
-
-        // Badge progressiva
-        badges.push({
-            type: 'progressive', 
-            text: '👕 Compre 2 → 5% OFF',
-            class: 'progressive-badge-premium'
-        });
-
-        // Badge de urgência (aleatória)
-        if (Math.random() > 0.7) {
-            badges.push({
-                type: 'urgency',
-                text: '🔥 Vendendo Rápido!',
-                class: 'urgency-badge-premium'
-            });
-        }
-
-        return badges;
-    }
-
-    // === EVENT LISTENERS PREMIUM ===
-    setupPremiumEventListeners() {
-        // Integração com sistema existente
+    // === EVENT LISTENERS ===
+    setupEventListeners() {
+        // Atualizar quando o carrinho mudar
         document.addEventListener('cartUpdated', () => {
-            this.renderUltraCart();
+            this.updateShippingProgress();
+            this.addCartBenefits();
+            this.updateCartStats();
         });
 
-        document.addEventListener('cartChanged', () => {
-            this.renderUltraCart();
-        });
+        // Integração com sistema existente
+        this.integrateWithExistingSystem();
+    }
+
+    integrateWithExistingSystem() {
+        // Sobrescrever funções existentes para incluir melhorias
+        const originalRenderCart = window.renderCart;
+        if (originalRenderCart) {
+            window.renderCart = (...args) => {
+                originalRenderCart(...args);
+                this.initCartEnhancements();
+            };
+        }
     }
 }
 
-// Inicializar o sistema ultra premium
+// Inicializar sistema premium
 document.addEventListener('DOMContentLoaded', function() {
-    window.ultraOffersSystem = new UltraOffersSystem();
+    window.premiumOffers = new PremiumOffersSystem();
 });

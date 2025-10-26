@@ -299,35 +299,6 @@ function setupEventListeners() {
             const packageType = packageBtn.getAttribute('data-package');
             handlePackageSelection(packageType);
         }
-        
-        // Botão de adicionar rápido
-        const quickAddBtn = e.target.closest('.quick-add-btn');
-        if (quickAddBtn) {
-            e.preventDefault();
-            e.stopPropagation();
-            const productId = quickAddBtn.getAttribute('data-product-id');
-            const product = findProductById(productId);
-            if (product) {
-                // Adicionar ao carrinho com configurações padrão
-                const firstColor = Object.keys(product.variants)[0];
-                const firstVariant = product.variants[firstColor];
-                const firstSize = firstVariant.sizes[0];
-                const firstPosition = product.positions.length > 0 ? product.positions[0] : '';
-                
-                const finalPrice = calculateFinalPrice(firstVariant.price, firstPosition);
-                
-                addToCart(product, firstColor, firstSize, firstPosition, finalPrice);
-                
-                // Feedback visual
-                quickAddBtn.innerHTML = '<i class="fas fa-check"></i> Adicionado!';
-                quickAddBtn.style.background = 'var(--success-color)';
-                
-                setTimeout(() => {
-                    quickAddBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Adicionar ao Carrinho';
-                    quickAddBtn.style.background = '';
-                }, 2000);
-            }
-        }
     });
 }
 
@@ -664,3 +635,10 @@ if (document.readyState === 'loading') {
 } else {
     preloadCriticalImages();
 }
+
+// Inicializar sistema premium
+setTimeout(() => {
+    if (window.premiumOffers) {
+        window.premiumOffers.init();
+    }
+}, 1000);

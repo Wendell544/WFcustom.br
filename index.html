@@ -85,6 +85,27 @@
         </div>
     </header>
 
+    <!-- Sistema de Anúncios Promocionais -->
+    <div class="announcement-system-premium" id="announcement-system">
+        <div class="announcement-container-premium">
+            <div class="announcement-slide-premium active">
+                <div class="announcement-icon-premium">🛍️</div>
+                <div class="announcement-text-premium">Compras acima de R$100 ganham frete grátis!</div>
+            </div>
+            <div class="announcement-slide-premium">
+                <div class="announcement-icon-premium">👕</div>
+                <div class="announcement-text-premium">Leve 2 camisas e ganhe 5% de desconto!</div>
+            </div>
+            <div class="announcement-slide-premium">
+                <div class="announcement-icon-premium">🔥</div>
+                <div class="announcement-text-premium">Leve 3 camisas e garanta 10% OFF — máximo permitido!</div>
+            </div>
+            <button class="announcement-close-premium" id="announcement-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- Página Home -->
     <div id="home-page" class="page active">
         <!-- Carrossel de Banners -->
@@ -102,42 +123,85 @@
             </div>
         </section>
 
-        <!-- Sistema de Anúncios Promocionais Elegante -->
-        <div class="announcement-system-elegant" id="announcement-system">
-            <div class="announcement-container-elegant">
-                <div class="announcement-content-elegant">
-                    <div class="announcement-slides-elegant">
-                        <div class="announcement-slide-elegant active">
-                            <div class="announcement-icon-elegant">🚚</div>
-                            <div class="announcement-text-elegant">
-                                <strong>FRETE GRÁTIS</strong> em compras acima de R$ 100
+        <!-- Sistema de Anúncios Premium - Abaixo do Banner -->
+        <section class="premium-announcements-section" id="premium-announcements">
+            <div class="container">
+                <div class="announcements-grid-premium">
+                    <!-- Anúncio 1 -->
+                    <div class="announcement-card-premium announcement-delivery">
+                        <div class="announcement-icon-container">
+                            <div class="announcement-icon-premium">
+                                <i class="fas fa-shipping-fast"></i>
                             </div>
                         </div>
-                        <div class="announcement-slide-elegant">
-                            <div class="announcement-icon-elegant">💰</div>
-                            <div class="announcement-text-elegant">
-                                <strong>5% DE DESCONTO</strong> ao levar 2 camisetas
+                        <div class="announcement-content-premium">
+                            <h3>🚚 Frete Grátis</h3>
+                            <p>Em compras acima de R$ 100</p>
+                            <div class="announcement-progress">
+                                <div class="progress-bar-premium">
+                                    <div class="progress-fill-premium" id="shipping-progress"></div>
+                                </div>
+                                <span class="progress-text">Faltam R$ <span id="shipping-remaining">100</span></span>
                             </div>
                         </div>
-                        <div class="announcement-slide-elegant">
-                            <div class="announcement-icon-elegant">🎯</div>
-                            <div class="announcement-text-elegant">
-                                <strong>10% DE DESCONTO</strong> ao levar 3+ camisetas
-                            </div>
-                        </div>
-                        <div class="announcement-slide-elegant">
-                            <div class="announcement-icon-elegant">⚡</div>
-                            <div class="announcement-text-elegant">
-                                <strong>ATÉ 35% OFF</strong> em produtos selecionados
-                            </div>
-                        </div>
+                        <button class="announcement-close-btn" data-announcement="delivery">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <button class="announcement-close-elegant" id="announcement-close">
-                        <i class="fas fa-times"></i>
-                    </button>
+
+                    <!-- Anúncio 2 -->
+                    <div class="announcement-card-premium announcement-discount">
+                        <div class="announcement-icon-container">
+                            <div class="announcement-icon-premium">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                        </div>
+                        <div class="announcement-content-premium">
+                            <h3>🎯 Descontos Progressivos</h3>
+                            <p>5% em 2 camisas • 10% em 3+</p>
+                            <div class="discount-steps-premium">
+                                <div class="discount-step active">
+                                    <span>1</span>
+                                    <small>2-7% OFF</small>
+                                </div>
+                                <div class="discount-step">
+                                    <span>2</span>
+                                    <small>5% OFF</small>
+                                </div>
+                                <div class="discount-step">
+                                    <span>3+</span>
+                                    <small>10% OFF</small>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="announcement-close-btn" data-announcement="discount">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Anúncio 3 -->
+                    <div class="announcement-card-premium announcement-personalization">
+                        <div class="announcement-icon-container">
+                            <div class="announcement-icon-premium">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                        </div>
+                        <div class="announcement-content-premium">
+                            <h3>🎨 Personalização Grátis</h3>
+                            <p>Sua arte em alta qualidade</p>
+                            <div class="personalization-features">
+                                <span class="feature-tag">+3 Cores</span>
+                                <span class="feature-tag">+5 Tamanhos</span>
+                                <span class="feature-tag">Posições</span>
+                            </div>
+                        </div>
+                        <button class="announcement-close-btn" data-announcement="personalization">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Barra de Categorias Premium -->
         <div class="categories-bar-premium">
@@ -378,29 +442,75 @@
         </div>
     </div>
 
-    <!-- Página do Carrinho -->
+    <!-- Página do Carrinho - Versão Ultra Premium -->
     <div id="cart-page" class="page">
         <div class="back-button" id="back-from-cart" aria-label="Fechar carrinho">
             <i class="fas fa-times"></i>
         </div>
         <div class="container">
-            <div class="section-title">
-                <h2>Seu Carrinho</h2>
-                <p>Revise seus produtos antes de finalizar a compra</p>
-            </div>
-            
-            <div class="cart-container-premium">
+            <div class="cart-container-ultra-premium">
+                <!-- Header do Carrinho -->
+                <div class="cart-header-premium">
+                    <h1 class="cart-title-premium">Seu Carrinho de Compras</h1>
+                    <div class="cart-stats-premium">
+                        <div class="cart-stat">
+                            <span class="cart-stat-value">0</span>
+                            <span class="cart-stat-label">Itens</span>
+                        </div>
+                        <div class="cart-stat">
+                            <span class="cart-stat-value">0</span>
+                            <span class="cart-stat-label">Camisas</span>
+                        </div>
+                        <div class="cart-stat">
+                            <span class="cart-stat-value">R$ 0</span>
+                            <span class="cart-stat-label">Economia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Itens do Carrinho -->
                 <div class="cart-items-premium" id="cart-items">
-                    <!-- Itens do carrinho serão inseridos via JavaScript -->
+                    <!-- Itens serão preenchidos via JavaScript -->
                 </div>
-                
-                <div class="cart-summary-premium" id="cart-summary">
-                    <!-- Resumo do carrinho será inserido via JavaScript -->
+
+                <!-- Sistema de Benefícios será inserido aqui via JavaScript -->
+
+                <!-- Resumo Ultra Premium -->
+                <div class="cart-summary-ultra-premium">
+                    <div class="summary-row-ultra">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal">R$ 0,00</span>
+                    </div>
+                    <div class="summary-row-ultra">
+                        <span>Descontos Progressivos:</span>
+                        <span style="color: var(--success-color);">- R$ <span id="cart-discount">0,00</span></span>
+                    </div>
+                    <div class="summary-row-ultra highlight">
+                        <span>Frete:</span>
+                        <span id="cart-shipping">A calcular</span>
+                    </div>
+                    <div class="summary-row-ultra total">
+                        <span>Total do Pedido:</span>
+                        <span>R$ <span id="cart-total">0,00</span></span>
+                    </div>
+                    
+                    <!-- Mensagem de Economia -->
+                    <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 12px;">
+                        <p style="margin: 0; color: var(--success-color); font-weight: 600;">
+                            <i class="fas fa-piggy-bank"></i> 
+                            Você está economando <span id="total-savings">R$ 0,00</span> neste pedido!
+                        </p>
+                    </div>
                 </div>
-                
-                <div class="action-buttons-premium">
-                    <button class="btn btn-outline-premium" id="continue-shopping">Continuar Comprando</button>
-                    <button class="btn btn-primary-premium" id="checkout-btn">Finalizar Compra</button>
+
+                <!-- Ações do Carrinho -->
+                <div class="action-buttons-premium" style="margin-top: 2.5rem;">
+                    <button class="btn btn-outline-premium" id="continue-shopping">
+                        <i class="fas fa-arrow-left"></i> Continuar Comprando
+                    </button>
+                    <button class="btn btn-primary-premium" id="checkout-btn">
+                        <i class="fas fa-lock"></i> Finalizar Compra com Segurança
+                    </button>
                 </div>
             </div>
         </div>
