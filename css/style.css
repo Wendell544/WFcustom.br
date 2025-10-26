@@ -2915,6 +2915,204 @@ header {
     }
 }
 
+/* === SISTEMA DE ANÚNCIOS COMPACTO === */
+.announcement-bar-compact {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: white;
+    padding: 8px 0;
+    position: relative;
+    overflow: hidden;
+    height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+.announcement-track-compact {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+}
+
+.announcement-slide-compact {
+    flex: 0 0 100%;
+    text-align: center;
+    padding: 0 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: none;
+}
+
+.announcement-slide-compact.active {
+    display: block;
+    animation: slideInCompact 0.5s ease-out;
+}
+
+@keyframes slideInCompact {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.announcement-close-compact {
+    position: absolute;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+/* Remover seção de anúncios grande existente */
+.premium-announcements-section {
+    display: none !important;
+}
+
+/* === CORREÇÃO DOS CARDS === */
+.grade-card-info {
+    padding: 0.8rem;
+}
+
+.grade-card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--premium-black);
+    line-height: 1.3;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Preços em negrito e bem visíveis */
+.grade-card-price-simple {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    margin: 0.5rem 0;
+}
+
+.grade-card-pricing-premium {
+    margin: 0.5rem 0;
+}
+
+.original-price-ficticio {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+    margin-bottom: 0.2rem;
+}
+
+.current-price-with-discount {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent-color);
+}
+
+.price-por {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-right: 0.2rem;
+}
+
+/* Remover elementos desnecessários dos cards */
+.grade-card-sizes,
+.grade-card-positions,
+.stock-indicator,
+.quick-add-btn {
+    display: none !important;
+}
+
+/* Manhar apenas as cores */
+.grade-card-colors {
+    margin-top: 0.5rem;
+}
+
+/* Corrigir imagens - remover divisões */
+.image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.grade-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-slow);
+    display: block;
+}
+
+/* Corrigir badges de desconto */
+.premium-discount-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: linear-gradient(135deg, var(--ofertas-primary), var(--ofertas-secondary));
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    z-index: 3;
+    box-shadow: var(--shadow-md);
+}
+
+.discount-percent {
+    font-weight: 800;
+    margin-right: 0.2rem;
+}
+
+.discount-text {
+    font-size: 0.6rem;
+}
+
+/* Remover outros badges que atrapalham a imagem */
+.badge-discount,
+.badge-best-seller,
+.badge-new,
+.badge-trending,
+.badge-limited,
+.advanced-discount-badge-premium {
+    display: none !important;
+}
+
+/* Ajustar ícone de favoritos */
+.grade-card .favorite-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+    border: none;
+    box-shadow: var(--shadow-md);
+}
+
 /* === RESPONSIVIDADE === */
 @media (max-width: 768px) {
     .announcements-grid-premium {
@@ -2945,6 +3143,106 @@ header {
     
     .cart-stats-premium {
         justify-content: center;
+    }
+}
+
+/* === CARRINHO MOBILE === */
+@media (max-width: 768px) {
+    .cart-container-ultra-premium {
+        padding: 1rem;
+        margin: 0.5rem;
+        border-radius: 16px;
+    }
+
+    .cart-header-premium {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .cart-title-premium {
+        font-size: 1.5rem;
+    }
+
+    .cart-stats-premium {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .cart-stat {
+        padding: 0.5rem 0.8rem;
+        min-width: 80px;
+    }
+
+    .cart-stat-value {
+        font-size: 1.1rem;
+    }
+
+    .cart-stat-label {
+        font-size: 0.7rem;
+    }
+
+    .cart-item-ultra-premium {
+        grid-template-columns: 60px 1fr auto;
+        gap: 0.8rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .cart-item-image-ultra {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+    }
+
+    .cart-item-details-ultra h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .cart-item-specs {
+        gap: 0.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .cart-item-spec {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .cart-item-price-ultra {
+        font-size: 1rem;
+    }
+
+    .remove-item-ultra {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .cart-summary-ultra-premium {
+        padding: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .summary-row-ultra {
+        font-size: 0.9rem;
+        padding: 0.8rem 0;
+    }
+
+    .summary-row-ultra.total {
+        font-size: 1.1rem;
+    }
+
+    .action-buttons-premium {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .btn {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
     }
 }
 

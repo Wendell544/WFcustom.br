@@ -1,3 +1,5 @@
+[file name]: products.js
+[file content begin]
 // Dados dois produtos
 const products = {
     masculino: [
@@ -2064,7 +2066,6 @@ function createGradeCard(product) {
     const firstVariant = product.variants[firstColor];
     const firstImage = firstVariant.image;
     const firstPrice = firstVariant.price;
-    const firstSize = firstVariant.sizes[0];
     const firstPosition = product.positions.length > 0 ? product.positions[0] : '';
 
     // Calcular preço inicial considerando posição
@@ -2098,37 +2099,22 @@ function createGradeCard(product) {
         return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
     }).join('');
 
-    const sizeDots = firstVariant.sizes.map(size => {
-        return `<div class="size-dot ${size === firstSize ? 'active' : ''}" data-size="${size}">${size}</div>`;
-    }).join('');
-
-    const positionDots = product.positions.map(position => {
-        let positionText = '';
-        switch(position) {
-            case 'frente': positionText = 'Frente'; break;
-            case 'atras': positionText = 'Atrás'; break;
-            case 'ambos': positionText = 'Ambos'; break;
-            default: positionText = position;
-        }
-        return `<div class="position-dot ${position === firstPosition ? 'active' : ''}" data-position="${position}">${positionText}</div>`;
-    }).join('');
-
-    // Preço com desconto (se aplicável) - agora considerando o desconto fictício
+    // Preços com desconto (se aplicável) - CORRIGIDO
     let finalPrice = initialPrice;
     let priceHTML = '';
 
     if (hasFictionalDiscount && originalPriceFicticio) {
+        // Ajustar o preço original fictício pela posição
+        const originalPriceFicticioComPosicao = originalPriceFicticio + (firstPosition === 'ambos' ? 2.00 : 0);
+
         priceHTML = `
             <div class="grade-card-pricing-premium">
                 <div class="original-price-ficticio">
-                    De R$ ${originalPriceFicticio.toFixed(2)}
+                    De R$ ${originalPriceFicticioComPosicao.toFixed(2)}
                 </div>
                 <div class="current-price-with-discount">
                     <span class="price-por">Por</span> 
                     R$ ${finalPrice.toFixed(2)}
-                </div>
-                <div class="discount-badge-premium">
-                    -${discountPercentage}% OFF
                 </div>
             </div>
         `;
@@ -2170,25 +2156,6 @@ function createGradeCard(product) {
             ${priceHTML}
             
             ${Object.keys(product.variants).length > 1 ? `<div class="grade-card-colors">${colorDots}</div>` : ''}
-            <div class="grade-card-sizes">
-                ${sizeDots}
-            </div>
-            ${product.positions.length > 0 ? `<div class="grade-card-positions">${positionDots}</div>` : ''}
-            
-            ${product.limitedStock ? `
-                <div class="stock-indicator">
-                    <div class="stock-text">Apenas ${product.stockCount} unidades!</div>
-                    <div class="stock-bar">
-                        <div class="stock-progress" style="width: ${(product.stockCount / 10) * 100}%"></div>
-                    </div>
-                </div>
-            ` : ''}
-            
-            <!-- Botão de ação rápida -->
-            <button class="quick-add-btn" data-product-id="${product.id}">
-                <i class="fas fa-cart-plus"></i>
-                Adicionar ao Carrinho
-            </button>
         </div>
     `;
 
@@ -2206,8 +2173,6 @@ function createGradeCard(product) {
     const colorDotsElements = card.querySelectorAll('.color-dot');
     const cardImage = card.querySelector('.grade-card-image');
     const loadingOverlay = card.querySelector('.image-loading-overlay');
-    const priceElement = card.querySelector('.price-value');
-    const sizeContainer = card.querySelector('.grade-card-sizes');
     
     colorDotsElements.forEach(dot => {
         dot.addEventListener('click', (e) => {
@@ -2230,7 +2195,7 @@ function createGradeCard(product) {
                 cardImage.src = selectedVariant.image;
                 cardImage.style.opacity = '1';
                 loadingOverlay.style.display = 'none';
-                updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
+                updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, firstPosition);
             } else {
                 // Carregar imagem
                 const newImage = new Image();
@@ -2239,7 +2204,7 @@ function createGradeCard(product) {
                     cardImage.src = selectedVariant.image;
                     cardImage.style.opacity = '1';
                     loadingOverlay.style.display = 'none';
-                    updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition);
+                    updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, firstPosition);
                 };
                 
                 newImage.onerror = () => {
@@ -2253,69 +2218,16 @@ function createGradeCard(product) {
         });
     });
 
-    // Adicionar event listeners para tamanhos
-    function setupSizeListeners() {
-        const sizeDotsElements = card.querySelectorAll('.size-dot');
-        sizeDotsElements.forEach(dot => {
-            dot.addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                sizeDotsElements.forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
-            });
-        });
-    }
-    setupSizeListeners();
-
-    // Adicionar event listeners para posições
-    const positionDotsElements = card.querySelectorAll('.position-dot');
-    positionDotsElements.forEach(dot => {
-        dot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            positionDotsElements.forEach(d => d.classList.remove('active'));
-            dot.classList.add('active');
-            
-            // Atualizar preço baseado na posição
-            const selectedPosition = dot.getAttribute('data-position');
-            const currentColor = card.querySelector('.color-dot.active').getAttribute('data-color');
-            const selectedVariant = product.variants[currentColor];
-            
-            // Calcular preço final considerando posição
-            const basePrice = product.discount ? 
-                selectedVariant.price * (1 - product.discount / 100) : 
-                selectedVariant.price;
-            const finalPrice = calculateFinalPrice(basePrice, selectedPosition);
-            
-            // Atualizar o elemento de preço
-            const priceElement = card.querySelector('.price-value');
-            if (priceElement) {
-                priceElement.textContent = finalPrice.toFixed(2);
-            }
-        });
-    });
-
-    // Adicionar event listener para o botão de adicionar ao carrinho
-    const quickAddBtn = card.querySelector('.quick-add-btn');
-    quickAddBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const productId = this.getAttribute('data-product-id');
-        console.log('Adicionar ao carrinho:', productId);
-        // Aqui você pode adicionar a lógica para adicionar ao carrinho
-    });
-
     return card;
 }
 
 // Função auxiliar para atualizar detalhes do produto
-function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, priceElement, sizeContainer, firstPosition) {
+function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, firstPosition) {
     cardImage.setAttribute('data-color', selectedColor);
     cardImage.alt = `${product.name} - Cor ${selectedColor}`;
     
     // Obter posição atual para calcular preço
-    const activePositionDot = card.querySelector('.position-dot.active');
-    const currentPosition = activePositionDot ? activePositionDot.getAttribute('data-position') : firstPosition;
+    const currentPosition = firstPosition;
     
     // Calcular preço final considerando cor E posição
     const basePrice = product.discount ? 
@@ -2324,42 +2236,17 @@ function updateProductDetails(cardImage, selectedVariant, selectedColor, product
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
     // Atualizar o elemento de preço
-    const priceDisplay = card.querySelector('.price-value') || card.querySelector('.current-price-with-discount');
+    const priceDisplay = card.querySelector('.current-price-with-discount') || card.querySelector('.grade-card-price-simple');
     if (priceDisplay) {
-        if (priceDisplay.classList && priceDisplay.classList.contains('price-value')) {
-            priceDisplay.textContent = finalPrice.toFixed(2);
-        } else {
-            // Para o novo formato de preço premium
-            const priceSpan = priceDisplay.querySelector('.price-value');
-            if (priceSpan) {
-                priceSpan.textContent = finalPrice.toFixed(2);
+        if (priceDisplay.classList.contains('grade-card-pricing-premium')) {
+            const priceElement = priceDisplay.querySelector('.current-price-with-discount');
+            if (priceElement) {
+                priceElement.innerHTML = `<span class="price-por">Por</span> R$ ${finalPrice.toFixed(2)}`;
             }
+        } else {
+            priceDisplay.textContent = `R$ ${finalPrice.toFixed(2)}`;
         }
     }
-    
-    // Atualizar tamanhos disponíveis
-    updateSizesForColor(sizeContainer, selectedVariant.sizes);
-}
-
-// Atualizar tamanhos disponíveis para uma cor
-function updateSizesForColor(sizeContainer, sizes) {
-    sizeContainer.innerHTML = '';
-    
-    sizes.forEach((size, index) => {
-        const sizeDot = document.createElement('div');
-        sizeDot.className = `size-dot ${index === 0 ? 'active' : ''}`;
-        sizeDot.setAttribute('data-size', size);
-        sizeDot.textContent = size;
-        
-        sizeDot.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            sizeContainer.querySelectorAll('.size-dot').forEach(d => d.classList.remove('active'));
-            sizeDot.classList.add('active');
-        });
-        
-        sizeContainer.appendChild(sizeDot);
-    });
 }
 
 // Popular uma grade

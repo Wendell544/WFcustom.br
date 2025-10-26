@@ -25,6 +25,77 @@ let favoritesBackToHome;
 // Elementos do carrossel de banners
 let bannerTrack, bannerSlides;
 
+// SISTEMA DE ANÚNCIOS COMPACTO
+class CompactAnnouncementSystem {
+    constructor() {
+        this.currentAnnouncement = 0;
+        this.announcements = [
+            "🚚 Frete Grátis em compras acima de R$ 100",
+            "🎯 5% de desconto em 2 camisas • 10% em 3+",
+            "🎨 Personalização Grátis • Sua arte em alta qualidade",
+            "🔥 Ofertas Exclusivas • Preços Imperdíveis",
+            "⭐ Produtos Premium • Qualidade Garantida"
+        ];
+        this.interval = null;
+        this.init();
+    }
+
+    init() {
+        this.createAnnouncementBar();
+        this.startRotation();
+        this.setupEventListeners();
+    }
+
+    createAnnouncementBar() {
+        const announcementBar = document.createElement('div');
+        announcementBar.className = 'announcement-bar-compact';
+        announcementBar.innerHTML = `
+            <div class="announcement-track-compact" id="announcement-track-compact">
+                ${this.announcements.map((text, index) => `
+                    <div class="announcement-slide-compact ${index === 0 ? 'active' : ''}">
+                        ${text}
+                    </div>
+                `).join('')}
+            </div>
+            <button class="announcement-close-compact" id="announcement-close-compact">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        // Inserir após o header
+        const header = document.querySelector('header');
+        header.parentNode.insertBefore(announcementBar, header.nextSibling);
+    }
+
+    startRotation() {
+        this.interval = setInterval(() => {
+            this.showNextAnnouncement();
+        }, 3000);
+    }
+
+    showNextAnnouncement() {
+        const slides = document.querySelectorAll('.announcement-slide-compact');
+        slides[this.currentAnnouncement].classList.remove('active');
+        
+        this.currentAnnouncement = (this.currentAnnouncement + 1) % this.announcements.length;
+        
+        slides[this.currentAnnouncement].classList.add('active');
+    }
+
+    setupEventListeners() {
+        const closeBtn = document.getElementById('announcement-close-compact');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                const announcementBar = document.querySelector('.announcement-bar-compact');
+                if (announcementBar) {
+                    announcementBar.style.display = 'none';
+                    clearInterval(this.interval);
+                }
+            });
+        }
+    }
+}
+
 // Função auxiliar para calcular preço final
 function calculateFinalPrice(basePrice, position) {
     let finalPrice = basePrice;
@@ -41,6 +112,9 @@ function init() {
     initBannerCarousel();
     updateCartCount();
     updateFavoriteCount();
+    
+    // Inicializar sistema de anúncios compacto
+    new CompactAnnouncementSystem();
     
     // Aplicar categoria padrão "masculino"
     filterProductsByCategory('masculino');

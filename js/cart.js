@@ -126,16 +126,37 @@ function renderCartSummary() {
         item.product.category === 'masculino' || item.product.category === 'unissexo'
     ).length;
 
-    // Calcular desconto progressivo
+    // Calcular desconto progressivo CORRETO
     let quantityDiscount = 0;
     if (tShirtCount >= 3) {
-        quantityDiscount = subtotal * 0.10;
+        quantityDiscount = subtotal * 0.10; // 10% de desconto
     } else if (tShirtCount >= 2) {
-        quantityDiscount = subtotal * 0.05;
+        quantityDiscount = subtotal * 0.05; // 5% de desconto
     }
 
     const shippingCost = subtotal >= 100 ? 0 : 9.99;
     const total = subtotal - quantityDiscount + shippingCost;
+    
+    // Atualizar elementos do carrinho ultra premium
+    const cartSubtotal = document.getElementById('cart-subtotal');
+    const cartDiscount = document.getElementById('cart-discount');
+    const cartShipping = document.getElementById('cart-shipping');
+    const cartTotal = document.getElementById('cart-total');
+    const totalSavings = document.getElementById('total-savings');
+    
+    if (cartSubtotal) cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
+    if (cartDiscount) cartDiscount.textContent = quantityDiscount.toFixed(2);
+    if (cartShipping) {
+        if (shippingCost === 0) {
+            cartShipping.textContent = 'GRÁTIS';
+            cartShipping.style.color = 'var(--success-color)';
+        } else {
+            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
+            cartShipping.style.color = '';
+        }
+    }
+    if (cartTotal) cartTotal.textContent = total.toFixed(2);
+    if (totalSavings) totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
     
     cartSummary.innerHTML = `
         <div class="summary-row-premium">
@@ -150,11 +171,11 @@ function renderCartSummary() {
         ` : ''}
         <div class="summary-row-premium">
             <span>Frete:</span>
-            <span id="cart-shipping">A calcular</span>
+            <span id="cart-shipping-display">${shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`}</span>
         </div>
         <div class="summary-row-premium summary-total-premium">
             <span>Total:</span>
-            <span id="cart-total">R$ ${total.toFixed(2)}</span>
+            <span>R$ ${total.toFixed(2)}</span>
         </div>
     `;
 }
