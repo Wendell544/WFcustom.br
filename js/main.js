@@ -102,8 +102,9 @@ function calculateFinalPrice(basePrice, position) {
     return finalPrice;
 }
 
-// Funções de inicialização
+// Funções de inicialização - VERSÃO CORRIGIDA
 function init() {
+    console.log('Iniciando aplicação...');
     initializeDOMElements();
     setupEventListeners();
     initBannerCarousel();
@@ -116,20 +117,20 @@ function init() {
     // Aplicar categoria padrão "masculino"
     filterProductsByCategory('masculino');
     
-    // Popular grades APÓS garantir que o DOM está pronto
+    // Verificar se as grades já foram populadas
     setTimeout(() => {
-        console.log('Inicializando grades...');
-        populateAllGrades();
+        const existingCards = document.querySelectorAll('.grade-card');
+        console.log(`Cards encontrados: ${existingCards.length}`);
         
-        // Forçar redesenho se ainda não aparecer
-        setTimeout(() => {
-            if (document.querySelectorAll('.grade-card').length === 0) {
-                console.log('Nenhum card encontrado, recarregando...');
-                // Tenta novamente
+        if (existingCards.length === 0) {
+            console.log('Repopulando grades...');
+            if (typeof populateAllGrades === 'function') {
                 populateAllGrades();
+            } else {
+                console.error('Função populateAllGrades não disponível');
             }
-        }, 500);
-    }, 100);
+        }
+    }, 500);
 }
 
 // Inicializar elementos DOM
@@ -602,7 +603,7 @@ function updatePositionOptions() {
             currentPosition = position;
             
             // Atualizar estado ativo
-            positionOptions.forEach(opt => opt.classList.remove('active'));
+            positionOptions.forEach(opt => opt.classList.remove('active');
             option.classList.add('active');
             
             // Atualizar preço

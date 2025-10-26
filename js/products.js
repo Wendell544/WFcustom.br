@@ -1956,15 +1956,12 @@ function applyStrategicDiscounts() {
         // Calcular desconto entre 15% e 35%
         const discountPercentage = Math.floor(Math.random() * 20) + 15; // 15% a 35%
         
-        // Calcular preço de venda mantendo o preço real
-        const currentPrice = product.variants[Object.keys(product.variants)[0]].price;
-        
         // Armazenar dados do desconto
         product.originalPriceFicticio = originalPrice;
         product.discountPercentageFicticio = discountPercentage;
         product.hasFictionalDiscount = true;
         
-        console.log(`Produto ${product.id}: De R$ ${originalPrice} por R$ ${currentPrice} (${discountPercentage}% OFF)`);
+        console.log(`Produto ${product.id}: De R$ ${originalPrice} por R$ ${product.variants[Object.keys(product.variants)[0]].price} (${discountPercentage}% OFF)`);
     });
 }
 
@@ -2001,7 +1998,6 @@ function preloadProductImages() {
             imageCache.set(url, img);
             console.log(`Imagem carregada: ${loadedImages}/${totalImages}`);
             
-            // Atualizar progresso se necessário
             if (loadedImages === totalImages) {
                 console.log('Todas as imagens foram pré-carregadas!');
             }
@@ -2023,21 +2019,22 @@ function calculateFinalPrice(basePrice, position) {
     return finalPrice;
 }
 
-// Função auxiliar para favoritos (placeholder)
+// Função auxiliar para favoritos
 function isProductFavorite(productId) {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    return favorites.includes(productId);
+    return favorites.includes(parseInt(productId));
 }
 
-// Função auxiliar para toggle favoritos (placeholder)
+// Função auxiliar para toggle favoritos
 function toggleFavorite(productId) {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const index = favorites.indexOf(productId);
+    const numericId = parseInt(productId);
+    const index = favorites.indexOf(numericId);
     
     if (index > -1) {
         favorites.splice(index, 1);
     } else {
-        favorites.push(productId);
+        favorites.push(numericId);
     }
     
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -2056,7 +2053,7 @@ function toggleFavorite(productId) {
     });
 }
 
-// Criar card de produto para a grade - VERSÃO CORRIGIDA
+// Criar card de produto para a grade - VERSÃO SIMPLIFICADA E CORRIGIDA
 function createGradeCard(product) {
     const card = document.createElement('div');
     card.className = 'grade-card';
@@ -2069,10 +2066,6 @@ function createGradeCard(product) {
 
     // Calcular preço inicial
     const initialPrice = firstPrice;
-
-    // Badges do produto - apenas desconto
-    const badges = [];
-    if (product.discount) badges.push(`<span class="badge badge-discount">-${product.discount}% OFF</span>`);
 
     // Desconto fictício
     const hasFictionalDiscount = product.hasFictionalDiscount;
@@ -2090,7 +2083,7 @@ function createGradeCard(product) {
         return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
     }).join('');
 
-    // Preços com desconto (se aplicável) - CORRIGIDO E SIMPLIFICADO
+    // Preços com desconto (se aplicável)
     let finalPrice = initialPrice;
     let priceHTML = '';
 
@@ -2202,38 +2195,22 @@ function createGradeCard(product) {
         });
     });
 
+    // Adicionar event listener para clicar no card
+    card.addEventListener('click', function(e) {
+        if (!e.target.closest('.favorite-icon') && !e.target.closest('.color-dot')) {
+            const productId = this.getAttribute('data-product-id');
+            if (typeof showProductDetail === 'function') {
+                showProductDetail(productId);
+            } else {
+                console.warn('Função showProductDetail não disponível');
+            }
+        }
+    });
+
     return card;
 }
 
-// Função auxiliar para atualizar detalhes do produto
-function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, firstPosition) {
-    cardImage.setAttribute('data-color', selectedColor);
-    cardImage.alt = `${product.name} - Cor ${selectedColor}`;
-    
-    // Obter posição atual para calcular preço
-    const currentPosition = firstPosition;
-    
-    // Calcular preço final considerando cor E posição
-    const basePrice = product.discount ? 
-        selectedVariant.price * (1 - product.discount / 100) : 
-        selectedVariant.price;
-    const finalPrice = calculateFinalPrice(basePrice, currentPosition);
-    
-    // Atualizar o elemento de preço
-    const priceDisplay = card.querySelector('.current-price-with-discount') || card.querySelector('.grade-card-price-simple');
-    if (priceDisplay) {
-        if (priceDisplay.classList.contains('grade-card-pricing-premium')) {
-            const priceElement = priceDisplay.querySelector('.current-price-with-discount');
-            if (priceElement) {
-                priceElement.innerHTML = `<span class="price-por">Por</span> R$ ${finalPrice.toFixed(2)}`;
-            }
-        } else {
-            priceDisplay.textContent = `R$ ${finalPrice.toFixed(2)}`;
-        }
-    }
-}
-
-// Popular uma grade
+// Popular uma grade - VERSÃO CORRIGIDA
 function populateGrade(containerId, productList) {
     const gradeContainer = document.getElementById(containerId);
     if (!gradeContainer) {
@@ -2243,6 +2220,11 @@ function populateGrade(containerId, productList) {
     
     console.log(`Populando ${containerId} com ${productList.length} produtos`);
     gradeContainer.innerHTML = '';
+
+    if (productList.length === 0) {
+        gradeContainer.innerHTML = '<p class="no-products">Nenhum produto encontrado</p>';
+        return true;
+    }
 
     productList.forEach(product => {
         const card = createGradeCard(product);
@@ -2263,96 +2245,43 @@ function findProductById(id) {
     return null;
 }
 
-// Popular todas as grades
+// Popular todas as grades - VERSÃO CORRIGIDA
 function populateAllGrades() {
     console.log('Iniciando população das grades...');
     
-    const containers = [
-        'grade-container-masculino',
-        'grade-container-unissexo', 
-        'grade-container-canecas',
-        'grade-container-ofertas'
-    ];
+    // Aplicar descontos primeiro
+    applyStrategicDiscounts();
     
-    let successCount = 0;
-    
-    containers.forEach(containerId => {
-        const category = containerId.split('-')[2];
-        if (populateGrade(containerId, products[category])) {
-            successCount++;
-        }
-    });
-    
-    console.log(`Grades populadas: ${successCount}/${containers.length}`);
-    
-    // Se nenhum container foi encontrado, criar dinamicamente
-    if (successCount === 0) {
-        console.log('Nenhum container encontrado. Criando estrutura dinâmica...');
-        createDynamicGradeStructure();
-    }
-}
-
-// Criar estrutura dinâmica se os containers não existirem
-function createDynamicGradeStructure() {
-    const productsSection = document.getElementById('products');
-    if (!productsSection) {
-        console.error('Seção de produtos não encontrada');
-        return;
-    }
-    
-    // Criar containers dinamicamente
-    const categories = ['masculino', 'unissexo', 'canecas', 'ofertas'];
+    const categories = ['masculino', 'unissexo', 'canecas'];
     
     categories.forEach(category => {
         const containerId = `grade-container-${category}`;
-        
-        // Verificar se já existe
-        if (!document.getElementById(containerId)) {
-            const gradeSection = document.createElement('div');
-            gradeSection.className = 'grade-produtos';
-            gradeSection.id = `grade-${category}`;
-            gradeSection.setAttribute('data-category', category);
-            
-            gradeSection.innerHTML = `
-                <div class="grade-header">
-                    <h2>${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
-                </div>
-                <div id="${containerId}" class="grade-container"></div>
-            `;
-            
-            productsSection.appendChild(gradeSection);
-            console.log(`Container criado: ${containerId}`);
-        }
-        
-        // Popular o container
         populateGrade(containerId, products[category]);
     });
+    
+    // Para ofertas, usar produtos com desconto
+    const discountedProducts = [
+        ...products.masculino,
+        ...products.unissexo, 
+        ...products.canecas
+    ].filter(product => product.hasFictionalDiscount);
+    
+    populateGrade('grade-container-ofertas', discountedProducts.slice(0, 8));
+    
+    console.log('Grades populadas com sucesso!');
 }
 
-// Debug function para verificar estrutura do DOM
-function debugDOMStructure() {
-    console.log('=== DEBUG DOM STRUCTURE ===');
-    console.log('Products section:', document.getElementById('products'));
-    console.log('Masculino container:', document.getElementById('grade-container-masculino'));
-    console.log('Unissexo container:', document.getElementById('grade-container-unissexo'));
-    console.log('Canecas container:', document.getElementById('grade-container-canecas'));
-    console.log('Ofertas container:', document.getElementById('grade-container-ofertas'));
-    console.log('All grade containers:', document.querySelectorAll('.grade-container'));
-    console.log('=== END DEBUG ===');
-}
-
-// Inicializar as grades quando o DOM estiver pronto
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-        // Aplicar descontos estratégicos primeiro
-        applyStrategicDiscounts();
-        // Pré-carregar imagens
-        preloadProductImages();
-        // Popular grades após um pequeno delay para garantir que o DOM está pronto
-        setTimeout(populateAllGrades, 100);
-    });
-} else {
-    applyStrategicDiscounts();
+// Inicializar quando DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Carregado - Iniciando produtos...');
     preloadProductImages();
-    setTimeout(populateAllGrades, 100);
-}
+    
+    // Pequeno delay para garantir que tudo está pronto
+    setTimeout(() => {
+        populateAllGrades();
+    }, 100);
+});
+
+// Também exportar funções para uso global
+window.populateAllGrades = populateAllGrades;
+window.findProductById = findProductById;
