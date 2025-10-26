@@ -114,11 +114,16 @@ function renderCart() {
     if (checkoutBtn) checkoutBtn.disabled = false;
 }
 
-// Renderizar resumo do carrinho
+// Renderizar resumo do carrinho - VERSÃO CORRIGIDA
 function renderCartSummary() {
     const cartSummary = document.getElementById('cart-summary');
-    if (!cartSummary) return;
+    const checkoutBtn = document.getElementById('checkout-btn');
     
+    if (!cartSummary) {
+        console.error('Elemento cart-summary não encontrado!');
+        return;
+    }
+
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     
     // Calcular quantidade de camisetas para desconto progressivo
@@ -137,7 +142,7 @@ function renderCartSummary() {
     const shippingCost = subtotal >= 100 ? 0 : 9.99;
     const total = subtotal - quantityDiscount + shippingCost;
     
-    // Atualizar elementos do carrinho ultra premium
+    // ATUALIZAR ELEMENTOS DO CARRINHO - CORREÇÃO
     const cartSubtotal = document.getElementById('cart-subtotal');
     const cartDiscount = document.getElementById('cart-discount');
     const cartShipping = document.getElementById('cart-shipping');
@@ -145,7 +150,7 @@ function renderCartSummary() {
     const totalSavings = document.getElementById('total-savings');
     
     if (cartSubtotal) cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
-    if (cartDiscount) cartDiscount.textContent = quantityDiscount.toFixed(2);
+    if (cartDiscount) cartDiscount.textContent = `- R$ ${quantityDiscount.toFixed(2)}`;
     if (cartShipping) {
         if (shippingCost === 0) {
             cartShipping.textContent = 'GRÁTIS';
@@ -155,13 +160,24 @@ function renderCartSummary() {
             cartShipping.style.color = '';
         }
     }
-    if (cartTotal) cartTotal.textContent = total.toFixed(2);
+    if (cartTotal) {
+        cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+        cartTotal.style.fontWeight = '900';
+        cartTotal.style.color = 'var(--ofertas-primary)';
+        cartTotal.style.fontSize = '1.4rem';
+    }
     if (totalSavings) totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
+    
+    // RENDERIZAR O RESUMO COMPLETO - CORREÇÃO PRINCIPAL
+    cartSummary.innerHTML = '';
+    cartSummary.style.display = 'block';
+    cartSummary.style.visibility = 'visible';
+    cartSummary.style.opacity = '1';
     
     cartSummary.innerHTML = `
         <div class="summary-row-premium">
             <span>Subtotal:</span>
-            <span>R$ ${subtotal.toFixed(2)}</span>
+            <span id="cart-subtotal-display">R$ ${subtotal.toFixed(2)}</span>
         </div>
         ${quantityDiscount > 0 ? `
         <div class="summary-row-premium" style="color: var(--success-color);">
@@ -174,10 +190,36 @@ function renderCartSummary() {
             <span id="cart-shipping-display">${shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`}</span>
         </div>
         <div class="summary-row-premium summary-total-premium">
-            <span>Total:</span>
-            <span>R$ ${total.toFixed(2)}</span>
+            <span><strong>Total:</strong></span>
+            <span><strong id="cart-total-display">R$ ${total.toFixed(2)}</strong></span>
         </div>
+        ${quantityDiscount > 0 ? `
+        <div class="summary-row-premium" style="color: var(--success-color); font-size: 0.8rem;">
+            <span>💰 Você economizou:</span>
+            <span>R$ ${quantityDiscount.toFixed(2)}</span>
+        </div>
+        ` : ''}
     `;
+    
+    // Garantir que o botão de checkout esteja habilitado quando houver itens
+    if (checkoutBtn) {
+        checkoutBtn.disabled = cartItems.length === 0;
+        if (cartItems.length > 0) {
+            checkoutBtn.style.opacity = '1';
+            checkoutBtn.style.cursor = 'pointer';
+        } else {
+            checkoutBtn.style.opacity = '0.6';
+            checkoutBtn.style.cursor = 'not-allowed';
+        }
+    }
+    
+    console.log('Resumo do carrinho renderizado:', {
+        subtotal,
+        quantityDiscount,
+        shippingCost,
+        total,
+        items: cartItems.length
+    });
 }
 
 // Calcular frete

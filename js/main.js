@@ -25,16 +25,13 @@ let favoritesBackToHome;
 // Elementos do carrossel de banners
 let bannerTrack, bannerSlides;
 
-// SISTEMA DE ANÚNCIOS COMPACTO
+// SISTEMA DE ANÚNCIOS COMPACTO - VERSÃO CORRIGIDA (ÚNICO ANÚNCIO)
 class CompactAnnouncementSystem {
     constructor() {
         this.currentAnnouncement = 0;
+        // APENAS UM ANÚNCIO FIXO - removendo a rotação
         this.announcements = [
-            "🚚 Frete Grátis em compras acima de R$ 100",
-            "🎯 5% de desconto em 2 camisas • 10% em 3+",
-            "🎨 Personalização Grátis • Sua arte em alta qualidade",
-            "🔥 Ofertas Exclusivas • Preços Imperdíveis",
-            "⭐ Produtos Premium • Qualidade Garantida"
+            "🚚 Frete Grátis em compras acima de R$ 100 • 🎯 5% de desconto em 2 camisas • 10% em 3+ • 🎨 Personalização Grátis"
         ];
         this.interval = null;
         this.init();
@@ -42,45 +39,43 @@ class CompactAnnouncementSystem {
 
     init() {
         this.createAnnouncementBar();
-        this.startRotation();
+        // REMOVIDO: this.startRotation(); - para ter apenas um anúncio fixo
         this.setupEventListeners();
     }
 
     createAnnouncementBar() {
+        // Verificar se já existe uma barra de anúncios
+        if (document.querySelector('.announcement-bar-compact')) {
+            return;
+        }
+
         const announcementBar = document.createElement('div');
         announcementBar.className = 'announcement-bar-compact';
         announcementBar.innerHTML = `
             <div class="announcement-track-compact" id="announcement-track-compact">
-                ${this.announcements.map((text, index) => `
-                    <div class="announcement-slide-compact ${index === 0 ? 'active' : ''}">
-                        ${text}
-                    </div>
-                `).join('')}
+                <div class="announcement-slide-compact active">
+                    ${this.announcements[0]}
+                </div>
             </div>
             <button class="announcement-close-compact" id="announcement-close-compact">
                 <i class="fas fa-times"></i>
             </button>
         `;
 
-        // Inserir após o header
-        const header = document.querySelector('header');
-        header.parentNode.insertBefore(announcementBar, header.nextSibling);
+        // Inserir APÓS os banners (após o elemento .banner-carousel)
+        const bannerCarousel = document.querySelector('.banner-carousel');
+        if (bannerCarousel) {
+            bannerCarousel.parentNode.insertBefore(announcementBar, bannerCarousel.nextSibling);
+        } else {
+            // Fallback: inserir após o header
+            const header = document.querySelector('header');
+            if (header) {
+                header.parentNode.insertBefore(announcementBar, header.nextSibling);
+            }
+        }
     }
 
-    startRotation() {
-        this.interval = setInterval(() => {
-            this.showNextAnnouncement();
-        }, 3000);
-    }
-
-    showNextAnnouncement() {
-        const slides = document.querySelectorAll('.announcement-slide-compact');
-        slides[this.currentAnnouncement].classList.remove('active');
-        
-        this.currentAnnouncement = (this.currentAnnouncement + 1) % this.announcements.length;
-        
-        slides[this.currentAnnouncement].classList.add('active');
-    }
+    // REMOVIDA a função startRotation() para evitar mudança de anúncios
 
     setupEventListeners() {
         const closeBtn = document.getElementById('announcement-close-compact');
@@ -89,7 +84,9 @@ class CompactAnnouncementSystem {
                 const announcementBar = document.querySelector('.announcement-bar-compact');
                 if (announcementBar) {
                     announcementBar.style.display = 'none';
-                    clearInterval(this.interval);
+                    if (this.interval) {
+                        clearInterval(this.interval);
+                    }
                 }
             });
         }
@@ -663,7 +660,8 @@ function handlePackageSelection(packageType) {
     
     switch(packageType) {
         case '12-camisetas':
-            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 156,00*.';            totalPrice = '156,00';
+            message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 12 Camisetas Personalizadas* no valor de *R$ 156,00*.';
+            totalPrice = '156,00';
             break;
         case '6-camisetas-6-canecas':
             message = 'Olá! Gostaria de solicitar um orçamento para o *Pacote 6 Camisetas + 6 Canecas Personalizadas* no valor de *R$ 215,00*.';

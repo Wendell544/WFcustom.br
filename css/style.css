@@ -3458,3 +3458,240 @@ header {
         animation: none;
     }
 }
+
+/* === CORREÇÕES DOS PROBLEMAS MENCIONADOS === */
+
+/* 1. Correção dos cards - apenas cores e preços */
+.grade-card-info {
+    padding: 0.8rem;
+}
+
+.grade-card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--premium-black);
+    line-height: 1.3;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 2. Preços em negrito e bem visíveis */
+.grade-card-price-simple {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--ofertas-primary);
+    margin: 0.5rem 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.grade-card-pricing-premium {
+    margin: 0.5rem 0;
+}
+
+.original-price-ficticio {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.current-price-with-discount {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--ofertas-primary);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.price-por {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-right: 0.2rem;
+    font-weight: 600;
+}
+
+.promo-savings {
+    background: linear-gradient(135deg, var(--success-color), #34d399);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-top: 0.3rem;
+    display: inline-block;
+}
+
+/* 3. Correção das imagens - remover cortes */
+.image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grade-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: var(--transition-slow);
+    display: block;
+    padding: 10px;
+}
+
+/* Ajuste do badge de desconto para não cobrir a imagem */
+.premium-discount-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: linear-gradient(135deg, var(--ofertas-primary), var(--ofertas-secondary));
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    z-index: 3;
+    box-shadow: var(--shadow-md);
+}
+
+.discount-percent {
+    font-weight: 800;
+    margin-right: 0.2rem;
+}
+
+.discount-text {
+    font-size: 0.6rem;
+}
+
+/* 4. Correção do carrinho - mostrar totais */
+.cart-summary-premium {
+    background: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-top: 1.5rem;
+    display: block !important;
+}
+
+.summary-row-premium {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+}
+
+.summary-total-premium {
+    font-weight: 800;
+    font-size: 1.2rem;
+    border-top: 2px solid var(--medium-gray);
+    padding-top: 0.8rem;
+    margin-top: 0.8rem;
+    color: var(--premium-black);
+}
+
+/* 5. Correção do sistema de anúncios */
+.announcement-bar-compact {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: white;
+    padding: 8px 0;
+    position: relative;
+    overflow: hidden;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Remover anúncio do robô */
+.premium-announcements-section {
+    display: none !important;
+}
+
+/* Garantir que apenas um anúncio seja mostrado */
+.announcement-slide-compact {
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.announcement-slide-compact.active {
+    display: block;
+}
+
+/* Esconder outros sistemas de anúncio */
+.announcement-system-premium,
+.premium-announcements-section {
+    display: none !important;
+}
+
+/* === CORREÇÃO DO CARRINHO - MOSTRAR TOTAIS === */
+.cart-summary-premium {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+#cart-summary {
+    display: block !important;
+}
+
+/* Estilização forte para preços totais */
+.summary-total-premium span:last-child {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--ofertas-primary);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Remover elementos desnecessários que podem estar escondendo o summary */
+.cart-summary-premium[style*="display: none"] {
+    display: block !important;
+}
+
+/* === CORREÇÃO DAS CORES NOS CARDS === */
+.grade-card-colors {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.3rem;
+    justify-content: center;
+}
+
+.color-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #f0f0f0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.color-dot.active {
+    transform: scale(1.3);
+    border-color: var(--premium-black);
+    box-shadow: var(--shadow-md);
+}
+
+/* === GARANTIR VISIBILIDADE DOS PREÇOS === */
+.grade-card-price-simple,
+.current-price-with-discount {
+    font-weight: 900 !important;
+    color: var(--ofertas-primary) !important;
+    font-size: 1.3rem !important;
+}
+
+/* Remover qualquer elemento que esteja cortando as imagens */
+.image-container {
+    overflow: visible;
+}
+
+.grade-card-image {
+    object-fit: contain !important;
+}

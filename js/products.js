@@ -2056,7 +2056,7 @@ function toggleFavorite(productId) {
     });
 }
 
-// Criar card de produto para a grade
+// Criar card de produto para a grade - VERSÃO CORRIGIDA
 function createGradeCard(product) {
     const card = document.createElement('div');
     card.className = 'grade-card';
@@ -2066,27 +2066,18 @@ function createGradeCard(product) {
     const firstVariant = product.variants[firstColor];
     const firstImage = firstVariant.image;
     const firstPrice = firstVariant.price;
-    const firstPosition = product.positions.length > 0 ? product.positions[0] : '';
 
-    // Calcular preço inicial considerando posição
-    const initialPrice = calculateFinalPrice(firstPrice, firstPosition);
+    // Calcular preço inicial
+    const initialPrice = firstPrice;
 
-    // Badges do produto
+    // Badges do produto - apenas desconto
     const badges = [];
-    if (product.isBestSeller) badges.push('<span class="badge badge-best-seller">🔥 Mais Vendido</span>');
     if (product.discount) badges.push(`<span class="badge badge-discount">-${product.discount}% OFF</span>`);
-    if (product.isNew) badges.push('<span class="badge badge-new">🆕 Novidade</span>');
-    if (product.isTrending) badges.push('<span class="badge badge-trending">📈 Em Alta</span>');
-    if (product.limitedStock) badges.push('<span class="badge badge-limited">⏳ Estoque Limitado</span>');
 
     // Desconto fictício
     const hasFictionalDiscount = product.hasFictionalDiscount;
     const originalPriceFicticio = product.originalPriceFicticio;
     const discountPercentage = product.discountPercentageFicticio;
-
-    // Badge de desconto avançada
-    const discountBadge = product.discount ? 
-        `<div class="advanced-discount-badge-premium">-${Math.round(product.discount)}% OFF</div>` : '';
 
     const colorDots = Object.keys(product.variants).map(color => {
         let bgColor;
@@ -2099,22 +2090,22 @@ function createGradeCard(product) {
         return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
     }).join('');
 
-    // Preços com desconto (se aplicável) - CORRIGIDO
+    // Preços com desconto (se aplicável) - CORRIGIDO E SIMPLIFICADO
     let finalPrice = initialPrice;
     let priceHTML = '';
 
     if (hasFictionalDiscount && originalPriceFicticio) {
-        // Ajustar o preço original fictício pela posição
-        const originalPriceFicticioComPosicao = originalPriceFicticio + (firstPosition === 'ambos' ? 2.00 : 0);
-
         priceHTML = `
             <div class="grade-card-pricing-premium">
                 <div class="original-price-ficticio">
-                    De R$ ${originalPriceFicticioComPosicao.toFixed(2)}
+                    De R$ ${originalPriceFicticio.toFixed(2)}
                 </div>
                 <div class="current-price-with-discount">
                     <span class="price-por">Por</span> 
                     R$ ${finalPrice.toFixed(2)}
+                </div>
+                <div class="promo-savings">
+                    Economize ${discountPercentage}%
                 </div>
             </div>
         `;
@@ -2140,8 +2131,6 @@ function createGradeCard(product) {
                 </div>
             ` : ''}
             
-            ${discountBadge}
-            ${badges.join('')}
             <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
                 <i class="${favIconClass}"></i>
             </div>
@@ -2165,11 +2154,10 @@ function createGradeCard(product) {
         e.preventDefault();
         e.stopPropagation();
         const productId = this.getAttribute('data-product-id');
-        console.log('Clicou no ícone de favorito:', productId);
         toggleFavorite(productId);
     });
 
-    // Adicionar event listeners para cores com carregamento otimizado
+    // Adicionar event listeners para cores
     const colorDotsElements = card.querySelectorAll('.color-dot');
     const cardImage = card.querySelector('.grade-card-image');
     const loadingOverlay = card.querySelector('.image-loading-overlay');
@@ -2190,12 +2178,9 @@ function createGradeCard(product) {
             
             // Verificar se a imagem já está em cache
             if (imageCache.has(selectedVariant.image)) {
-                // Imagem já carregada - mostrar instantaneamente
-                const cachedImage = imageCache.get(selectedVariant.image);
                 cardImage.src = selectedVariant.image;
                 cardImage.style.opacity = '1';
                 loadingOverlay.style.display = 'none';
-                updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, firstPosition);
             } else {
                 // Carregar imagem
                 const newImage = new Image();
@@ -2204,7 +2189,6 @@ function createGradeCard(product) {
                     cardImage.src = selectedVariant.image;
                     cardImage.style.opacity = '1';
                     loadingOverlay.style.display = 'none';
-                    updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, firstPosition);
                 };
                 
                 newImage.onerror = () => {
