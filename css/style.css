@@ -45,15 +45,15 @@
     --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-slow: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
-    /* Tamanhos compactos para mobile */
+    /* Tamanhos ultra compactos para mobile */
     --container-max-width: 100%;
     --base-font-size: 14px;
-    --card-image-height: 160px;
-    --spacing-small: 0.5rem;
-    --spacing-medium: 1rem;
-    --spacing-large: 1.5rem;
-    --border-radius: 12px;
-    --border-radius-lg: 16px;
+    --card-image-height: 180px; /* Ajustado para mobile */
+    --spacing-small: 0.4rem;
+    --spacing-medium: 0.8rem;
+    --spacing-large: 1.2rem;
+    --border-radius: 10px;
+    --border-radius-lg: 14px;
 }
 
 * {
@@ -357,7 +357,7 @@ header {
     font-size: 0.9rem;
 }
 
-/* Grades de Produtos premium com temas por categoria */
+/* === CARDS ULTRA COMPACTOS E MODERNOS - IMAGENS VERTICAIS E MAIS PRÓXIMAS === */
 .grade-produtos {
     margin-bottom: 3rem;
     position: relative;
@@ -420,13 +420,14 @@ header {
 .grade-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 0.6rem;
 }
 
 .grade-container.todos {
     grid-template-columns: repeat(2, 1fr);
 }
 
+/* === CARDS ULTRA COMPACTOS COM IMAGENS VERTICAIS === */
 .grade-card {
     background: white;
     border-radius: var(--border-radius-lg);
@@ -436,6 +437,10 @@ header {
     cursor: pointer;
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
 }
 
 .grade-card:before {
@@ -452,8 +457,8 @@ header {
 }
 
 .grade-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
     border-color: var(--category-accent);
 }
 
@@ -461,18 +466,24 @@ header {
     opacity: 0.03;
 }
 
+/* === IMAGENS VERTICAIS E MAIS PRÓXIMAS === */
 .image-container {
     width: 100%;
-    aspect-ratio: 3/4;
+    height: 0;
+    padding-bottom: 120%; /* Criar proporção vertical */
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     position: relative;
+    flex-shrink: 0;
 }
 
 .grade-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -484,169 +495,219 @@ header {
     transform: scale(1.05);
 }
 
+/* === ÁREA DE INFORMAÇÕES ULTRA COMPACTA === */
 .grade-card-info {
-    padding: 1rem;
+    padding: 0.6rem;
     position: relative;
     z-index: 2;
     background: white;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 0;
 }
 
 .grade-card-title {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.3rem;
     color: var(--premium-black);
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 1.8em;
+    text-align: center;
 }
 
-.grade-card-price {
+/* === PREÇOS COMPACTOS E BEM ORGANIZADOS === */
+.grade-card-pricing-premium {
+    margin: 0.3rem 0;
+    text-align: center;
+}
+
+.original-price-ficticio {
+    font-size: 0.6rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+    margin-bottom: 0.05rem;
+    font-weight: 600;
+}
+
+.current-price-with-discount {
+    font-size: 0.9rem;
     font-weight: 800;
-    color: var(--category-primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    color: var(--ofertas-primary);
+    margin: 0.1rem 0;
 }
 
+.price-por {
+    font-size: 0.65rem;
+    color: var(--text-light);
+    margin-right: 0.2rem;
+    font-weight: 600;
+}
+
+.grade-card-price-simple {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--accent-color);
+    text-align: center;
+    margin: 0.3rem 0;
+}
+
+.promo-savings {
+    background: linear-gradient(135deg, var(--success-color), #34d399);
+    color: white;
+    padding: 0.15rem 0.4rem;
+    border-radius: 8px;
+    font-size: 0.55rem;
+    font-weight: 700;
+    margin-top: 0.2rem;
+    display: inline-block;
+}
+
+/* === CORES MAIS COMPACTAS === */
 .grade-card-colors {
     display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    gap: 0.25rem;
+    margin-top: 0.3rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .color-dot {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     border: 2px solid #f0f0f0;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.2s ease;
     box-shadow: var(--shadow-sm);
 }
 
 .color-dot.active {
-    transform: scale(1.2);
+    transform: scale(1.15);
     border-color: var(--premium-black);
     box-shadow: var(--shadow-md);
 }
 
-/* Tamanhos no card */
-.grade-card-sizes {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.size-dot {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid var(--medium-gray);
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.7rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-}
-
-.size-dot.active {
-    background: var(--category-primary);
-    color: white;
-    border-color: var(--category-primary);
+.color-dot:hover {
     transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+/* === BADGE DE DESCONTO COMPACTO === */
+.premium-discount-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: linear-gradient(135deg, var(--ofertas-primary), var(--ofertas-secondary));
+    color: white;
+    padding: 0.15rem 0.4rem;
+    border-radius: 5px;
+    font-size: 0.55rem;
+    font-weight: 700;
+    z-index: 3;
     box-shadow: var(--shadow-md);
 }
 
-/* Posição da estampa no card */
-.grade-card-positions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
+.discount-percent {
+    font-weight: 800;
+    margin-right: 0.05rem;
 }
 
-.position-dot {
-    padding: 0.3rem 0.6rem;
-    border: 2px solid var(--medium-gray);
-    border-radius: 20px;
+.discount-text {
+    font-size: 0.45rem;
+}
+
+/* === ÍCONE DE FAVORITOS COMPACTO === */
+.grade-card .favorite-icon {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--text-light);
     cursor: pointer;
     transition: var(--transition);
-    font-size: 0.7rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-}
-
-.position-dot.active {
-    background: var(--category-primary);
-    color: white;
-    border-color: var(--category-primary);
-    transform: scale(1.05);
+    z-index: 10;
+    border: none;
     box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
 }
 
-/* Sistema de carregamento otimizado para imagens */
-.image-container {
-    position: relative;
-    overflow: hidden;
+.grade-card .favorite-icon:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
 }
 
-.image-loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-    transition: opacity 0.3s ease;
+.grade-card .favorite-icon.active {
+    color: #ff4757 !important;
+    background: rgba(255, 255, 255, 0.98);
 }
 
-.loading-spinner {
-    width: 30px;
-    height: 30px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid var(--accent-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.grade-card .favorite-icon.active:hover {
+    color: #ff3742 !important;
+    transform: scale(1.15);
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* === SISTEMA DE CARRINHO CORRIGIDO - DESCONTOS VISÍVEIS === */
+.cart-summary-premium {
+    background: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-top: 1.5rem;
+    border: 2px solid rgba(0,0,0,0.05);
+    display: block !important; /* FORÇAR VISIBILIDADE */
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
-.grade-card-image {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+.summary-row-premium {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    padding: 0.3rem 0;
 }
 
-.grade-card-image.loading {
-    opacity: 0.5;
+.summary-total-premium {
+    font-weight: 800;
+    font-size: 1.3rem;
+    border-top: 2px solid var(--medium-gray);
+    padding-top: 1rem;
+    margin-top: 1rem;
+    color: var(--premium-black);
 }
 
-/* Otimização de performance para imagens */
-.grade-card-image {
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+.summary-total-premium span:last-child {
+    color: var(--ofertas-primary);
+    font-weight: 900;
 }
 
-/* Transição suave para mudança de cores */
-.color-dot {
-    transition: all 0.2s ease;
+/* === CORREÇÃO DO DESCONTO PROGRESSIVO NO CARRINHO === */
+.discount-progressivo {
+    color: var(--success-color) !important;
+    font-weight: 700 !important;
 }
 
-.color-dot.active {
-    transform: scale(1.2);
-    transition: all 0.3s ease;
+.discount-progressivo span:last-child {
+    color: var(--success-color) !important;
 }
+
+/* === RESTANTE DO CSS PERMANECE IGUAL === */
+/* ... (o restante do CSS permanece exatamente como estava) ... */
 
 /* Seção Ofertas - Pacotes Personalizados */
 .package-offers-section {
@@ -980,28 +1041,6 @@ header {
 .remove-item-premium:hover {
     background: #FEF2F2;
     transform: scale(1.1);
-}
-
-.cart-summary-premium {
-    background: var(--light-gray);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    margin-top: 1.5rem;
-}
-
-.summary-row-premium {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.8rem;
-    font-size: 0.85rem;
-}
-
-.summary-total-premium {
-    font-weight: 800;
-    font-size: 1.1rem;
-    border-top: 2px solid var(--medium-gray);
-    padding-top: 0.8rem;
-    margin-top: 0.8rem;
 }
 
 .empty-cart-premium {
@@ -2981,16 +3020,16 @@ header {
 
 /* === CORREÇÃO DOS CARDS === */
 .grade-card-info {
-    padding: 0.8rem;
+    padding: 0.6rem;
 }
 
 .grade-card-title {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     color: var(--premium-black);
-    line-height: 1.3;
-    min-height: 2.6em;
+    line-height: 1.2;
+    min-height: 1.8em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -2999,31 +3038,31 @@ header {
 
 /* Preços em negrito e bem visíveis */
 .grade-card-price-simple {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 800;
     color: var(--accent-color);
-    margin: 0.5rem 0;
+    margin: 0.3rem 0;
 }
 
 .grade-card-pricing-premium {
-    margin: 0.5rem 0;
+    margin: 0.3rem 0;
 }
 
 .original-price-ficticio {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
     color: var(--text-light);
     text-decoration: line-through;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.05rem;
 }
 
 .current-price-with-discount {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 800;
     color: var(--accent-color);
 }
 
 .price-por {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     color: var(--text-light);
     margin-right: 0.2rem;
 }
@@ -3038,14 +3077,14 @@ header {
 
 /* Manhar apenas as cores */
 .grade-card-colors {
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
 }
 
 /* Corrigir imagens - remover divisões */
 .image-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 1/1.2; /* Proporção vertical */
     overflow: hidden;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
@@ -3061,13 +3100,13 @@ header {
 /* Corrigir badges de desconto */
 .premium-discount-badge {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    top: 6px;
+    left: 6px;
     background: linear-gradient(135deg, var(--ofertas-primary), var(--ofertas-secondary));
     color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: 8px;
-    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 5px;
+    font-size: 0.55rem;
     font-weight: 700;
     z-index: 3;
     box-shadow: var(--shadow-md);
@@ -3075,11 +3114,11 @@ header {
 
 .discount-percent {
     font-weight: 800;
-    margin-right: 0.2rem;
+    margin-right: 0.05rem;
 }
 
 .discount-text {
-    font-size: 0.6rem;
+    font-size: 0.45rem;
 }
 
 /* Remover outros badges que atrapalham a imagem */
@@ -3095,16 +3134,16 @@ header {
 /* Ajustar ícone de favoritos */
 .grade-card .favorite-icon {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 6px;
+    right: 6px;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     color: var(--text-light);
     cursor: pointer;
     transition: var(--transition);
@@ -3459,179 +3498,562 @@ header {
     }
 }
 
-/* === CORREÇÕES DOS PROBLEMAS MENCIONADOS === */
+/* === CORREÇÕES FINAIS - ULTIMOS AJUSTES === */
 
-/* 1. Correção dos cards - apenas cores e preços */
+/* 1. CARDS MENOS COMPRIMIDOS VERTICALMENTE */
+.grade-card {
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.image-container {
+    height: auto;
+    min-height: 0;
+    flex-shrink: 0;
+}
+
 .grade-card-info {
-    padding: 0.8rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.6rem;
+    min-height: 0;
 }
 
-.grade-card-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--premium-black);
-    line-height: 1.3;
-    min-height: 2.6em;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+/* === CORREÇÕES CRÍTICAS - ORGANIZAÇÃO DOS CARDS === */
+
+/* 1. Botões de cores maiores e melhor organizados */
+.grade-card-colors {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-/* 2. Preços em negrito e bem visíveis */
-.grade-card-price-simple {
-    font-size: 1.3rem;
-    font-weight: 900;
-    color: var(--ofertas-primary);
-    margin: 0.5rem 0;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+.color-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #f0f0f0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    position: relative;
 }
 
+.color-dot.active {
+    transform: scale(1.3);
+    border-color: var(--premium-black);
+    box-shadow: var(--shadow-md);
+}
+
+.color-dot:hover {
+    transform: scale(1.2);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 2. Preços premium e bem organizados */
 .grade-card-pricing-premium {
-    margin: 0.5rem 0;
+    margin: 0.3rem 0;
+    text-align: center;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .original-price-ficticio {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     color: var(--text-light);
     text-decoration: line-through;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
     font-weight: 600;
 }
 
 .current-price-with-discount {
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     font-weight: 900;
     color: var(--ofertas-primary);
+    margin: 0.1rem 0;
     text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .price-por {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     color: var(--text-light);
     margin-right: 0.2rem;
     font-weight: 600;
 }
 
+.grade-card-price-simple {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--ofertas-primary);
+    text-align: center;
+    margin: 0.3rem 0;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
 .promo-savings {
     background: linear-gradient(135deg, var(--success-color), #34d399);
     color: white;
-    padding: 0.2rem 0.6rem;
-    border-radius: 8px;
-    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 15px;
+    font-size: 0.55rem;
     font-weight: 700;
     margin-top: 0.3rem;
     display: inline-block;
+    box-shadow: var(--shadow-sm);
 }
 
-/* 3. Correção das imagens - remover cortes */
+/* 3. Zoom e posicionamento perfeito das imagens */
 .image-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 1/1.2; /* Proporção vertical */
     overflow: hidden;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0; /* Remover padding para imagem mais próxima */
 }
 
 .grade-card-image {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transition: var(--transition-slow);
-    display: block;
-    padding: 10px;
+    object-fit: cover;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: center;
 }
 
-/* Ajuste do badge de desconto para não cobrir a imagem */
+.grade-card:hover .grade-card-image {
+    transform: scale(1.05);
+    filter: brightness(1.05);
+}
+
+/* 4. Correção dos favoritos - coração vermelho */
+.grade-card .favorite-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    border: none;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+}
+
+.grade-card .favorite-icon:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.grade-card .favorite-icon.active {
+    color: #ff4757 !important;
+    background: rgba(255, 255, 255, 0.98);
+}
+
+.grade-card .favorite-icon.active:hover {
+    color: #ff3742 !important;
+    transform: scale(1.15);
+}
+
+/* 5. Correção completa da página de favoritos */
+.favorites-container-premium {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    min-height: 60vh;
+}
+
+.favorite-item-premium {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    background: rgba(248, 250, 252, 0.8);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+.favorite-item-premium:hover {
+    background: white;
+    transform: translateX(5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.favorite-item-premium img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 8px;
+    box-shadow: var(--shadow-md);
+}
+
+.favorite-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.favorite-item-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--premium-black);
+    margin: 0;
+}
+
+.favorite-item-info p {
+    color: var(--text-light);
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.favorite-item-price {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    margin: 0.3rem 0 0 0;
+}
+
+.favorite-item-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 120px;
+}
+
+.btn-view-details {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.btn-view-details:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-remove-favorite {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 2px solid rgba(239, 68, 68, 0.2);
+    padding: 0.6rem 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.btn-remove-favorite:hover {
+    background: #ef4444;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 6. Badge de desconto melhorado */
 .premium-discount-badge {
     position: absolute;
     top: 8px;
     left: 8px;
     background: linear-gradient(135deg, var(--ofertas-primary), var(--ofertas-secondary));
     color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: 8px;
-    font-size: 0.7rem;
-    font-weight: 700;
+    padding: 0.15rem 0.4rem;
+    border-radius: 15px;
+    font-size: 0.55rem;
+    font-weight: 800;
     z-index: 3;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
+    animation: pulse 2s infinite;
 }
 
 .discount-percent {
-    font-weight: 800;
-    margin-right: 0.2rem;
+    font-weight: 900;
+    margin-right: 0.1rem;
 }
 
 .discount-text {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
+    font-weight: 700;
 }
 
-/* 4. Correção do carrinho - mostrar totais */
+/* 7. Títulos dos cards melhor organizados */
+.grade-card-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--premium-black);
+    line-height: 1.2;
+    min-height: 1.8em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* 8. Correção do carrinho - garantir que os totais apareçam */
 .cart-summary-premium {
-    background: var(--light-gray);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    margin-top: 1.5rem;
     display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: var(--light-gray);
+    padding: 1.2rem;
+    border-radius: var(--border-radius);
+    margin-top: 1.2rem;
+    border: 2px solid rgba(0,0,0,0.05);
 }
 
 .summary-row-premium {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.6rem;
     font-size: 0.85rem;
     color: var(--text-dark);
+    padding: 0.2rem 0;
 }
 
 .summary-total-premium {
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     border-top: 2px solid var(--medium-gray);
     padding-top: 0.8rem;
     margin-top: 0.8rem;
     color: var(--premium-black);
 }
 
-/* 5. Correção do sistema de anúncios */
-.announcement-bar-compact {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    color: white;
-    padding: 8px 0;
-    position: relative;
-    overflow: hidden;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
+.summary-total-premium span:last-child {
+    color: var(--ofertas-primary);
+    font-weight: 900;
 }
 
-/* Remover anúncio do robô */
-.premium-announcements-section {
-    display: none !important;
-}
-
-/* Garantir que apenas um anúncio seja mostrado */
-.announcement-slide-compact {
-    display: none;
-    width: 100%;
+/* 9. Estado vazio dos favoritos */
+.empty-favorites-premium {
     text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--text-light);
 }
 
-.announcement-slide-compact.active {
-    display: block;
+.empty-favorites-premium i {
+    font-size: 3.5rem;
+    margin-bottom: 1.2rem;
+    color: var(--medium-gray);
+    opacity: 0.5;
 }
 
-/* Esconder outros sistemas de anúncio */
-.announcement-system-premium,
-.premium-announcements-section {
-    display: none !important;
+.empty-favorites-premium h3 {
+    margin-bottom: 0.8rem;
+    color: var(--premium-black);
+    font-size: 1.3rem;
+    font-weight: 700;
 }
 
-/* === CORREÇÃO DO CARRINHO - MOSTRAR TOTAIS === */
+.empty-favorites-premium p {
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* 10. Responsividade para favoritos */
+@media (max-width: 768px) {
+    .favorite-item-premium {
+        grid-template-columns: 80px 1fr;
+        gap: 1rem;
+    }
+    
+    .favorite-item-actions {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 0.8rem;
+    }
+    
+    .favorite-item-premium img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .favorite-item-info h3 {
+        font-size: 0.9rem;
+    }
+    
+    .favorite-item-price {
+        font-size: 1rem;
+    }
+}
+
+/* 11. Loading states melhorados */
+.image-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+.loading-spinner {
+    width: 25px;
+    height: 25px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 12. Garantir que as imagens não sejam cortadas */
+.grade-card-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover !important;
+}
+
+/* 13. Efeitos hover premium nos cards */
+.grade-card {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.grade-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-color);
+}
+
+/* 14. Animações suaves */
+.grade-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.grade-card:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.grade-card:nth-child(even) {
+    animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 15. Correção final - garantir que tudo funcione */
+#cart-summary {
+    display: block !important;
+}
+
+.cart-summary-premium[style*="display: none"] {
+    display: block !important;
+}
+
+/* === CORREÇÕES CRÍTICAS - ADICIONAR NO FINAL DO style.css === */
+
+/* 1. CORREÇÃO DAS IMAGENS - MAIS PRÓXIMAS E VISÍVEIS */
+.image-container {
+    padding: 0 !important; /* Remover padding para imagem mais próxima */
+    aspect-ratio: 1/1.2 !important; /* Proporção vertical */
+}
+
+.grade-card-image {
+    object-fit: cover !important;
+    transform: scale(1) !important; /* Imagem mais próxima */
+    transition: all 0.3s ease !important;
+}
+
+.grade-card:hover .grade-card-image {
+    transform: scale(1.05) !important; /* Zoom suave no hover */
+}
+
+/* 2. CORREÇÃO DOS CARDS CLICÁVEIS */
+.grade-card {
+    cursor: pointer !important;
+    position: relative !important;
+}
+
+.grade-card > * {
+    pointer-events: none !important; /* Permitir clique no card */
+}
+
+.grade-card .color-dot,
+.grade-card .favorite-icon {
+    pointer-events: all !important; /* Exceção para elementos interativos */
+}
+
+/* 3. CORREÇÃO DO CORAÇÃO VERMELHO PERMANENTE */
+.grade-card .favorite-icon.active {
+    color: #ff4757 !important;
+}
+
+.grade-card .favorite-icon.active i {
+    color: #ff4757 !important;
+}
+
+.grade-card .favorite-icon:hover {
+    color: #ff4757 !important;
+    transform: scale(1.1) !important;
+}
+
+/* 4. CORREÇÃO DO CARRINHO - GARANTIR VISIBILIDADE */
 .cart-summary-premium {
     display: block !important;
     opacity: 1 !important;
@@ -3642,56 +4064,48 @@ header {
     display: block !important;
 }
 
-/* Estilização forte para preços totais */
-.summary-total-premium span:last-child {
-    font-size: 1.4rem;
-    font-weight: 900;
-    color: var(--ofertas-primary);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+/* 5. CORREÇÃO DOS PREÇOS NO CARRINHO */
+.cart-item-price-ultra {
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
+    color: var(--accent-color) !important;
 }
 
-/* Remover elementos desnecessários que podem estar escondendo o summary */
-.cart-summary-premium[style*="display: none"] {
+.summary-total-premium span:last-child {
+    color: var(--ofertas-primary) !important;
+    font-weight: 900 !important;
+}
+
+/* 6. CORREÇÃO DA PÁGINA DE DETALHES DO PRODUTO */
+.product-detail-container-premium {
     display: block !important;
 }
 
-/* === CORREÇÃO DAS CORES NOS CARDS === */
-.grade-card-colors {
-    margin-top: 0.5rem;
-    display: flex;
-    gap: 0.3rem;
-    justify-content: center;
+@media (min-width: 768px) {
+    .product-detail-container-premium {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+    }
 }
 
-.color-dot {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid #f0f0f0;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: var(--shadow-sm);
+/* 7. CORREÇÃO DOS BOTÕES INTERATIVOS */
+.btn, .btn-primary, .btn-outline, .btn-whatsapp {
+    cursor: pointer !important;
+    pointer-events: all !important;
 }
 
-.color-dot.active {
-    transform: scale(1.3);
-    border-color: var(--premium-black);
-    box-shadow: var(--shadow-md);
+/* 8. CORREÇÃO DO Z-INDEX PARA ELEMENTOS INTERATIVOS */
+.cart-icon, .favorite-icon, .grade-card .favorite-icon {
+    z-index: 100 !important;
 }
 
-/* === GARANTIR VISIBILIDADE DOS PREÇOS === */
-.grade-card-price-simple,
-.current-price-with-discount {
-    font-weight: 900 !important;
-    color: var(--ofertas-primary) !important;
-    font-size: 1.3rem !important;
+/* 9. CORREÇÃO DO HOVER NOS CARDS */
+.grade-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: var(--shadow-lg) !important;
 }
 
-/* Remover qualquer elemento que esteja cortando as imagens */
-.image-container {
-    overflow: visible;
-}
-
-.grade-card-image {
-    object-fit: contain !important;
+/* 10. CORREÇÃO DA NAVEGAÇÃO */
+.nav-link, .footer-nav-link {
+    cursor: pointer !important;
 }
