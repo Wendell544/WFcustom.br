@@ -1,5 +1,3 @@
-[file name]: products.js
-[file content begin]
 // Dados dois produtos
 const products = {
     masculino: [
@@ -1932,9 +1930,9 @@ const products = {
 };
 
 
-// Aplicar descontos fictícios em 100% dos produtos
+// Aplicar descontos em 100% dos produtos - CORRIGIDO
 function applyStrategicDiscounts() {
-    console.log('Aplicando descontos estratégicos...');
+    console.log('Aplicando descontos estratégicos em 100% dos produtos...');
     
     const allProducts = [
         ...products.masculino, 
@@ -1942,15 +1940,10 @@ function applyStrategicDiscounts() {
         ...products.canecas
     ];
     
-    // Selecionar 60% dos produtos aleatoriamente
-    const productCount = allProducts.length;
-    const discountCount = Math.floor(productCount * 0.6);
-    const shuffled = [...allProducts].sort(() => Math.random() - 0.5);
-    const discountedProducts = shuffled.slice(0, discountCount);
+    // Aplicar desconto em TODOS os produtos (100%)
+    console.log(`Aplicando descontos em ${allProducts.length} produtos`);
     
-    console.log(`Aplicando descontos em ${discountedProducts.length} de ${productCount} produtos`);
-    
-    discountedProducts.forEach(product => {
+    allProducts.forEach(product => {
         // Gerar preço original fictício entre R$45 e R$62
         const originalPrice = parseFloat((Math.random() * (62 - 45) + 45).toFixed(2));
         
@@ -2002,7 +1995,6 @@ function preloadProductImages() {
             imageCache.set(url, img);
             console.log(`Imagem carregada: ${loadedImages}/${totalImages}`);
             
-            // Atualizar progresso se necessário
             if (loadedImages === totalImages) {
                 console.log('Todas as imagens foram pré-carregadas!');
             }
@@ -2024,13 +2016,13 @@ function calculateFinalPrice(basePrice, position) {
     return finalPrice;
 }
 
-// Função auxiliar para favoritos (placeholder)
+// Função auxiliar para favoritos
 function isProductFavorite(productId) {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     return favorites.includes(productId);
 }
 
-// Função auxiliar para toggle favoritos (placeholder)
+// Função auxiliar para toggle favoritos
 function toggleFavorite(productId) {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     const index = favorites.indexOf(productId);
@@ -2057,7 +2049,7 @@ function toggleFavorite(productId) {
     });
 }
 
-// Criar card de produto para a grade - VERSÃO CORRIGIDA
+// Criar card de produto para a grade - VERSÃO OTIMIZADA
 function createGradeCard(product) {
     const card = document.createElement('div');
     card.className = 'grade-card';
@@ -2071,11 +2063,11 @@ function createGradeCard(product) {
     // Calcular preço inicial
     const initialPrice = firstPrice;
 
-    // Badges do produto - apenas desconto
+    // Badges do produto
     const badges = [];
     if (product.discount) badges.push(`<span class="badge badge-discount">-${product.discount}% OFF</span>`);
 
-    // Desconto fictício
+    // Desconto fictício (agora 100% dos produtos têm)
     const hasFictionalDiscount = product.hasFictionalDiscount;
     const originalPriceFicticio = product.originalPriceFicticio;
     const discountPercentage = product.discountPercentageFicticio;
@@ -2091,10 +2083,11 @@ function createGradeCard(product) {
         return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
     }).join('');
 
-    // Preços com desconto (se aplicável) - CORRIGIDO E SIMPLIFICADO
+    // Preços com desconto (100% dos produtos agora têm desconto)
     let finalPrice = initialPrice;
     let priceHTML = '';
 
+    // SEMPRE mostrar preço com desconto (agora 100% dos produtos têm)
     if (hasFictionalDiscount && originalPriceFicticio) {
         priceHTML = `
             <div class="grade-card-pricing-premium">
@@ -2111,6 +2104,7 @@ function createGradeCard(product) {
             </div>
         `;
     } else {
+        // Fallback caso algum produto não tenha desconto (não deveria acontecer)
         priceHTML = `
             <div class="grade-card-price-simple">
                 R$ ${finalPrice.toFixed(2)}
@@ -2125,12 +2119,10 @@ function createGradeCard(product) {
 
     card.innerHTML = `
         <div class="image-container">
-            ${hasFictionalDiscount ? `
-                <div class="premium-discount-badge">
-                    <span class="discount-percent">-${discountPercentage}%</span>
-                    <span class="discount-text">OFF</span>
-                </div>
-            ` : ''}
+            <div class="premium-discount-badge">
+                <span class="discount-percent">-${discountPercentage}%</span>
+                <span class="discount-text">OFF</span>
+            </div>
             
             <div class="favorite-icon ${favActiveClass}" data-product-id="${product.id}">
                 <i class="${favIconClass}"></i>
@@ -2206,34 +2198,6 @@ function createGradeCard(product) {
     return card;
 }
 
-// Função auxiliar para atualizar detalhes do produto
-function updateProductDetails(cardImage, selectedVariant, selectedColor, product, card, firstPosition) {
-    cardImage.setAttribute('data-color', selectedColor);
-    cardImage.alt = `${product.name} - Cor ${selectedColor}`;
-    
-    // Obter posição atual para calcular preço
-    const currentPosition = firstPosition;
-    
-    // Calcular preço final considerando cor E posição
-    const basePrice = product.discount ? 
-        selectedVariant.price * (1 - product.discount / 100) : 
-        selectedVariant.price;
-    const finalPrice = calculateFinalPrice(basePrice, currentPosition);
-    
-    // Atualizar o elemento de preço
-    const priceDisplay = card.querySelector('.current-price-with-discount') || card.querySelector('.grade-card-price-simple');
-    if (priceDisplay) {
-        if (priceDisplay.classList.contains('grade-card-pricing-premium')) {
-            const priceElement = priceDisplay.querySelector('.current-price-with-discount');
-            if (priceElement) {
-                priceElement.innerHTML = `<span class="price-por">Por</span> R$ ${finalPrice.toFixed(2)}`;
-            }
-        } else {
-            priceDisplay.textContent = `R$ ${finalPrice.toFixed(2)}`;
-        }
-    }
-}
-
 // Popular uma grade
 function populateGrade(containerId, productList) {
     const gradeContainer = document.getElementById(containerId);
@@ -2264,15 +2228,17 @@ function findProductById(id) {
     return null;
 }
 
-// Popular todas as grades
+// Popular todas as grades - VERSÃO CORRIGIDA
 function populateAllGrades() {
     console.log('Iniciando população das grades...');
+    
+    // Aplicar descontos primeiro
+    applyStrategicDiscounts();
     
     const containers = [
         'grade-container-masculino',
         'grade-container-unissexo', 
-        'grade-container-canecas',
-        'grade-container-ofertas'
+        'grade-container-canecas'
     ];
     
     let successCount = 0;
@@ -2302,7 +2268,7 @@ function createDynamicGradeStructure() {
     }
     
     // Criar containers dinamicamente
-    const categories = ['masculino', 'unissexo', 'canecas', 'ofertas'];
+    const categories = ['masculino', 'unissexo', 'canecas'];
     
     categories.forEach(category => {
         const containerId = `grade-container-${category}`;
@@ -2330,35 +2296,27 @@ function createDynamicGradeStructure() {
     });
 }
 
-// Debug function para verificar estrutura do DOM
-function debugDOMStructure() {
-    console.log('=== DEBUG DOM STRUCTURE ===');
-    console.log('Products section:', document.getElementById('products'));
-    console.log('Masculino container:', document.getElementById('grade-container-masculino'));
-    console.log('Unissexo container:', document.getElementById('grade-container-unissexo'));
-    console.log('Canecas container:', document.getElementById('grade-container-canecas'));
-    console.log('Ofertas container:', document.getElementById('grade-container-ofertas'));
-    console.log('All grade containers:', document.querySelectorAll('.grade-container'));
-    console.log('=== END DEBUG ===');
-}
-
-// Inicializar as grades quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Carregado - Inicializando produtos...');
-    // Aplicar descontos estratégicos primeiro
+// Inicialização correta - SEM setTimeout
+function initializeProducts() {
+    console.log('Inicializando produtos...');
+    
+    // Aplicar descontos em 100% dos produtos
     applyStrategicDiscounts();
+    
     // Pré-carregar imagens
     preloadProductImages();
     
-    // Verificar se main.js já inicializou, se não, popular grades após delay
-    setTimeout(function() {
-        if (document.querySelectorAll('.grade-card').length === 0) {
-            console.log('Populando grades via products.js...');
-            populateAllGrades();
-        }
-    }, 500);
+    // Popular grades imediatamente
+    populateAllGrades();
+}
+
+// Inicializar quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Carregado - Inicializando produtos...');
+    initializeProducts();
 });
 
 // Expor funções globalmente para main.js acessar
 window.populateAllGrades = populateAllGrades;
 window.findProductById = findProductById;
+window.initializeProducts = initializeProducts;
