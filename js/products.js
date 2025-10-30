@@ -2025,16 +2025,16 @@ function createGradeCard(product) {
     const originalPriceFicticio = product.originalPriceFicticio;
     const discountPercentage = product.discountPercentageFicticio;
 
-    const colorDots = Object.keys(product.variants).map(color => {
-        let bgColor;
-        switch(color) {
-            case 'branco': bgColor = 'white'; break;
-            case 'rosa claro': bgColor = '#FFB6C1'; break;
-            case 'azul claro': bgColor = '#87CEEB'; break;
-            default: bgColor = color;
-        }
-        return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
-    }).join('');
+const colorDots = Object.keys(product.variants).map(color => {
+    let bgColor;
+    switch(color) {
+        case 'branco': bgColor = 'white'; break;
+        case 'rosa claro': bgColor = '#FFB6C1'; break;
+        case 'preto': bgColor = '#000000'; break; // MUDEI PARA PRETO
+        default: bgColor = color;
+    }
+    return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
+}).join('');
 
     // Preços com desconto (100% dos produtos agora têm desconto)
     let finalPrice = initialPrice;
