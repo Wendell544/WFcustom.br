@@ -1,3 +1,13 @@
+// Função auxiliar para cores - ADICIONE ISSO NO INÍCIO DO main.js
+function getColorHex(colorName) {
+    switch(colorName) {
+        case 'branco': return 'white';
+        case 'rosa claro': return '#FFB6C1';
+        case 'preto': return '#000000';
+        default: return colorName;
+    }
+}
+
 // Variáveis globais
 const phoneNumber = '5583999667578';
 let currentProduct = null;
@@ -580,7 +590,7 @@ function updateProductDetailView() {
     updatePositionOptions();
 }
 
-// Atualizar opções de cor
+// Atualizar opções de cor - FUNÇÃO CORRIGIDA
 function updateColorOptions() {
     if (!modalColorOptions || !currentProduct) return;
     
@@ -593,13 +603,27 @@ function updateColorOptions() {
         
         let bgColor;
         switch(color) {
-            case 'branco': bgColor = 'white'; break;
-            case 'rosa claro': bgColor = '#FFB6C1'; break;
-            case 'azul claro': bgColor = '#87CEEB'; break;
-            default: bgColor = color;
+            case 'branco': 
+                bgColor = 'white'; 
+                break;
+            case 'rosa claro': 
+                bgColor = '#FFB6C1'; 
+                break;
+            case 'preto': 
+                bgColor = '#000000'; 
+                break;
+            default: 
+                bgColor = color;
         }
         
         colorOption.style.backgroundColor = bgColor;
+        
+        // Adicionar borda para cor branca para melhor visibilidade
+        if (color === 'branco') {
+            colorOption.style.border = '1px solid #ccc';
+        } else {
+            colorOption.style.border = '1px solid transparent';
+        }
         
         colorOption.addEventListener('click', () => {
             currentColor = color;
