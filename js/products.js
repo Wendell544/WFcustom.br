@@ -77,7 +77,6 @@ const products = {
                     image: "https://i.postimg.cc/XNZpQz4Q/Sem-tempo-pra-cozinhar-2.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
-
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -159,6 +158,7 @@ const products = {
                     image: "https://i.postimg.cc/brTSvMhS/08.png",
                     price: 41.90,
                     sizes: ['P', 'M', 'G']
+                 },
                  'preto': {
                     image: "https://i.postimg.cc/BnPp3gTS/Sem-tempo-pra-cozinhar-5.png",
                     price: 43.42,
@@ -234,7 +234,8 @@ const products = {
                     image: "https://i.postimg.cc/1t0rpvSN/12.png",
                     price: 40.15,
                     sizes: ['P', 'M', 'G']
-                 'preto': {
+                },
+                'preto': {
                     image: "https://i.postimg.cc/xCZq9Ky1/Sem-tempo-pra-cozinhar-7.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -310,7 +311,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/tTsWdRB3/Sem-tempo-pra-cozinhar-8.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -334,7 +335,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/2y4qT1hC/Sem-tempo-pra-cozinhar-9.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -358,7 +359,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/pTjyXm0Y/Sem-tempo-pra-cozinhar-10.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -377,7 +378,7 @@ const products = {
                     price: 40.20,
                     sizes: ['P', 'M', 'G']
                  },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/J0m7rPHL/Sem-tempo-pra-cozinhar-11.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -401,7 +402,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/Twvf0C9S/Sem-tempo-pra-cozinhar-12.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -462,7 +463,7 @@ const products = {
                     image: "https://i.postimg.cc/Dzhr7RRw/1.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/0y1n8ScZ/Sem-tempo-pra-cozinhar-13.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -486,7 +487,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/SRzL4Q9T/Sem-tempo-pra-cozinhar-14.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -548,7 +549,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/kGxc8X5z/Sem-tempo-pra-cozinhar-15.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -572,7 +573,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/6pHhCPBF/Sem-tempo-pra-cozinhar-16.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -672,7 +673,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/6pR9vkVQ/Sem-tempo-pra-cozinhar-17.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -696,7 +697,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/mr8KzjnG/Sem-tempo-pra-cozinhar-18.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -720,7 +721,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/8CXNQTNZ/Sem-tempo-pra-cozinhar-19.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -744,7 +745,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/D0q9ZhkN/Sem-tempo-pra-cozinhar-20.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -768,7 +769,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/76Ss1Nsn/Sem-tempo-pra-cozinhar-21.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
@@ -816,7 +817,7 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                 'preto': {
+                'preto': {
                     image: "https://i.postimg.cc/3Rp8gPQ2/Sem-tempo-pra-cozinhar-23.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
