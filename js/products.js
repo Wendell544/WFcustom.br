@@ -14,7 +14,7 @@ const products = {
                 'rosa claro': {
                     image: "https://i.postimg.cc/HxJn0RH0/2.png",
                     price: 43.42,
-                    sizes: ['P', 'M'}
+                    sizes: ['P', 'M']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
