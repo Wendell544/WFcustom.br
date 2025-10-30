@@ -14,12 +14,7 @@ const products = {
                 'rosa claro': {
                     image: "https://i.postimg.cc/HxJn0RH0/2.png",
                     price: 43.42,
-                    sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/wj0jCgjm/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M'}
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -40,10 +35,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/6qmhjDGv/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/mk4NyfJX/Sem-tempo-pra-cozinhar.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -58,7 +53,11 @@ const products = {
                     image: "https://i.postimg.cc/2jMvtdKn/03.png",
                     price: 40.80,
                     sizes: ['P', 'M', 'G']
-
+                },
+                'preto': {
+                    image: "https://i.postimg.cc/pXpyc1vQ/Sem-tempo-pra-cozinhar-1.png",
+                    price: 43.42,
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -73,6 +72,12 @@ const products = {
                     image: "https://i.postimg.cc/2jZ7F8zF/04.png",
                     price: 39.90,
                     sizes: ['P', 'M', 'G']
+                },
+                'preto': {
+                    image: "https://i.postimg.cc/XNZpQz4Q/Sem-tempo-pra-cozinhar-2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M', 'G']
+
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -112,10 +117,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/sXHJ2v4V/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/9fnc9c4N/Sem-tempo-pra-cozinhar-3.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -136,10 +141,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/x8r3mBBT/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/KvfSLmwT/Sem-tempo-pra-cozinhar-4.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -153,6 +158,10 @@ const products = {
                 'branco': {
                     image: "https://i.postimg.cc/brTSvMhS/08.png",
                     price: 41.90,
+                    sizes: ['P', 'M', 'G']
+                 'preto': {
+                    image: "https://i.postimg.cc/BnPp3gTS/Sem-tempo-pra-cozinhar-5.png",
+                    price: 43.42,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -187,11 +196,6 @@ const products = {
                     image: "https://i.postimg.cc/SKk06vF7/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/1tXjMxW5/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -212,10 +216,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/fLdg17hr/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/hGrdRz5d/Sem-tempo-pra-cozinhar-6.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -229,6 +233,10 @@ const products = {
                 'branco': {
                     image: "https://i.postimg.cc/1t0rpvSN/12.png",
                     price: 40.15,
+                    sizes: ['P', 'M', 'G']
+                 'preto': {
+                    image: "https://i.postimg.cc/xCZq9Ky1/Sem-tempo-pra-cozinhar-7.png",
+                    price: 43.42,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -249,11 +257,6 @@ const products = {
                     image: "https://i.postimg.cc/SsVzS3qs/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/gcTngv0z/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -273,11 +276,6 @@ const products = {
                     image: "https://i.postimg.cc/FHqMqHLR/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/2y89ysWm/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -312,10 +310,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/KvTs9h2W/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/tTsWdRB3/Sem-tempo-pra-cozinhar-8.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -336,10 +334,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/8PnPbWT7/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/2y4qT1hC/Sem-tempo-pra-cozinhar-9.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -360,10 +358,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/jjc1z6b5/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/pTjyXm0Y/Sem-tempo-pra-cozinhar-10.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -377,6 +375,11 @@ const products = {
                 'branco': {
                     image: "https://i.postimg.cc/dtFSSSVM/19.png",
                     price: 40.20,
+                    sizes: ['P', 'M', 'G']
+                 },
+                 'preto': {
+                    image: "https://i.postimg.cc/J0m7rPHL/Sem-tempo-pra-cozinhar-11.png",
+                    price: 43.42,
                     sizes: ['P', 'M', 'G']
                 }
             },
@@ -398,10 +401,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/28C2xb0C/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/Twvf0C9S/Sem-tempo-pra-cozinhar-12.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -421,11 +424,6 @@ const products = {
                     image: "https://i.postimg.cc/13qnnMDf/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/MpQMMt1b/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -464,6 +462,10 @@ const products = {
                     image: "https://i.postimg.cc/Dzhr7RRw/1.png",
                     price: 43.42,
                     sizes: ['P', 'M']
+                 'preto': {
+                    image: "https://i.postimg.cc/0y1n8ScZ/Sem-tempo-pra-cozinhar-13.png",
+                    price: 43.42,
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -484,10 +486,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/SKmMBCzV/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/SRzL4Q9T/Sem-tempo-pra-cozinhar-14.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -507,11 +509,6 @@ const products = {
                     image: "https://i.postimg.cc/4xP6NWGV/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/g00vw3cM/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -531,11 +528,6 @@ const products = {
                     image: "https://i.postimg.cc/x11kgnrK/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/6502dTPQ/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -556,10 +548,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/SQGNP3fw/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/kGxc8X5z/Sem-tempo-pra-cozinhar-15.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -580,10 +572,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/pdDtF50j/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/6pHhCPBF/Sem-tempo-pra-cozinhar-16.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -603,11 +595,6 @@ const products = {
                     image: "https://i.postimg.cc/FRBGFDjP/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/NMzbGp6B/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -627,11 +614,6 @@ const products = {
                     image: "https://i.postimg.cc/JzMF2YKk/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/FHp65bnC/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -651,11 +633,6 @@ const products = {
                     image: "https://i.postimg.cc/L8QV3xWR/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/Hkvt96NC/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -675,11 +652,6 @@ const products = {
                     image: "https://i.postimg.cc/vHH92Wfb/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/L6CPcnVM/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -700,10 +672,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/VNyJwMrV/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/6pR9vkVQ/Sem-tempo-pra-cozinhar-17.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -724,10 +696,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/ncvm0r1B/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/mr8KzjnG/Sem-tempo-pra-cozinhar-18.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -748,10 +720,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/qvFpKXCM/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/8CXNQTNZ/Sem-tempo-pra-cozinhar-19.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -772,10 +744,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/xChsy83Z/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/D0q9ZhkN/Sem-tempo-pra-cozinhar-20.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -796,10 +768,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/rpYgMs38/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/76Ss1Nsn/Sem-tempo-pra-cozinhar-21.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -820,10 +792,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/yxCm8ZPz/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/fb9BZKhr/Sem-tempo-pra-cozinhar-22.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -844,10 +816,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/bwrt8ghf/3.png",
+                 'preto': {
+                    image: "https://i.postimg.cc/3Rp8gPQ2/Sem-tempo-pra-cozinhar-23.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -867,11 +839,6 @@ const products = {
                     image: "https://i.postimg.cc/QdFHvMQk/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/bwZs4vx6/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -891,11 +858,6 @@ const products = {
                     image: "https://i.postimg.cc/m25r3G00/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/X7zvK0RW/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -916,10 +878,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/JzXRbH3k/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/BvT7Hgw1/Sem-tempo-pra-cozinhar-24.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -940,10 +902,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/VN1PnGk6/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/KYfrmsHw/Sem-tempo-pra-cozinhar-25.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -963,11 +925,6 @@ const products = {
                     image: "https://i.postimg.cc/htWkRyx0/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/zGZsYtW0/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -988,10 +945,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/GtT5ZGpL/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/pT2x3k90/Sem-tempo-pra-cozinhar-26.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -1011,11 +968,6 @@ const products = {
                     image: "https://i.postimg.cc/fL1Ntw3v/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/fL1Ntw36/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -1030,7 +982,11 @@ const products = {
                     image: "https://i.postimg.cc/xCNdFpMs/1.png",
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
-
+                },
+                'preto': {
+                    image: "https://i.postimg.cc/YC15kYBf/Sem-tempo-pra-cozinhar-27.png",
+                    price: 43.42,
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -1051,10 +1007,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/Zq1760cV/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/8P8DS1rV/Sem-tempo-pra-cozinhar-28.png",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -1074,11 +1030,6 @@ const products = {
                     image: "https://i.postimg.cc/Nff491tG/2.png",
                     price: 43.42,
                     sizes: ['P', 'M']
-                },
-                'azul claro': {
-                    image: "https://i.postimg.cc/Gh7jkH32/3.png",
-                    price: 43.42,
-                    sizes: ['M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -1099,10 +1050,10 @@ const products = {
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
-                'azul claro': {
-                    image: "https://i.postimg.cc/MKFynNtD/3.png",
+                'preto': {
+                    image: "https://i.postimg.cc/Gpt6DNsf/Sem-tempo-pra-cozinhar.jpg",
                     price: 43.42,
-                    sizes: ['M', 'G']
+                    sizes: ['P', 'M', 'G']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
