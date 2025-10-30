@@ -463,6 +463,7 @@ const products = {
                     image: "https://i.postimg.cc/Dzhr7RRw/1.png",
                     price: 43.42,
                     sizes: ['P', 'M']
+                },
                 'preto': {
                     image: "https://i.postimg.cc/0y1n8ScZ/Sem-tempo-pra-cozinhar-13.png",
                     price: 43.42,
