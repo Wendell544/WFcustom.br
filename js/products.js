@@ -1931,20 +1931,8 @@ const products = {
     ]
 };
 
-// Dados dos produtos
-const products = {
-    masculino: [
-        // ... (mantenha todos os produtos masculinos existentes)
-    ],
-    unissexo: [
-        // ... (mantenha todos os produtos unissexo existentes)
-    ],
-    canecas: [
-        // ... (mantenha todos os produtos canecas existentes)
-    ]
-};
 
-// Aplicar descontos fictícios em 60% dos produtos
+// Aplicar descontos fictícios em 100% dos produtos
 function applyStrategicDiscounts() {
     console.log('Aplicando descontos estratégicos...');
     
