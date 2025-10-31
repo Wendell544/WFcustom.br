@@ -1,4 +1,4 @@
-// Função auxiliar para cores - ADICIONE ISSO NO INÍCIO DO main.js
+// Função auxiliar para cores
 function getColorHex(colorName) {
     switch(colorName) {
         case 'branco': return 'white';

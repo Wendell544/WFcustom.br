@@ -28,6 +28,11 @@ function addToCart(product, color, size, position, price) {
     cartItems.push(cartItem);
     updateCartCount();
     saveCartToLocalStorage();
+    
+    // Se estiver na página do carrinho, atualizar a visualização
+    if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
+        renderCart();
+    }
 }
 
 // Remover item do carrinho
@@ -142,32 +147,6 @@ function renderCartSummary() {
     const shippingCost = subtotal >= 100 ? 0 : 9.99;
     const total = subtotal - quantityDiscount + shippingCost;
     
-    // ATUALIZAR ELEMENTOS DO CARRINHO - CORREÇÃO
-    const cartSubtotal = document.getElementById('cart-subtotal');
-    const cartDiscount = document.getElementById('cart-discount');
-    const cartShipping = document.getElementById('cart-shipping');
-    const cartTotal = document.getElementById('cart-total');
-    const totalSavings = document.getElementById('total-savings');
-    
-    if (cartSubtotal) cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
-    if (cartDiscount) cartDiscount.textContent = `- R$ ${quantityDiscount.toFixed(2)}`;
-    if (cartShipping) {
-        if (shippingCost === 0) {
-            cartShipping.textContent = 'GRÁTIS';
-            cartShipping.style.color = 'var(--success-color)';
-        } else {
-            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
-            cartShipping.style.color = '';
-        }
-    }
-    if (cartTotal) {
-        cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-        cartTotal.style.fontWeight = '900';
-        cartTotal.style.color = 'var(--ofertas-primary)';
-        cartTotal.style.fontSize = '1.4rem';
-    }
-    if (totalSavings) totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
-    
     // RENDERIZAR O RESUMO COMPLETO - CORREÇÃO PRINCIPAL
     cartSummary.innerHTML = '';
     cartSummary.style.display = 'block';
@@ -257,27 +236,8 @@ function calculateShipping() {
     if (shippingPriceContainer) shippingPriceContainer.style.display = 'block';
     
     if (document.getElementById('cart-page').classList.contains('active')) {
-        const cartShipping = document.getElementById('cart-shipping');
-        const cartTotal = document.getElementById('cart-total');
-        
-        if (cartShipping && cartTotal) {
-            const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-            const tShirtCount = cartItems.filter(item => 
-                item.product.category === 'masculino' || item.product.category === 'unissexo'
-            ).length;
-
-            let quantityDiscount = 0;
-            if (tShirtCount >= 3) {
-                quantityDiscount = subtotal * 0.10;
-            } else if (tShirtCount >= 2) {
-                quantityDiscount = subtotal * 0.05;
-            }
-
-            const total = subtotal - quantityDiscount + shippingCost;
-            
-            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
-            cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-        }
+        // Atualizar o carrinho se estiver na página do carrinho
+        renderCart();
     }
 }
 
@@ -306,7 +266,7 @@ function finalizeOrder() {
         quantityDiscount = subtotal * 0.05;
     }
 
-    const shippingCost = parseFloat(document.getElementById('shipping-price').textContent.replace('R$ ', ''));
+    const shippingCost = subtotal >= 100 ? 0 : 9.99;
     const totalPrice = subtotal - quantityDiscount + shippingCost;
     
     let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
@@ -361,6 +321,7 @@ function showHome() {
         page.classList.remove('active');
     });
     
+    const homePage = document.getElementById('home-page');
     if (homePage) homePage.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
