@@ -1883,7 +1883,7 @@ const products = {
 };
 
 
-// Aplicar descontos em 100% dos produtos - CORRIGIDO
+// Aplicar descontos estratégicos em 100% dos produtos - VALORES MAIS ALTOS
 function applyStrategicDiscounts() {
     console.log('Aplicando descontos estratégicos em 100% dos produtos...');
     
@@ -1893,15 +1893,12 @@ function applyStrategicDiscounts() {
         ...products.canecas
     ];
     
-    // Aplicar desconto em TODOS os produtos (100%)
-    console.log(`Aplicando descontos em ${allProducts.length} produtos`);
-    
     allProducts.forEach(product => {
-        // Gerar preço original fictício entre R$45 e R$62
-        const originalPrice = parseFloat((Math.random() * (62 - 45) + 45).toFixed(2));
+        // Gerar preço original fictício MAIS ALTO entre R$65 e R$95
+        const originalPrice = parseFloat((Math.random() * (95 - 65) + 65).toFixed(2));
         
-        // Calcular desconto entre 15% e 35%
-        const discountPercentage = Math.floor(Math.random() * 20) + 15; // 15% a 35%
+        // Calcular desconto MAIS ALTO entre 25% e 45%
+        const discountPercentage = Math.floor(Math.random() * 20) + 25; // 25% a 45%
         
         // Calcular preço de venda mantendo o preço real
         const currentPrice = product.variants[Object.keys(product.variants)[0]].price;
@@ -1925,7 +1922,6 @@ function preloadProductImages() {
     let totalImages = 0;
     let loadedImages = 0;
     
-    // Coletar todas as URLs de imagens únicas
     const imageUrls = new Set();
     
     Object.values(products).forEach(categoryProducts => {
@@ -1946,8 +1942,6 @@ function preloadProductImages() {
         img.onload = () => {
             loadedImages++;
             imageCache.set(url, img);
-            console.log(`Imagem carregada: ${loadedImages}/${totalImages}`);
-            
             if (loadedImages === totalImages) {
                 console.log('Todas as imagens foram pré-carregadas!');
             }
@@ -1988,7 +1982,6 @@ function toggleFavorite(productId) {
     
     localStorage.setItem('favorites', JSON.stringify(favorites));
     
-    // Atualizar ícone visualmente
     const favoriteIcons = document.querySelectorAll(`.favorite-icon[data-product-id="${productId}"]`);
     favoriteIcons.forEach(icon => {
         const heartIcon = icon.querySelector('i');
@@ -2013,34 +2006,26 @@ function createGradeCard(product) {
     const firstImage = firstVariant.image;
     const firstPrice = firstVariant.price;
 
-    // Calcular preço inicial
     const initialPrice = firstPrice;
 
-    // Badges do produto
-    const badges = [];
-    if (product.discount) badges.push(`<span class="badge badge-discount">-${product.discount}% OFF</span>`);
-
-    // Desconto fictício (agora 100% dos produtos têm)
     const hasFictionalDiscount = product.hasFictionalDiscount;
     const originalPriceFicticio = product.originalPriceFicticio;
     const discountPercentage = product.discountPercentageFicticio;
 
-const colorDots = Object.keys(product.variants).map(color => {
-    let bgColor;
-    switch(color) {
-        case 'branco': bgColor = 'white'; break;
-        case 'rosa claro': bgColor = '#FFB6C1'; break;
-        case 'preto': bgColor = '#000000'; break; // MUDEI PARA PRETO
-        default: bgColor = color;
-    }
-    return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
-}).join('');
+    const colorDots = Object.keys(product.variants).map(color => {
+        let bgColor;
+        switch(color) {
+            case 'branco': bgColor = 'white'; break;
+            case 'rosa claro': bgColor = '#FFB6C1'; break;
+            case 'preto': bgColor = '#000000'; break;
+            default: bgColor = color;
+        }
+        return `<div class="color-dot ${color === firstColor ? 'active' : ''}" data-color="${color}" style="background-color: ${bgColor}; border: 1px solid #ccc;"></div>`;
+    }).join('');
 
-    // Preços com desconto (100% dos produtos agora têm desconto)
     let finalPrice = initialPrice;
     let priceHTML = '';
 
-    // SEMPRE mostrar preço com desconto (agora 100% dos produtos têm)
     if (hasFictionalDiscount && originalPriceFicticio) {
         priceHTML = `
             <div class="grade-card-pricing-premium">
@@ -2057,7 +2042,6 @@ const colorDots = Object.keys(product.variants).map(color => {
             </div>
         `;
     } else {
-        // Fallback caso algum produto não tenha desconto (não deveria acontecer)
         priceHTML = `
             <div class="grade-card-price-simple">
                 R$ ${finalPrice.toFixed(2)}
@@ -2065,7 +2049,6 @@ const colorDots = Object.keys(product.variants).map(color => {
         `;
     }
 
-    // Ícone de favoritos
     const isFav = isProductFavorite(product.id);
     const favIconClass = isFav ? 'fas fa-heart' : 'far fa-heart';
     const favActiveClass = isFav ? 'active' : '';
@@ -2094,7 +2077,6 @@ const colorDots = Object.keys(product.variants).map(color => {
         </div>
     `;
 
-    // Adicionar event listener para o ícone de favoritos
     const favoriteIcon = card.querySelector('.favorite-icon');
     favoriteIcon.addEventListener('click', function(e) {
         e.preventDefault();
@@ -2103,7 +2085,6 @@ const colorDots = Object.keys(product.variants).map(color => {
         toggleFavorite(productId);
     });
 
-    // Adicionar event listeners para cores
     const colorDotsElements = card.querySelectorAll('.color-dot');
     const cardImage = card.querySelector('.grade-card-image');
     const loadingOverlay = card.querySelector('.image-loading-overlay');
@@ -2118,17 +2099,14 @@ const colorDots = Object.keys(product.variants).map(color => {
             const selectedColor = dot.getAttribute('data-color');
             const selectedVariant = product.variants[selectedColor];
             
-            // Mostrar loading overlay
             loadingOverlay.style.display = 'flex';
             cardImage.style.opacity = '0.5';
             
-            // Verificar se a imagem já está em cache
             if (imageCache.has(selectedVariant.image)) {
                 cardImage.src = selectedVariant.image;
                 cardImage.style.opacity = '1';
                 loadingOverlay.style.display = 'none';
             } else {
-                // Carregar imagem
                 const newImage = new Image();
                 newImage.onload = () => {
                     imageCache.set(selectedVariant.image, newImage);
@@ -2181,11 +2159,10 @@ function findProductById(id) {
     return null;
 }
 
-// Popular todas as grades - VERSÃO CORRIGIDA
+// Popular todas as grades
 function populateAllGrades() {
     console.log('Iniciando população das grades...');
     
-    // Aplicar descontos primeiro
     applyStrategicDiscounts();
     
     const containers = [
@@ -2205,7 +2182,6 @@ function populateAllGrades() {
     
     console.log(`Grades populadas: ${successCount}/${containers.length}`);
     
-    // Se nenhum container foi encontrado, criar dinamicamente
     if (successCount === 0) {
         console.log('Nenhum container encontrado. Criando estrutura dinâmica...');
         createDynamicGradeStructure();
@@ -2220,13 +2196,11 @@ function createDynamicGradeStructure() {
         return;
     }
     
-    // Criar containers dinamicamente
     const categories = ['masculino', 'unissexo', 'canecas'];
     
     categories.forEach(category => {
         const containerId = `grade-container-${category}`;
         
-        // Verificar se já existe
         if (!document.getElementById(containerId)) {
             const gradeSection = document.createElement('div');
             gradeSection.className = 'grade-produtos';
@@ -2244,22 +2218,16 @@ function createDynamicGradeStructure() {
             console.log(`Container criado: ${containerId}`);
         }
         
-        // Popular o container
         populateGrade(containerId, products[category]);
     });
 }
 
-// Inicialização correta - SEM setTimeout
+// Inicialização correta
 function initializeProducts() {
     console.log('Inicializando produtos...');
     
-    // Aplicar descontos em 100% dos produtos
     applyStrategicDiscounts();
-    
-    // Pré-carregar imagens
     preloadProductImages();
-    
-    // Popular grades imediatamente
     populateAllGrades();
 }
 
