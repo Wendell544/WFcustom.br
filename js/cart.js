@@ -62,41 +62,49 @@ function renderCart() {
         return;
     }
     
-    // Renderizar itens do carrinho
+    // Atualizar estatísticas do header
+    updateCartStats();
+    
+    // Renderizar itens do carrinho com novo design
     cartItems.forEach(item => {
         const cartItemElement = document.createElement('div');
-        cartItemElement.className = 'cart-item-premium';
+        cartItemElement.className = 'cart-item-ultra-premium';
         cartItemElement.setAttribute('data-cart-id', item.id);
         
-        let positionInfo = '';
+        // Converter posição para texto amigável
+        let positionText = '';
         if (item.position && item.product.category !== 'canecas') {
-            let positionText = '';
             switch(item.position) {
                 case 'frente': positionText = 'Frente'; break;
                 case 'atras': positionText = 'Atrás'; break;
                 case 'ambos': positionText = 'Ambos'; break;
                 default: positionText = item.position;
             }
-            positionInfo = ` | Estampa: ${positionText}`;
         }
         
         cartItemElement.innerHTML = `
-            <img src="${item.product.variants[item.color].image}" alt="${item.product.name}" class="cart-item-image-premium">
-            <div class="cart-item-details-premium">
+            <img src="${item.product.variants[item.color].image}" alt="${item.product.name}" class="cart-item-image-ultra">
+            <div class="cart-item-details-ultra">
                 <h3>${item.product.name}</h3>
-                <p>Cor: ${item.color} | Tamanho: ${item.size}${positionInfo}</p>
-                <div class="cart-item-price-premium">R$ ${item.price.toFixed(2)}</div>
+                <div class="cart-item-specs">
+                    <span class="cart-item-spec">Cor: ${item.color}</span>
+                    <span class="cart-item-spec">Tamanho: ${item.size}</span>
+                    ${item.position && item.product.category !== 'canecas' ? `<span class="cart-item-spec">Estampa: ${positionText}</span>` : ''}
+                </div>
+                <div class="cart-item-price-ultra">R$ ${item.price.toFixed(2)}</div>
             </div>
-            <button class="remove-item-premium" data-cart-id="${item.id}">
-                <i class="fas fa-trash"></i>
-            </button>
+            <div class="cart-item-actions-ultra">
+                <button class="remove-item-ultra" data-cart-id="${item.id}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
         `;
         
         cartItemsContainer.appendChild(cartItemElement);
     });
     
     // Adicionar event listeners para remover itens
-    document.querySelectorAll('.remove-item-premium').forEach(button => {
+    document.querySelectorAll('.remove-item-ultra').forEach(button => {
         button.onclick = (e) => {
             const cartId = e.currentTarget.getAttribute('data-cart-id');
             removeFromCart(cartId);
@@ -109,42 +117,100 @@ function renderCart() {
     if (checkoutBtn) checkoutBtn.disabled = false;
 }
 
-// Renderizar resumo do carrinho
-function renderCartSummary() {
-    const cartSummary = document.getElementById('cart-summary');
-    if (!cartSummary) return;
+// Atualizar estatísticas do header do carrinho
+function updateCartStats() {
+    const cartStatItems = document.querySelector('.cart-stats-premium .cart-stat:nth-child(1) .cart-stat-value');
+    const cartStatShirts = document.querySelector('.cart-stats-premium .cart-stat:nth-child(2) .cart-stat-value');
+    const cartStatSavings = document.querySelector('.cart-stats-premium .cart-stat:nth-child(3) .cart-stat-value');
     
+    if (cartStatItems) cartStatItems.textContent = cartItems.length;
+    
+    // Calcular quantidade de camisetas
+    const tShirtCount = cartItems.filter(item => 
+        item.product.category === 'masculino' || item.product.category === 'unissexo'
+    ).length;
+    
+    if (cartStatShirts) cartStatShirts.textContent = tShirtCount;
+    
+    // Calcular economia total
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    let quantityDiscount = 0;
+    
+    if (tShirtCount >= 3) {
+        quantityDiscount = subtotal * 0.10;
+    } else if (tShirtCount >= 2) {
+        quantityDiscount = subtotal * 0.05;
+    }
+    
+    if (cartStatSavings) cartStatSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
+}
+
+// Renderizar resumo do carrinho - VERSÃO CORRIGIDA
+function renderCartSummary() {
+    const cartSubtotal = document.getElementById('cart-subtotal');
+    const cartDiscount = document.getElementById('cart-discount');
+    const cartShipping = document.getElementById('cart-shipping');
+    const cartTotal = document.getElementById('cart-total');
+    const totalSavings = document.getElementById('total-savings');
+    
+    if (!cartSubtotal) {
+        console.error('Elementos do resumo do carrinho não encontrados!');
+        return;
+    }
+
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     
-    cartSummary.innerHTML = `
-        <div class="summary-row-premium">
-            <span>Subtotal:</span>
-            <span>R$ ${subtotal.toFixed(2)}</span>
-        </div>
-        <div class="summary-row-premium">
-            <span>Frete:</span>
-            <span id="cart-shipping">A calcular</span>
-        </div>
-        <div class="summary-row-premium summary-total-premium">
-            <span>Total:</span>
-            <span id="cart-total">R$ ${subtotal.toFixed(2)}</span>
-        </div>
-    `;
+    // Calcular quantidade de camisetas para desconto progressivo
+    const tShirtCount = cartItems.filter(item => 
+        item.product.category === 'masculino' || item.product.category === 'unissexo'
+    ).length;
+
+    // Calcular desconto progressivo CORRETO
+    let quantityDiscount = 0;
+    if (tShirtCount >= 3) {
+        quantityDiscount = subtotal * 0.10; // 10% de desconto
+    } else if (tShirtCount >= 2) {
+        quantityDiscount = subtotal * 0.05; // 5% de desconto
+    }
+
+    const shippingCost = subtotal >= 100 ? 0 : 9.99;
+    const total = subtotal - quantityDiscount + shippingCost;
+    
+    // ATUALIZAR ELEMENTOS DO CARRINHO - CORREÇÃO
+    if (cartSubtotal) cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
+    if (cartDiscount) cartDiscount.textContent = quantityDiscount.toFixed(2);
+    if (cartShipping) {
+        if (shippingCost === 0) {
+            cartShipping.textContent = 'GRÁTIS';
+            cartShipping.style.color = 'var(--success-color)';
+        } else {
+            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
+            cartShipping.style.color = '';
+        }
+    }
+    if (cartTotal) {
+        cartTotal.textContent = total.toFixed(2);
+    }
+    if (totalSavings) totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
+    
+    console.log('Resumo do carrinho atualizado:', {
+        subtotal,
+        quantityDiscount,
+        shippingCost,
+        total,
+        items: cartItems.length
+    });
 }
 
 // Calcular frete
 function calculateShipping() {
     const city = document.getElementById('city');
     if (!city) return;
-
+    
     const cityValue = city.value.toLowerCase();
     let shippingCost = 9.99;
     
-    // Verificar promoção de frete grátis
-    const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
-    if (subtotal >= 100) {
-        shippingCost = 0;
-    } else if (cityValue.includes('são bento') || cityValue.includes('sao bento')) {
+    if (cityValue.includes('são bento') || cityValue.includes('sao bento')) {
         shippingCost = 4.00;
         const deliveryOptions = document.getElementById('delivery-options');
         if (deliveryOptions) deliveryOptions.style.display = 'block';
@@ -158,23 +224,21 @@ function calculateShipping() {
         if (deliveryOptions) deliveryOptions.style.display = 'none';
     }
     
+    // Aplicar frete grátis se subtotal for >= 100
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    if (subtotal >= 100) {
+        shippingCost = 0;
+    }
+    
     const shippingPrice = document.getElementById('shipping-price');
     const shippingPriceContainer = document.querySelector('.shipping-price-premium');
     
-    if (shippingPrice) shippingPrice.textContent = `R$ ${shippingCost.toFixed(2)}`;
+    if (shippingPrice) shippingPrice.textContent = shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`;
     if (shippingPriceContainer) shippingPriceContainer.style.display = 'block';
     
+    // Atualizar o carrinho se estiver visível
     if (document.getElementById('cart-page').classList.contains('active')) {
-        const cartShipping = document.getElementById('cart-shipping');
-        const cartTotal = document.getElementById('cart-total');
-        
-        if (cartShipping && cartTotal) {
-            const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-            const total = subtotal + shippingCost;
-            
-            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
-            cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-        }
+        renderCartSummary();
     }
 }
 
@@ -188,65 +252,11 @@ function finalizeOrder() {
     const street = document.getElementById('street').value;
     const address = document.getElementById('address').value;
     
-    const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
-    const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
+    if (!city || !neighborhood || !street || !address) {
+        alert('Por favor, preencha todos os campos do endereço.');
+        return;
+    }
     
-    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-    const shippingCost = parseFloat(document.getElementById('shipping-price').textContent.replace('R$ ', ''));
-    const totalPrice = subtotal + shippingCost;
-    
-    let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
-    
-    cartItems.forEach((item, index) => {
-        message += `*Item ${index + 1}:* ${item.product.name}%0A`;
-        message += `- Cor: ${item.color}%0A`;
-        message += `- Tamanho: ${item.size}%0A`;
-        if (item.position && item.product.category !== 'canecas') {
-            let positionText = '';
-            switch(item.position) {
-                case 'frente': positionText = 'Frente'; break;
-                case 'atras': positionText = 'Atrás'; break;
-                case 'ambos': positionText = 'Ambos'; break;
-                default: positionText = item.position;
-            }
-            message += `- Estampa: ${positionText}%0A`;
-        }
-        message += `- Preço: R$ ${item.price.toFixed(2)}%0A%0A`;
-    });
-    
-    message += `*Subtotal:* R$ ${subtotal.toFixed(2)}%0A`;
-    message += `*Frete:* R$ ${shippingCost.toFixed(2)}%0A`;
-    message += `*Total:* R$ ${totalPrice.toFixed(2)}%0A%0A`;
-    message += `*Endereço de entrega:*%0A`;
-    message += `- Cidade: ${city}%0A`;
-    message += `- Bairro: ${neighborhood}%0A`;
-    message += `- Rua: ${street}%0A`;
-    message += `- Número/Complemento: ${address}%0A`;
-    message += `- Método de entrega: ${deliveryType === 'delivery' ? 'Entrega' : 'Retirada no Local'}%0A%0A`;
-    message += `Por favor, confirme meu pedido!`;
-    
-    const url = `https://wa.me/${phoneNumber}?text=${message}`;
-    window.open(url, '_blank');
-    
-    cartItems = [];
-    updateCartCount();
-    saveCartToLocalStorage();
-    
-    const confirmationModal = document.getElementById('confirmation-modal');
-    if (confirmationModal) confirmationModal.style.display = 'flex';
-    
-    showHome();
-}
-
-// Função para mostrar a página inicial
-function showHome() {
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    if (homePage) homePage.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-} 
     const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
     const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
     
@@ -262,15 +272,25 @@ function showHome() {
         quantityDiscount = subtotal * 0.05;
     }
 
-    const shippingCost = subtotal >= 100 ? 0 : 9.99;
+    let shippingCost = 9.99;
+    if (city.toLowerCase().includes('são bento') || city.toLowerCase().includes('sao bento')) {
+        shippingCost = deliveryType === 'pickup' ? 0 : 4.00;
+    }
+    
+    // Aplicar frete grátis se subtotal for >= 100
+    if (subtotal >= 100) {
+        shippingCost = 0;
+    }
+    
     const totalPrice = subtotal - quantityDiscount + shippingCost;
     
-    let message = `Olá! Gostaria de finalizar meu pedido:%0A%0A`;
+    let message = `*🛒 NOVO PEDIDO - WFCUSTOM*%0A%0A`;
+    message += `*Itens do Pedido:*%0A%0A`;
     
     cartItems.forEach((item, index) => {
-        message += `*Item ${index + 1}:* ${item.product.name}%0A`;
-        message += `- Cor: ${item.color}%0A`;
-        message += `- Tamanho: ${item.size}%0A`;
+        message += `*${index + 1}. ${item.product.name}*%0A`;
+        message += `   • Cor: ${item.color}%0A`;
+        message += `   • Tamanho: ${item.size}%0A`;
         if (item.position && item.product.category !== 'canecas') {
             let positionText = '';
             switch(item.position) {
@@ -279,24 +299,27 @@ function showHome() {
                 case 'ambos': positionText = 'Ambos'; break;
                 default: positionText = item.position;
             }
-            message += `- Estampa: ${positionText}%0A`;
+            message += `   • Estampa: ${positionText}%0A`;
         }
-        message += `- Preço: R$ ${item.price.toFixed(2)}%0A%0A`;
+        message += `   • Preço: R$ ${item.price.toFixed(2)}%0A%0A`;
     });
     
-    message += `*Subtotal:* R$ ${subtotal.toFixed(2)}%0A`;
+    message += `*Resumo do Pedido:*%0A`;
+    message += `Subtotal: R$ ${subtotal.toFixed(2)}%0A`;
     if (quantityDiscount > 0) {
-        message += `*Desconto Progressivo:* - R$ ${quantityDiscount.toFixed(2)}%0A`;
+        message += `Desconto Progressivo: -R$ ${quantityDiscount.toFixed(2)}%0A`;
     }
-    message += `*Frete:* R$ ${shippingCost.toFixed(2)}%0A`;
-    message += `*Total:* R$ ${totalPrice.toFixed(2)}%0A%0A`;
-    message += `*Endereço de entrega:*%0A`;
-    message += `- Cidade: ${city}%0A`;
-    message += `- Bairro: ${neighborhood}%0A`;
-    message += `- Rua: ${street}%0A`;
-    message += `- Número/Complemento: ${address}%0A`;
-    message += `- Método de entrega: ${deliveryType === 'delivery' ? 'Entrega' : 'Retirada no Local'}%0A%0A`;
-    message += `Por favor, confirme meu pedido!`;
+    message += `Frete: ${shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`}%0A`;
+    message += `*Total: R$ ${totalPrice.toFixed(2)}*%0A%0A`;
+    
+    message += `*Dados de Entrega:*%0A`;
+    message += `Cidade: ${city}%0A`;
+    message += `Bairro: ${neighborhood}%0A`;
+    message += `Rua: ${street}%0A`;
+    message += `Número/Complemento: ${address}%0A`;
+    message += `Entrega: ${deliveryType === 'delivery' ? 'Entregar no endereço' : 'Retirar no local'}%0A%0A`;
+    
+    message += `_Pedido gerado automaticamente pelo site_`;
     
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(url, '_blank');
