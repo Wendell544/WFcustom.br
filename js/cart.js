@@ -1,89 +1,95 @@
 // Variáveis do carrinho
 let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-// Atualizar contador do carrinho
+// Atualizar contador do carrinho - FUNÇÃO REVISADA
 function updateCartCount() {
     const cartCount = document.querySelector('.cart-count');
     if (cartCount) {
         cartCount.textContent = cartItems.length;
+        console.log('Contador atualizado:', cartItems.length, 'itens');
     }
 }
 
-// Salvar carrinho no localStorage
+// Salvar carrinho no localStorage - FUNÇÃO REVISADA
 function saveCartToLocalStorage() {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    try {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        console.log('Carrinho salvo no localStorage:', cartItems.length, 'itens');
+    } catch (error) {
+        console.error('Erro ao salvar carrinho:', error);
+    }
 }
 
-// Adicionar produto ao carrinho - FUNÇÃO COMPLETAMENTE CORRIGIDA
+// Adicionar produto ao carrinho - FUNÇÃO COMPLETAMENTE REVISADA
 function addToCart(product, color, size, position, price) {
     console.log('🛒 Adicionando ao carrinho:', product.name);
     
-    // Verificar se o produto já existe para evitar duplicatas
-    const existingItemIndex = cartItems.findIndex(item => 
-        item.product.id === product.id && 
-        item.color === color && 
-        item.size === size && 
-        item.position === position
-    );
-    
-    if (existingItemIndex !== -1) {
-        // Se já existe, atualiza a quantidade (se necessário) ou mantém
-        console.log('Produto já existe no carrinho, mantendo original');
-    } else {
-        const cartItem = {
-            id: Date.now() + Math.random(), // ID mais único
-            product: product,
-            color: color,
-            size: size,
-            position: position,
-            price: price
-        };
-        
-        cartItems.push(cartItem);
-        console.log('✅ Produto adicionado:', cartItem);
+    // Validar dados do produto
+    if (!product || !product.name) {
+        console.error('Produto inválido:', product);
+        return false;
     }
     
+    const cartItem = {
+        id: Date.now() + Math.random(), // ID mais único
+        product: {
+            id: product.id,
+            name: product.name,
+            category: product.category,
+            description: product.description,
+            discount: product.discount,
+            variants: product.variants
+        },
+        color: color || 'branco',
+        size: size || 'P',
+        position: position || 'frente',
+        price: price || product.variants[color]?.price || 0
+    };
+    
+    cartItems.push(cartItem);
     saveCartToLocalStorage();
     updateCartCount();
     
-    // ATUALIZAÇÃO IMEDIATA E CONFIÁVEL DO CARRINHO
-    setTimeout(() => {
-        if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
-            console.log('🔄 Carrinho visível - renderizando imediatamente');
-            renderCart();
-        }
-    }, 100);
+    // ATUALIZAÇÃO IMEDIATA DO CARRINHO SE ESTIVER VISÍVEL
+    if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
+        console.log('Carrinho visível - renderizando imediatamente');
+        renderCart();
+    }
     
-    // Mostrar notificação
+    // Mostrar notificação - AGORA FUNCIONANDO
     showCartNotification(product.name);
     
-    console.log('📊 Carrinho atualizado:', cartItems.length, 'itens');
+    console.log('✅ Carrinho atualizado:', cartItems.length, 'itens');
+    return true;
 }
 
-// Remover item do carrinho - FUNÇÃO CORRIGIDA
+// Remover item do carrinho - FUNÇÃO REVISADA
 function removeFromCart(cartId) {
     console.log('🗑️ Removendo item:', cartId);
+    const initialLength = cartItems.length;
+    cartItems = cartItems.filter(item => item.id != cartId);
     
-    // Converter para número para comparação correta
-    cartId = parseInt(cartId);
-    cartItems = cartItems.filter(item => item.id !== cartId);
-    
-    updateCartCount();
-    saveCartToLocalStorage();
-    
-    // Renderização IMEDIATA e CONFIÁVEL
-    setTimeout(() => {
+    if (cartItems.length < initialLength) {
+        updateCartCount();
+        saveCartToLocalStorage();
         renderCart();
-    }, 50);
-    
-    console.log('✅ Item removido. Carrinho agora tem:', cartItems.length, 'itens');
+        console.log('✅ Item removido. Itens restantes:', cartItems.length);
+    } else {
+        console.error('❌ Item não encontrado para remover:', cartId);
+    }
 }
 
-// Mostrar notificação de produto adicionado
+// Mostrar notificação de produto adicionado - FUNÇÃO REVISADA
 function showCartNotification(productName) {
+    console.log('🔔 Mostrando notificação para:', productName);
+    
     // Remover notificações existentes
     const existingNotifications = document.querySelectorAll('.cart-notification');
-    existingNotifications.forEach(notification => notification.remove());
+    existingNotifications.forEach(notification => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    });
     
     // Criar elemento de notificação
     const notification = document.createElement('div');
@@ -130,10 +136,9 @@ function showCartNotification(productName) {
     }, 3000);
 }
 
-// Renderizar carrinho - FUNÇÃO COMPLETAMENTE REESCRITA
+// Renderizar carrinho - FUNÇÃO COMPLETAMENTE REVISADA
 function renderCart() {
-    console.log('🎨 Renderizando carrinho...');
-    
+    console.log('🎨 Renderizando carrinho...', cartItems.length, 'itens');
     const cartItemsContainer = document.getElementById('cart-items');
     const cartSummary = document.getElementById('cart-summary');
     const checkoutBtn = document.getElementById('checkout-btn');
@@ -143,16 +148,14 @@ function renderCart() {
         return;
     }
     
-    // Limpar container
     cartItemsContainer.innerHTML = '';
     
     if (cartItems.length === 0) {
-        console.log('🛒 Carrinho vazio');
         cartItemsContainer.innerHTML = `
-            <div class="empty-cart-premium" style="text-align: center; padding: 40px 20px; color: #666;">
-                <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 20px; color: #ccc;"></i>
-                <h3 style="margin-bottom: 10px; color: #333;">Seu carrinho está vazio</h3>
-                <p style="color: #888;">Adicione alguns produtos para continuar</p>
+            <div class="empty-cart-premium" style="text-align: center; padding: 40px 20px;">
+                <i class="fas fa-shopping-cart" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+                <h3 style="color: #666; margin-bottom: 10px;">Seu carrinho está vazio</h3>
+                <p style="color: #999;">Adicione alguns produtos para continuar</p>
             </div>
         `;
         
@@ -161,86 +164,79 @@ function renderCart() {
         return;
     }
     
-    console.log(`📦 Renderizando ${cartItems.length} itens`);
-    
     // Atualizar estatísticas do header
     updateCartStats();
     
     // Renderizar itens do carrinho
     cartItems.forEach(item => {
-        try {
-            const cartItemElement = document.createElement('div');
-            cartItemElement.className = 'cart-item-ultra-premium';
-            cartItemElement.setAttribute('data-cart-id', item.id);
-            
-            // Verificar se o produto e variant existem
-            if (!item.product || !item.product.variants || !item.product.variants[item.color]) {
-                console.error('❌ Produto ou variante inválido:', item);
-                return;
-            }
-            
-            // Converter posição para texto amigável
-            let positionText = '';
-            if (item.position && item.product.category !== 'canecas') {
-                switch(item.position) {
-                    case 'frente': positionText = 'Frente'; break;
-                    case 'atras': positionText = 'Atrás'; break;
-                    case 'ambos': positionText = 'Ambos'; break;
-                    default: positionText = item.position;
-                }
-            }
-            
-            cartItemElement.innerHTML = `
-                <img src="${item.product.variants[item.color].image}" alt="${item.product.name}" 
-                     class="cart-item-image-ultra" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
-                <div class="cart-item-details-ultra" style="flex: 1; margin-left: 15px;">
-                    <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #333;">${item.product.name}</h3>
-                    <div class="cart-item-specs" style="display: flex; flex-direction: column; gap: 4px;">
-                        <span class="cart-item-spec" style="font-size: 14px; color: #666;">Cor: ${item.color}</span>
-                        <span class="cart-item-spec" style="font-size: 14px; color: #666;">Tamanho: ${item.size}</span>
-                        ${item.position && item.product.category !== 'canecas' ? 
-                            `<span class="cart-item-spec" style="font-size: 14px; color: #666;">Estampa: ${positionText}</span>` : ''}
-                    </div>
-                    <div class="cart-item-price-ultra" style="font-weight: bold; color: #2c5aa0; margin-top: 8px;">
-                        R$ ${typeof item.price === 'number' ? item.price.toFixed(2) : '0.00'}
-                    </div>
-                </div>
-                <div class="cart-item-actions-ultra" style="margin-left: 15px;">
-                    <button class="remove-item-ultra" data-cart-id="${item.id}" 
-                            style="background: #dc3545; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `;
-            
-            cartItemsContainer.appendChild(cartItemElement);
-        } catch (error) {
-            console.error('❌ Erro ao renderizar item:', item, error);
+        const cartItemElement = document.createElement('div');
+        cartItemElement.className = 'cart-item-ultra-premium';
+        cartItemElement.setAttribute('data-cart-id', item.id);
+        
+        // Garantir que o produto existe
+        if (!item.product) {
+            console.error('❌ Produto inválido no carrinho:', item);
+            return;
         }
+        
+        // Converter posição para texto amigável
+        let positionText = '';
+        if (item.position && item.product.category !== 'canecas') {
+            switch(item.position) {
+                case 'frente': positionText = 'Frente'; break;
+                case 'atras': positionText = 'Atrás'; break;
+                case 'ambos': positionText = 'Ambos'; break;
+                default: positionText = item.position;
+            }
+        }
+        
+        // Usar imagem padrão se não disponível
+        const imageSrc = item.product.variants && item.product.variants[item.color] && item.product.variants[item.color].image 
+            ? item.product.variants[item.color].image 
+            : 'https://via.placeholder.com/100x100?text=Produto';
+        
+        cartItemElement.innerHTML = `
+            <img src="${imageSrc}" alt="${item.product.name}" class="cart-item-image-ultra" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+            <div class="cart-item-details-ultra" style="flex: 1; margin-left: 15px;">
+                <h3 style="margin: 0 0 8px 0; font-size: 16px;">${item.product.name || 'Produto'}</h3>
+                <div class="cart-item-specs" style="display: flex; flex-direction: column; gap: 4px;">
+                    <span class="cart-item-spec" style="font-size: 14px; color: #666;">Cor: ${item.color || 'N/A'}</span>
+                    <span class="cart-item-spec" style="font-size: 14px; color: #666;">Tamanho: ${item.size || 'N/A'}</span>
+                    ${item.position && item.product.category !== 'canecas' ? `<span class="cart-item-spec" style="font-size: 14px; color: #666;">Estampa: ${positionText}</span>` : ''}
+                </div>
+                <div class="cart-item-price-ultra" style="font-weight: bold; color: #e74c3c; margin-top: 8px;">R$ ${(item.price || 0).toFixed(2)}</div>
+            </div>
+            <div class="cart-item-actions-ultra">
+                <button class="remove-item-ultra" data-cart-id="${item.id}" style="background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        
+        cartItemsContainer.appendChild(cartItemElement);
     });
     
-    // Adicionar event listeners para remover itens - CORRIGIDO
-    setTimeout(() => {
-        document.querySelectorAll('.remove-item-ultra').forEach(button => {
-            button.onclick = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const cartId = e.currentTarget.getAttribute('data-cart-id');
-                console.log('🔘 Clicou em remover:', cartId);
-                removeFromCart(cartId);
-            };
-        });
-    }, 100);
+    // Adicionar event listeners para remover itens
+    document.querySelectorAll('.remove-item-ultra').forEach(button => {
+        button.onclick = (e) => {
+            e.stopPropagation();
+            const cartId = e.currentTarget.getAttribute('data-cart-id');
+            removeFromCart(cartId);
+        };
+    });
     
     // Renderizar resumo do carrinho
     renderCartSummary();
     
-    if (checkoutBtn) checkoutBtn.disabled = false;
+    if (checkoutBtn) {
+        checkoutBtn.disabled = false;
+        checkoutBtn.style.opacity = '1';
+    }
     
-    console.log('✅ Carrinho renderizado com sucesso');
+    console.log('✅ Carrinho renderizado com', cartItems.length, 'itens');
 }
 
-// Atualizar estatísticas do header do carrinho
+// Atualizar estatísticas do header do carrinho - FUNÇÃO REVISADA
 function updateCartStats() {
     const cartStatItems = document.querySelector('.cart-stats-premium .cart-stat:nth-child(1) .cart-stat-value');
     const cartStatShirts = document.querySelector('.cart-stats-premium .cart-stat:nth-child(2) .cart-stat-value');
@@ -268,10 +264,9 @@ function updateCartStats() {
     if (cartStatSavings) cartStatSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
 }
 
-// Renderizar resumo do carrinho - COMPLETAMENTE CORRIGIDO
+// Renderizar resumo do carrinho - FUNÇÃO COMPLETAMENTE REVISADA
 function renderCartSummary() {
     console.log('💰 Renderizando resumo do carrinho...');
-    
     const cartSubtotal = document.getElementById('cart-subtotal');
     const cartDiscount = document.getElementById('cart-discount');
     const cartTotal = document.getElementById('cart-total');
@@ -283,12 +278,7 @@ function renderCartSummary() {
         return;
     }
 
-    // Calcular totais com validação
-    const subtotal = cartItems.reduce((total, item) => {
-        return total + (typeof item.price === 'number' ? item.price : 0);
-    }, 0);
-    
-    console.log('📊 Subtotal calculado:', subtotal);
+    const subtotal = cartItems.reduce((total, item) => total + (item.price || 0), 0);
     
     // Calcular quantidade de camisetas para desconto progressivo
     const tShirtCount = cartItems.filter(item => 
@@ -304,33 +294,15 @@ function renderCartSummary() {
     }
 
     // Calcular total
-    const total = Math.max(0, subtotal - quantityDiscount);
+    const total = subtotal - quantityDiscount;
     
-    console.log('🎯 Desconto:', quantityDiscount, 'Total:', total);
+    console.log('📊 Resumo:', { subtotal, quantityDiscount, total, tShirtCount });
     
-    // ATUALIZAR ELEMENTOS DO CARRINHO - COM FALLBACKS
-    if (cartSubtotal) {
-        cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
-        cartSubtotal.style.display = 'block';
-    }
-    
-    if (cartDiscount) {
-        if (quantityDiscount > 0) {
-            cartDiscount.textContent = `- R$ ${quantityDiscount.toFixed(2)}`;
-            cartDiscount.style.display = 'block';
-        } else {
-            cartDiscount.style.display = 'none';
-        }
-    }
-    
-    if (cartTotal) {
-        cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-        cartTotal.style.display = 'block';
-    }
-    
-    if (totalSavings) {
-        totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
-    }
+    // ATUALIZAR ELEMENTOS DO CARRINHO
+    if (cartSubtotal) cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
+    if (cartDiscount) cartDiscount.textContent = `- R$ ${quantityDiscount.toFixed(2)}`;
+    if (cartTotal) cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+    if (totalSavings) totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
     
     // Mostrar mensagem de frete grátis se subtotal for >= 100
     if (freeShippingMessage) {
@@ -345,12 +317,12 @@ function renderCartSummary() {
     const cartSummaryElement = document.getElementById('cart-summary');
     if (cartSummaryElement) {
         cartSummaryElement.style.display = 'block';
+        cartSummaryElement.style.opacity = '1';
+        cartSummaryElement.style.visibility = 'visible';
     }
-    
-    console.log('✅ Resumo do carrinho renderizado com sucesso');
 }
 
-// Calcular frete (apenas para a página de localização)
+// Calcular frete - FUNÇÃO REVISADA
 function calculateShipping() {
     const city = document.getElementById('city');
     if (!city) return;
@@ -392,8 +364,10 @@ function calculateShipping() {
     }
 }
 
-// Finalizar pedido - FUNÇÃO CORRIGIDA
+// Finalizar pedido - FUNÇÃO REVISADA
 function finalizeOrder() {
+    console.log('🚀 Finalizando pedido...');
+    
     if (cartItems.length === 0) {
         alert('Seu carrinho está vazio!');
         return;
@@ -445,7 +419,7 @@ function finalizeOrder() {
         shippingCost = 0;
     }
     
-    const totalPrice = Math.max(0, subtotal - quantityDiscount + shippingCost);
+    const totalPrice = subtotal - quantityDiscount + shippingCost;
     
     let message = `*🛒 NOVO PEDIDO - WFCUSTOM*%0A%0A`;
     message += `*Itens do Pedido:*%0A%0A`;
@@ -487,10 +461,10 @@ function finalizeOrder() {
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(url, '_blank');
     
-    // Limpar carrinho APÓS envio bem-sucedido
+    // Limpar carrinho após finalizar
     cartItems = [];
-    updateCartCount();
     saveCartToLocalStorage();
+    updateCartCount();
     
     const confirmationModal = document.getElementById('confirmation-modal');
     if (confirmationModal) confirmationModal.style.display = 'flex';
@@ -513,26 +487,25 @@ function showHome() {
 function initializeCart() {
     console.log('🔄 Inicializando carrinho...');
     
-    // Carregar itens do localStorage
-    const savedCartItems = localStorage.getItem('cartItems');
-    if (savedCartItems) {
-        try {
-            cartItems = JSON.parse(savedCartItems);
-            console.log('📦 Carrinho carregado:', cartItems.length, 'itens');
-        } catch (error) {
-            console.error('❌ Erro ao carregar carrinho:', error);
-            cartItems = [];
+    // Recarregar itens do localStorage
+    try {
+        const storedItems = localStorage.getItem('cartItems');
+        if (storedItems) {
+            cartItems = JSON.parse(storedItems);
+            console.log('📦 Carrinho carregado do localStorage:', cartItems.length, 'itens');
         }
+    } catch (error) {
+        console.error('❌ Erro ao carregar carrinho:', error);
+        cartItems = [];
     }
     
+    // Atualizar contador
     updateCartCount();
     
     // Renderizar carrinho se estiver na página do carrinho
-    setTimeout(() => {
-        if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
-            renderCart();
-        }
-    }, 500);
+    if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
+        renderCart();
+    }
 }
 
 // Expor funções globalmente
@@ -544,8 +517,12 @@ window.calculateShipping = calculateShipping;
 window.finalizeOrder = finalizeOrder;
 window.initializeCart = initializeCart;
 
-// Inicializar quando o DOM estiver pronto
+// Inicializar quando o script carregar
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 DOM Carregado - Inicializando carrinho...');
-    initializeCart();
+    setTimeout(initializeCart, 100);
+});
+
+// Também inicializar quando a página terminar de carregar
+window.addEventListener('load', function() {
+    setTimeout(initializeCart, 200);
 });
