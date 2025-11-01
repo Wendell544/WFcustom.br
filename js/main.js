@@ -653,7 +653,7 @@ function updatePositionOptions() {
     });
 }
 
-// Adicionar ao carrinho da página de detalhes - FUNÇÃO CORRIGIDA
+// Adicionar ao carrinho da página de detalhes - AGORA USA A FUNÇÃO DO cart.js
 function addToCartFromDetail() {
     if (!currentProduct) return;
     
@@ -663,7 +663,7 @@ function addToCartFromDetail() {
         variant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
-    // USAR A FUNÇÃO GLOBAL DO CART.JS - CORREÇÃO DO PROBLEMA
+    // USAR A FUNÇÃO addToCart DO cart.js (exposta globalmente)
     window.addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
     
     // Feedback visual
@@ -697,60 +697,6 @@ function handlePackageSelection(packageType) {
     
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
-}
-
-// REMOVIDA: função addToCart local que estava causando o problema
-// Agora usamos apenas a função global do cart.js
-
-// Atualizar contador do carrinho - USANDO FUNÇÃO GLOBAL
-function updateCartCount() {
-    window.updateCartCount();
-}
-
-// Mostrar notificação de produto adicionado
-function showCartNotification(productName) {
-    // Criar elemento de notificação
-    const notification = document.createElement('div');
-    notification.className = 'cart-notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas fa-check-circle"></i>
-            <span>${productName} adicionado ao carrinho!</span>
-        </div>
-    `;
-    
-    // Adicionar estilos
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: var(--success-color);
-        color: white;
-        padding: 15px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 10000;
-        transform: translateX(400px);
-        transition: transform 0.3s ease;
-        max-width: 300px;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animar entrada
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Remover após 3 segundos
-    setTimeout(() => {
-        notification.style.transform = 'translateX(400px)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
 }
 
 // Atualizar contador de favoritos
@@ -835,12 +781,12 @@ function toggleFavorite(productId) {
     updateFavoriteCount();
 }
 
-// Calcular frete - USANDO FUNÇÃO GLOBAL
+// Calcular frete - USA A FUNÇÃO DO cart.js
 function calculateShipping() {
     window.calculateShipping();
 }
 
-// Finalizar pedido - USANDO FUNÇÃO GLOBAL
+// Finalizar pedido - USA A FUNÇÃO DO cart.js
 function finalizeOrder() {
     window.finalizeOrder();
 }

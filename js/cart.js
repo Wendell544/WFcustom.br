@@ -14,8 +14,10 @@ function saveCartToLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 }
 
-// Adicionar produto ao carrinho - FUNÇÃO COMPLETAMENTE CORRIGIDA
+// Adicionar produto ao carrinho - FUNÇÃO CORRIGIDA E OTIMIZADA
 function addToCart(product, color, size, position, price) {
+    console.log('Adicionando ao carrinho:', product.name);
+    
     const cartItem = {
         id: Date.now(),
         product: product,
@@ -26,16 +28,19 @@ function addToCart(product, color, size, position, price) {
     };
     
     cartItems.push(cartItem);
-    updateCartCount();
     saveCartToLocalStorage();
+    updateCartCount();
     
-    // ATUALIZAÇÃO IMEDIATA DO CARRINHO - SEMPRE
+    // ATUALIZAÇÃO IMEDIATA DO CARRINHO SE ESTIVER VISÍVEL
     if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
+        console.log('Carrinho visível - renderizando imediatamente');
         renderCart();
     }
     
     // Mostrar notificação
     showCartNotification(product.name);
+    
+    console.log('Carrinho atualizado:', cartItems);
 }
 
 // Remover item do carrinho
@@ -94,11 +99,15 @@ function showCartNotification(productName) {
 
 // Renderizar carrinho - FUNÇÃO OTIMIZADA
 function renderCart() {
+    console.log('Renderizando carrinho...');
     const cartItemsContainer = document.getElementById('cart-items');
     const cartSummary = document.getElementById('cart-summary');
     const checkoutBtn = document.getElementById('checkout-btn');
     
-    if (!cartItemsContainer) return;
+    if (!cartItemsContainer) {
+        console.error('Container do carrinho não encontrado!');
+        return;
+    }
     
     cartItemsContainer.innerHTML = '';
     
@@ -169,6 +178,8 @@ function renderCart() {
     renderCartSummary();
     
     if (checkoutBtn) checkoutBtn.disabled = false;
+    
+    console.log('Carrinho renderizado com', cartItems.length, 'itens');
 }
 
 // Atualizar estatísticas do header do carrinho
@@ -246,13 +257,6 @@ function renderCartSummary() {
             freeShippingMessage.style.display = 'none';
         }
     }
-    
-    console.log('Resumo do carrinho atualizado:', {
-        subtotal,
-        quantityDiscount,
-        total,
-        items: cartItems.length
-    });
 }
 
 // Calcular frete (apenas para a página de localização)
