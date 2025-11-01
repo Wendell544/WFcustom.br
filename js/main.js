@@ -345,11 +345,24 @@ function setupEventListeners() {
         addToCartDetailButton.addEventListener('click', addToCartFromDetail);
     }
     
-    // Formulário de localização
+    // BOTÃO FINALIZAR PEDIDO - CORREÇÃO PRINCIPAL AQUI
+    if (finalizeOrderButton) {
+        console.log('✅ Botão finalizar pedido encontrado, adicionando evento...');
+        finalizeOrderButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('🎯 Botão finalizar pedido clicado!');
+            handleFinalizeOrder();
+        });
+    } else {
+        console.error('❌ Botão finalizar pedido NÃO encontrado!');
+    }
+    
+    // Formulário de localização - também adicionar evento de submit
     if (locationForm) {
         locationForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            finalizeOrder();
+            console.log('📋 Formulário de localização submetido');
+            handleFinalizeOrder();
         });
     }
     
@@ -404,6 +417,55 @@ function setupEventListeners() {
     });
     
     console.log('✅ Event listeners configurados');
+}
+
+// NOVA FUNÇÃO PARA FINALIZAR PEDIDO - CORREÇÃO PRINCIPAL
+function handleFinalizeOrder() {
+    console.log('🚀 Iniciando processo de finalização do pedido...');
+    
+    // Verificar se há itens no carrinho
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    if (cartItems.length === 0) {
+        alert('❌ Seu carrinho está vazio! Adicione produtos antes de finalizar o pedido.');
+        return;
+    }
+    
+    // Validar campos obrigatórios
+    const city = document.getElementById('city');
+    const neighborhood = document.getElementById('neighborhood');
+    const street = document.getElementById('street');
+    const address = document.getElementById('address');
+    
+    if (!city || !neighborhood || !street || !address) {
+        alert('❌ Campos de endereço não encontrados!');
+        return;
+    }
+    
+    const cityValue = city.value.trim();
+    const neighborhoodValue = neighborhood.value.trim();
+    const streetValue = street.value.trim();
+    const addressValue = address.value.trim();
+    
+    if (!cityValue || !neighborhoodValue || !streetValue || !addressValue) {
+        alert('❌ Por favor, preencha todos os campos do endereço!');
+        return;
+    }
+    
+    console.log('✅ Campos validados:', {
+        cidade: cityValue,
+        bairro: neighborhoodValue,
+        rua: streetValue,
+        endereco: addressValue
+    });
+    
+    // Chamar a função de finalização do cart.js
+    if (window.finalizeOrder) {
+        console.log('📞 Chamando finalizeOrder do cart.js...');
+        window.finalizeOrder();
+    } else {
+        console.error('❌ Função finalizeOrder não encontrada no cart.js!');
+        alert('❌ Erro no sistema. Por favor, tente novamente.');
+    }
 }
 
 // Mostrar seção
@@ -855,17 +917,7 @@ function calculateShipping() {
     }
 }
 
-// Finalizar pedido - FUNÇÃO CORRIGIDA NO cart.js
-function finalizeOrder() {
-    console.log('📍 Chamando finalizeOrder do main.js...');
-    if (window.finalizeOrder) {
-        console.log('✅ Função finalizeOrder encontrada, executando...');
-        window.finalizeOrder();
-    } else {
-        console.error('❌ Função finalizeOrder não encontrada!');
-        alert('Erro: Função de finalização não disponível. Recarregue a página.');
-    }
-}
+// Finalizar pedido - FUNÇÃO REMOVIDA (AGORA É handleFinalizeOrder)
 
 // Inicializar o site quando carregado
 document.addEventListener('DOMContentLoaded', function() {
@@ -917,3 +969,7 @@ window.debugCart = function() {
         cartCount: document.querySelector('.cart-count')?.textContent
     });
 };
+
+// Expor funções globalmente
+window.handleFinalizeOrder = handleFinalizeOrder;
+window.showHome = showHome;

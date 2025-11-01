@@ -366,63 +366,58 @@ function calculateShipping() {
 
 // Finalizar pedido - FUNÇÃO COMPLETAMENTE CORRIGIDA
 function finalizeOrder() {
-    console.log('🚀 Iniciando finalização do pedido...');
+    console.log('🚀 FINALIZAR PEDIDO: Iniciando processo...');
     
     // Verificar se há itens no carrinho
     if (cartItems.length === 0) {
         alert('❌ Seu carrinho está vazio! Adicione produtos antes de finalizar o pedido.');
-        return;
+        return false;
     }
     
-    // Obter elementos do formulário
+    // Capturar elementos do formulário
     const city = document.getElementById('city');
     const neighborhood = document.getElementById('neighborhood');
     const street = document.getElementById('street');
     const address = document.getElementById('address');
     
+    if (!city || !neighborhood || !street || !address) {
+        alert('❌ Campos de endereço não encontrados!');
+        return false;
+    }
+    
+    const cityValue = city.value.trim();
+    const neighborhoodValue = neighborhood.value.trim();
+    const streetValue = street.value.trim();
+    const addressValue = address.value.trim();
+    
     // Validar campos obrigatórios
-    if (!city || !city.value.trim()) {
-        alert('📍 Por favor, informe a cidade.');
-        city.focus();
-        return;
+    if (!cityValue || !neighborhoodValue || !streetValue || !addressValue) {
+        alert('❌ Por favor, preencha todos os campos do endereço!');
+        return false;
     }
     
-    if (!neighborhood || !neighborhood.value.trim()) {
-        alert('📍 Por favor, informe o bairro.');
-        neighborhood.focus();
-        return;
-    }
-    
-    if (!street || !street.value.trim()) {
-        alert('📍 Por favor, informe a rua.');
-        street.focus();
-        return;
-    }
-    
-    if (!address || !address.value.trim()) {
-        alert('📍 Por favor, informe o número/endereço.');
-        address.focus();
-        return;
-    }
-    
-    console.log('✅ Todos os campos válidos');
-    
-    const phoneNumber = '5583999667578';
-    const cityValue = city.value;
-    const neighborhoodValue = neighborhood.value;
-    const streetValue = street.value;
-    const addressValue = address.value;
+    console.log('✅ Dados do endereço validados:', {
+        cidade: cityValue,
+        bairro: neighborhoodValue,
+        rua: streetValue,
+        endereco: addressValue
+    });
     
     // Obter método de entrega
     const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
     const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
     
-    // Calcular valores
+    console.log('📦 Método de entrega:', deliveryType);
+    
+    // Calcular totais
     const subtotal = cartItems.reduce((total, item) => total + (item.price || 0), 0);
+    
+    // Calcular quantidade de camisetas para desconto progressivo
     const tShirtCount = cartItems.filter(item => 
         item.product && (item.product.category === 'masculino' || item.product.category === 'unissexo')
     ).length;
 
+    // Calcular desconto progressivo
     let quantityDiscount = 0;
     if (tShirtCount >= 3) {
         quantityDiscount = subtotal * 0.10;
@@ -430,6 +425,7 @@ function finalizeOrder() {
         quantityDiscount = subtotal * 0.05;
     }
 
+    // Calcular frete
     let shippingCost = 9.99;
     if (cityValue.toLowerCase().includes('são bento') || cityValue.toLowerCase().includes('sao bento')) {
         shippingCost = deliveryType === 'pickup' ? 0 : 4.00;
@@ -442,7 +438,14 @@ function finalizeOrder() {
     
     const totalPrice = subtotal - quantityDiscount + shippingCost;
     
-    // Montar mensagem para WhatsApp
+    console.log('💰 Totais calculados:', {
+        subtotal,
+        quantityDiscount,
+        shippingCost,
+        totalPrice
+    });
+    
+    // Construir mensagem para WhatsApp
     let message = `*🛒 NOVO PEDIDO - WFCUSTOM*%0A%0A`;
     message += `*Itens do Pedido:*%0A%0A`;
     
@@ -480,14 +483,13 @@ function finalizeOrder() {
     
     message += `_Pedido gerado automaticamente pelo site_`;
     
-    console.log('📤 Abrindo WhatsApp com mensagem:', message);
-    
     // Abrir WhatsApp
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    console.log('📤 Abrindo WhatsApp com URL:', url);
     window.open(url, '_blank');
     
     // Limpar carrinho após finalizar
-    console.log('🗑️ Limpando carrinho após finalização');
+    console.log('🗑️ Limpando carrinho...');
     cartItems = [];
     saveCartToLocalStorage();
     updateCartCount();
@@ -499,19 +501,15 @@ function finalizeOrder() {
         console.log('✅ Modal de confirmação exibido');
     }
     
-    // Voltar para home
-    showHome();
-}
-
-// Função para mostrar a página inicial
-function showHome() {
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
+    // Voltar para a home
+    setTimeout(() => {
+        if (window.showHome) {
+            window.showHome();
+        }
+    }, 2000);
     
-    const homePage = document.getElementById('home-page');
-    if (homePage) homePage.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    console.log('🎉 Pedido finalizado com sucesso!');
+    return true;
 }
 
 // Inicializar carrinho quando a página carregar
