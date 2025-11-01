@@ -855,12 +855,15 @@ function calculateShipping() {
     }
 }
 
-// Finalizar pedido - USA A FUNÇÃO DO cart.js
+// Finalizar pedido - FUNÇÃO CORRIGIDA NO cart.js
 function finalizeOrder() {
+    console.log('📍 Chamando finalizeOrder do main.js...');
     if (window.finalizeOrder) {
+        console.log('✅ Função finalizeOrder encontrada, executando...');
         window.finalizeOrder();
     } else {
         console.error('❌ Função finalizeOrder não encontrada!');
+        alert('Erro: Função de finalização não disponível. Recarregue a página.');
     }
 }
 

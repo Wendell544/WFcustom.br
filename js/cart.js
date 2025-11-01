@@ -364,39 +364,60 @@ function calculateShipping() {
     }
 }
 
-// Finalizar pedido - FUNÇÃO REVISADA
+// Finalizar pedido - FUNÇÃO COMPLETAMENTE CORRIGIDA
 function finalizeOrder() {
-    console.log('🚀 Finalizando pedido...');
+    console.log('🚀 Iniciando finalização do pedido...');
     
+    // Verificar se há itens no carrinho
     if (cartItems.length === 0) {
-        alert('Seu carrinho está vazio!');
+        alert('❌ Seu carrinho está vazio! Adicione produtos antes de finalizar o pedido.');
         return;
     }
     
-    const phoneNumber = '5583999667578';
+    // Obter elementos do formulário
     const city = document.getElementById('city');
     const neighborhood = document.getElementById('neighborhood');
     const street = document.getElementById('street');
     const address = document.getElementById('address');
     
-    if (!city || !neighborhood || !street || !address) {
-        alert('Por favor, preencha todos os campos do endereço.');
+    // Validar campos obrigatórios
+    if (!city || !city.value.trim()) {
+        alert('📍 Por favor, informe a cidade.');
+        city.focus();
         return;
     }
     
+    if (!neighborhood || !neighborhood.value.trim()) {
+        alert('📍 Por favor, informe o bairro.');
+        neighborhood.focus();
+        return;
+    }
+    
+    if (!street || !street.value.trim()) {
+        alert('📍 Por favor, informe a rua.');
+        street.focus();
+        return;
+    }
+    
+    if (!address || !address.value.trim()) {
+        alert('📍 Por favor, informe o número/endereço.');
+        address.focus();
+        return;
+    }
+    
+    console.log('✅ Todos os campos válidos');
+    
+    const phoneNumber = '5583999667578';
     const cityValue = city.value;
     const neighborhoodValue = neighborhood.value;
     const streetValue = street.value;
     const addressValue = address.value;
     
-    if (!cityValue || !neighborhoodValue || !streetValue || !addressValue) {
-        alert('Por favor, preencha todos os campos do endereço.');
-        return;
-    }
-    
+    // Obter método de entrega
     const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
     const deliveryType = deliveryMethod ? deliveryMethod.value : 'delivery';
     
+    // Calcular valores
     const subtotal = cartItems.reduce((total, item) => total + (item.price || 0), 0);
     const tShirtCount = cartItems.filter(item => 
         item.product && (item.product.category === 'masculino' || item.product.category === 'unissexo')
@@ -421,6 +442,7 @@ function finalizeOrder() {
     
     const totalPrice = subtotal - quantityDiscount + shippingCost;
     
+    // Montar mensagem para WhatsApp
     let message = `*🛒 NOVO PEDIDO - WFCUSTOM*%0A%0A`;
     message += `*Itens do Pedido:*%0A%0A`;
     
@@ -458,17 +480,26 @@ function finalizeOrder() {
     
     message += `_Pedido gerado automaticamente pelo site_`;
     
+    console.log('📤 Abrindo WhatsApp com mensagem:', message);
+    
+    // Abrir WhatsApp
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(url, '_blank');
     
     // Limpar carrinho após finalizar
+    console.log('🗑️ Limpando carrinho após finalização');
     cartItems = [];
     saveCartToLocalStorage();
     updateCartCount();
     
+    // Mostrar modal de confirmação
     const confirmationModal = document.getElementById('confirmation-modal');
-    if (confirmationModal) confirmationModal.style.display = 'flex';
+    if (confirmationModal) {
+        confirmationModal.style.display = 'flex';
+        console.log('✅ Modal de confirmação exibido');
+    }
     
+    // Voltar para home
     showHome();
 }
 
