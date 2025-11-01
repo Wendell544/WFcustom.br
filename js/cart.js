@@ -14,7 +14,7 @@ function saveCartToLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 }
 
-// Adicionar produto ao carrinho - AGORA COM RENDERIZAÇÃO IMEDIATA
+// Adicionar produto ao carrinho
 function addToCart(product, color, size, position, price) {
     const cartItem = {
         id: Date.now(),
@@ -29,25 +29,21 @@ function addToCart(product, color, size, position, price) {
     updateCartCount();
     saveCartToLocalStorage();
     
-    // Renderizar IMEDIATAMENTE se o carrinho estiver visível
+    // Atualizar o carrinho imediatamente se estiver visível
     if (document.getElementById('cart-page').classList.contains('active')) {
         renderCart();
     }
 }
 
-// Remover item do carrinho - AGORA COM RENDERIZAÇÃO IMEDIATA
+// Remover item do carrinho
 function removeFromCart(cartId) {
     cartItems = cartItems.filter(item => item.id != cartId);
     updateCartCount();
     saveCartToLocalStorage();
-    
-    // Renderizar IMEDIATAMENTE se o carrinho estiver visível
-    if (document.getElementById('cart-page').classList.contains('active')) {
-        renderCart();
-    }
+    renderCart();
 }
 
-// Renderizar carrinho - AGORA MAIS RÁPIDO
+// Renderizar carrinho
 function renderCart() {
     const cartItemsContainer = document.getElementById('cart-items');
     const cartSummary = document.getElementById('cart-summary');
@@ -71,13 +67,16 @@ function renderCart() {
         return;
     }
     
+    // Atualizar estatísticas do header
     updateCartStats();
     
+    // Renderizar itens do carrinho com novo design
     cartItems.forEach(item => {
         const cartItemElement = document.createElement('div');
         cartItemElement.className = 'cart-item-ultra-premium';
         cartItemElement.setAttribute('data-cart-id', item.id);
         
+        // Converter posição para texto amigável
         let positionText = '';
         if (item.position && item.product.category !== 'canecas') {
             switch(item.position) {
@@ -109,6 +108,7 @@ function renderCart() {
         cartItemsContainer.appendChild(cartItemElement);
     });
     
+    // Adicionar event listeners para remover itens
     document.querySelectorAll('.remove-item-ultra').forEach(button => {
         button.onclick = (e) => {
             const cartId = e.currentTarget.getAttribute('data-cart-id');
@@ -116,6 +116,7 @@ function renderCart() {
         };
     });
     
+    // Renderizar resumo do carrinho
     renderCartSummary();
     
     if (checkoutBtn) checkoutBtn.disabled = false;
@@ -129,12 +130,14 @@ function updateCartStats() {
     
     if (cartStatItems) cartStatItems.textContent = cartItems.length;
     
+    // Calcular quantidade de camisetas
     const tShirtCount = cartItems.filter(item => 
         item.product.category === 'masculino' || item.product.category === 'unissexo'
     ).length;
     
     if (cartStatShirts) cartStatShirts.textContent = tShirtCount;
     
+    // Calcular economia total
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     let quantityDiscount = 0;
     
@@ -147,7 +150,7 @@ function updateCartStats() {
     if (cartStatSavings) cartStatSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
 }
 
-// Renderizar resumo do carrinho - COM DESCONTOS MAIS ALTOS
+// Renderizar resumo do carrinho - VERSÃO CORRIGIDA COM FRETE
 function renderCartSummary() {
     const cartSubtotal = document.getElementById('cart-subtotal');
     const cartDiscount = document.getElementById('cart-discount');
@@ -162,23 +165,42 @@ function renderCartSummary() {
 
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     
+    // Calcular quantidade de camisetas para desconto progressivo
     const tShirtCount = cartItems.filter(item => 
         item.product.category === 'masculino' || item.product.category === 'unissexo'
     ).length;
 
-    // DESCONTOS MAIS ALTOS
+    // Calcular desconto progressivo CORRETO
     let quantityDiscount = 0;
     if (tShirtCount >= 3) {
-        quantityDiscount = subtotal * 0.15; // AUMENTADO PARA 15%
+        quantityDiscount = subtotal * 0.10; // 10% de desconto
     } else if (tShirtCount >= 2) {
-        quantityDiscount = subtotal * 0.08; // AUMENTADO PARA 8%
+        quantityDiscount = subtotal * 0.05; // 5% de desconto
     }
 
-    const shippingCost = subtotal >= 100 ? 0 : 9.99;
+    // Calcular frete - AGORA EXIBINDO NO RESUMO DO CARRINHO
+    let shippingCost = 9.99;
+    
+    // Verificar se há informações de endereço no localStorage
+    const userCity = localStorage.getItem('userCity');
+    if (userCity && (userCity.toLowerCase().includes('são bento') || userCity.toLowerCase().includes('sao bento'))) {
+        shippingCost = 4.00;
+        const deliveryMethod = localStorage.getItem('deliveryMethod');
+        if (deliveryMethod === 'pickup') {
+            shippingCost = 0;
+        }
+    }
+    
+    // Aplicar frete grátis se subtotal for >= 100
+    if (subtotal >= 100) {
+        shippingCost = 0;
+    }
+    
     const total = subtotal - quantityDiscount + shippingCost;
     
+    // ATUALIZAR ELEMENTOS DO CARRINHO - CORREÇÃO
     if (cartSubtotal) cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
-    if (cartDiscount) cartDiscount.textContent = quantityDiscount.toFixed(2);
+    if (cartDiscount) cartDiscount.textContent = `- R$ ${quantityDiscount.toFixed(2)}`;
     if (cartShipping) {
         if (shippingCost === 0) {
             cartShipping.textContent = 'GRÁTIS';
@@ -189,9 +211,17 @@ function renderCartSummary() {
         }
     }
     if (cartTotal) {
-        cartTotal.textContent = total.toFixed(2);
+        cartTotal.textContent = `R$ ${total.toFixed(2)}`;
     }
     if (totalSavings) totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
+    
+    console.log('Resumo do carrinho atualizado:', {
+        subtotal,
+        quantityDiscount,
+        shippingCost,
+        total,
+        items: cartItems.length
+    });
 }
 
 // Calcular frete
@@ -216,6 +246,7 @@ function calculateShipping() {
         if (deliveryOptions) deliveryOptions.style.display = 'none';
     }
     
+    // Aplicar frete grátis se subtotal for >= 100
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     if (subtotal >= 100) {
         shippingCost = 0;
@@ -227,6 +258,14 @@ function calculateShipping() {
     if (shippingPrice) shippingPrice.textContent = shippingCost === 0 ? 'GRÁTIS' : `R$ ${shippingCost.toFixed(2)}`;
     if (shippingPriceContainer) shippingPriceContainer.style.display = 'block';
     
+    // Salvar informações de entrega no localStorage
+    localStorage.setItem('userCity', cityValue);
+    const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
+    if (deliveryMethod) {
+        localStorage.setItem('deliveryMethod', deliveryMethod.value);
+    }
+    
+    // Atualizar o carrinho se estiver visível
     if (document.getElementById('cart-page').classList.contains('active')) {
         renderCartSummary();
     }
@@ -255,12 +294,11 @@ function finalizeOrder() {
         item.product.category === 'masculino' || item.product.category === 'unissexo'
     ).length;
 
-    // DESCONTOS MAIS ALTOS TAMBÉM NO FINAL
     let quantityDiscount = 0;
     if (tShirtCount >= 3) {
-        quantityDiscount = subtotal * 0.15; // AUMENTADO PARA 15%
+        quantityDiscount = subtotal * 0.10;
     } else if (tShirtCount >= 2) {
-        quantityDiscount = subtotal * 0.08; // AUMENTADO PARA 8%
+        quantityDiscount = subtotal * 0.05;
     }
 
     let shippingCost = 9.99;
@@ -268,6 +306,7 @@ function finalizeOrder() {
         shippingCost = deliveryType === 'pickup' ? 0 : 4.00;
     }
     
+    // Aplicar frete grátis se subtotal for >= 100
     if (subtotal >= 100) {
         shippingCost = 0;
     }

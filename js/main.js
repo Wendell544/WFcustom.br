@@ -15,17 +15,17 @@ let currentColor = 'branco';
 let currentSize = 'P';
 let currentPosition = 'frente';
 let currentSection = 'home';
-let currentCategory = 'masculino';
+let currentCategory = 'masculino'; // Alterado para masculino como padrão
 
 // Configurações do carrossel de banners
 let currentBannerIndex = 0;
-const bannerInterval = 5000;
+const bannerInterval = 5000; // 5 segundos
 let bannerTimer = null;
 
 // Elementos DOM
 let homePage, productPage, cartPage, favoritesPage, locationPage, detailImage, detailTitle, detailDescription;
 let detailPrice, modalColorOptions, detailSizeOptions, stampPositionGroup, addToCartDetailButton;
-let buyNowDetailButton, locationForm, shippingPrice, shippingInfo;
+let locationForm, shippingPrice, shippingInfo;
 let shippingPriceContainer, finalizeOrderButton, confirmationModal, closeModal, closeConfirmation;
 let navLinks, navLinksItems, footerNavLinks, cartIcon, favoriteIcon, cartItemsContainer;
 let cartSummary, continueShoppingBtn, checkoutBtn, cartCount, favoriteCount, backFromProduct, backFromCart;
@@ -56,19 +56,32 @@ function init() {
     // Aplicar categoria padrão "masculino"
     filterProductsByCategory('masculino');
     
-    // Popular grades com timeout otimizado
+    // Popular grades APÓS garantir que o DOM está pronto
     setTimeout(() => {
         console.log('Inicializando grades...');
         if (window.populateAllGrades) {
             window.populateAllGrades();
         } else {
+            console.error('populateAllGrades não encontrada!');
+            // Tentar novamente após mais um delay
             setTimeout(() => {
                 if (window.populateAllGrades) {
                     window.populateAllGrades();
                 }
-            }, 500);
+            }, 1000);
         }
-    }, 100);
+        
+        // Forçar redesenho se ainda não aparecer
+        setTimeout(() => {
+            if (document.querySelectorAll('.grade-card').length === 0) {
+                console.log('Nenhum card encontrado, recarregando...');
+                // Tenta novamente
+                if (window.populateAllGrades) {
+                    window.populateAllGrades();
+                }
+            }
+        }, 1000);
+    }, 200);
 }
 
 // Inicializar elementos DOM
@@ -87,7 +100,6 @@ function initializeDOMElements() {
     detailSizeOptions = document.getElementById('detail-size-options');
     stampPositionGroup = document.getElementById('stamp-position-group');
     addToCartDetailButton = document.getElementById('add-to-cart-detail');
-    buyNowDetailButton = document.getElementById('buy-now-detail');
     locationForm = document.getElementById('location-form');
     shippingPrice = document.getElementById('shipping-price');
     shippingInfo = document.getElementById('shipping-info');
@@ -116,17 +128,29 @@ function initializeDOMElements() {
     deliveryOptions = document.getElementById('delivery-options');
     favoritesBackToHome = document.getElementById('favorites-back-to-home');
     
+    // Elementos do carrossel de banners
     bannerTrack = document.querySelector('.banner-track');
     bannerSlides = document.querySelectorAll('.banner-slide');
+    
+    console.log('Elementos DOM inicializados:', {
+        homePage: !!homePage,
+        productPage: !!productPage,
+        cartPage: !!cartPage,
+        gradeContainers: document.querySelectorAll('.grade-container').length
+    });
 }
 
 // Inicializar carrossel de banners
 function initBannerCarousel() {
     if (!bannerTrack || bannerSlides.length === 0) return;
     
+    // Mostrar primeiro banner
     showBanner(0);
+    
+    // Iniciar autoplay
     startBannerAutoplay();
     
+    // Pausar autoplay ao interagir
     bannerTrack.addEventListener('mouseenter', pauseBannerAutoplay);
     bannerTrack.addEventListener('mouseleave', startBannerAutoplay);
     bannerTrack.addEventListener('touchstart', pauseBannerAutoplay);
@@ -134,15 +158,19 @@ function initBannerCarousel() {
 
 // Mostrar banner específico
 function showBanner(index) {
+    // Validar índice
     if (index < 0) index = bannerSlides.length - 1;
     if (index >= bannerSlides.length) index = 0;
     
+    // Atualizar índice atual
     currentBannerIndex = index;
     
+    // Ocultar todos os banners
     bannerSlides.forEach(slide => {
         slide.classList.remove('active');
     });
     
+    // Mostrar banner atual
     bannerSlides[currentBannerIndex].classList.add('active');
 }
 
@@ -223,6 +251,7 @@ function setupEventListeners() {
         backToHomeFromProduct.addEventListener('click', showHome);
     }
 
+    // Botão de voltar dos favoritos
     if (favoritesBackToHome) {
         favoritesBackToHome.addEventListener('click', showHome);
     }
@@ -237,7 +266,7 @@ function setupEventListeners() {
         });
     }
     
-    // Página do produto (APENAS ADICIONAR AO CARRINHO - REMOVIDO BOTÃO FINALIZAR)
+    // Página do produto
     if (addToCartDetailButton) {
         addToCartDetailButton.addEventListener('click', addToCartFromDetail);
     }
@@ -291,6 +320,7 @@ function setupEventListeners() {
             showProductDetail(productId);
         }
         
+        // Event delegation para pacotes
         const packageBtn = e.target.closest('.package-btn');
         if (packageBtn) {
             e.preventDefault();
@@ -298,21 +328,26 @@ function setupEventListeners() {
             handlePackageSelection(packageType);
         }
     });
+    
+    console.log('Event listeners configurados');
 }
 
 // Mostrar seção
 function showSection(section) {
     currentSection = section;
     
+    // Ocultar todas as seções
     document.querySelectorAll('.nav-section').forEach(sec => {
         sec.classList.remove('active');
     });
     
+    // Mostrar seção selecionada
     const targetSection = document.getElementById(section);
     if (targetSection) {
         targetSection.classList.add('active');
     }
     
+    // Scroll para topo
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -326,29 +361,30 @@ function showHome() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Mostrar carrinho - AGORA COM RENDERIZAÇÃO IMEDIATA
+// Mostrar carrinho
 function showCart() {
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
     if (cartPage) cartPage.classList.add('active');
-    
-    // Renderizar carrinho IMEDIATAMENTE
     renderCart();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Mostrar favoritos
+// Mostrar favoritos - FUNÇÃO CORRIGIDA
 function showFavorites() {
     console.log('Abrindo favoritos...');
     
+    // Ocultar todas as páginas
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
+    // Mostrar página de favoritos
     if (favoritesPage) {
         favoritesPage.classList.add('active');
+        // Renderizar DEPOIS de mostrar a página
         setTimeout(() => {
             renderFavorites();
         }, 50);
@@ -371,6 +407,7 @@ function showLocation() {
 function filterProductsByCategory(category) {
     currentCategory = category;
     
+    // Atualizar filtros ativos
     categoryFilters.forEach(filter => {
         filter.classList.remove('active');
     });
@@ -378,15 +415,18 @@ function filterProductsByCategory(category) {
     const activeFilter = document.querySelector(`[data-category="${category}"]`);
     if (activeFilter) activeFilter.classList.add('active');
     
+    // Ocultar todas as grades
     const allGrades = document.querySelectorAll('.grade-produtos');
     allGrades.forEach(grade => {
         grade.style.display = 'none';
     });
     
+    // Mostrar apenas a grade da categoria selecionada
     const targetGrade = document.getElementById(`grade-produtos-${category}`);
     if (targetGrade) {
         targetGrade.style.display = 'block';
         
+        // Scroll suave para a seção
         setTimeout(() => {
             targetGrade.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
@@ -406,11 +446,13 @@ function showProductDetail(productId) {
     currentSize = product.variants[currentColor].sizes[0];
     currentPosition = product.positions.length > 0 ? product.positions[0] : '';
     
+    // Atualizar elementos DOM
     if (detailTitle) detailTitle.textContent = product.name;
     if (detailDescription) detailDescription.textContent = product.description;
     
     updateProductDetailView();
     
+    // Mostrar página do produto
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
@@ -425,11 +467,13 @@ function updateProductDetailView() {
     
     const variant = currentProduct.variants[currentColor];
     
+    // Atualizar imagem
     if (detailImage) {
         detailImage.src = variant.image;
         detailImage.alt = currentProduct.name;
     }
     
+    // Atualizar preço
     const basePrice = currentProduct.discount ? 
         variant.price * (1 - currentProduct.discount / 100) : 
         variant.price;
@@ -437,12 +481,17 @@ function updateProductDetailView() {
     
     if (detailPrice) detailPrice.textContent = finalPrice.toFixed(2);
     
+    // Atualizar opções de cor
     updateColorOptions();
+    
+    // Atualizar opções de tamanho
     updateSizeOptions();
+    
+    // Atualizar opções de posição (se aplicável)
     updatePositionOptions();
 }
 
-// Atualizar opções de cor
+// Atualizar opções de cor - FUNÇÃO CORRIGIDA
 function updateColorOptions() {
     if (!modalColorOptions || !currentProduct) return;
     
@@ -470,6 +519,7 @@ function updateColorOptions() {
         
         colorOption.style.backgroundColor = bgColor;
         
+        // Adicionar borda para cor branca para melhor visibilidade
         if (color === 'branco') {
             colorOption.style.border = '1px solid #ccc';
         } else {
@@ -501,6 +551,7 @@ function updateSizeOptions() {
         sizeOption.addEventListener('click', () => {
             currentSize = size;
             
+            // Atualizar estado ativo
             detailSizeOptions.querySelectorAll('.size-option-premium').forEach(option => {
                 option.classList.remove('active');
             });
@@ -515,6 +566,7 @@ function updateSizeOptions() {
 function updatePositionOptions() {
     if (!stampPositionGroup || !currentProduct) return;
     
+    // Esconder seção de posição para canecas
     if (currentProduct.category === 'canecas') {
         stampPositionGroup.style.display = 'none';
         return;
@@ -530,15 +582,17 @@ function updatePositionOptions() {
         option.addEventListener('click', () => {
             currentPosition = position;
             
+            // Atualizar estado ativo
             positionOptions.forEach(opt => opt.classList.remove('active'));
             option.classList.add('active');
             
+            // Atualizar preço
             updateProductDetailView();
         });
     });
 }
 
-// Adicionar ao carrinho da página de detalhes - AGORA COM ATUALIZAÇÃO IMEDIATA
+// Adicionar ao carrinho da página de detalhes
 function addToCartFromDetail() {
     if (!currentProduct) return;
     
@@ -583,7 +637,7 @@ function handlePackageSelection(packageType) {
     window.open(url, '_blank');
 }
 
-// Adicionar produto ao carrinho - AGORA COM ATUALIZAÇÃO IMEDIATA
+// Adicionar produto ao carrinho
 function addToCart(product, color, size, position, price) {
     const cartItem = {
         id: Date.now(),
@@ -594,17 +648,15 @@ function addToCart(product, color, size, position, price) {
         price: price
     };
     
+    // Obter carrinho atual do localStorage
     let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     cartItems.push(cartItem);
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
     
     updateCartCount();
-    showCartNotification(product.name);
     
-    // Se o carrinho estiver aberto, atualizar IMEDIATAMENTE
-    if (cartPage && cartPage.classList.contains('active')) {
-        renderCart();
-    }
+    // Feedback visual
+    showCartNotification(product.name);
 }
 
 // Atualizar contador do carrinho
@@ -618,6 +670,7 @@ function updateCartCount() {
 
 // Mostrar notificação de produto adicionado
 function showCartNotification(productName) {
+    // Criar elemento de notificação
     const notification = document.createElement('div');
     notification.className = 'cart-notification';
     notification.innerHTML = `
@@ -627,6 +680,7 @@ function showCartNotification(productName) {
         </div>
     `;
     
+    // Adicionar estilos
     notification.style.cssText = `
         position: fixed;
         top: 100px;
@@ -644,10 +698,12 @@ function showCartNotification(productName) {
     
     document.body.appendChild(notification);
     
+    // Animar entrada
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
     
+    // Remover após 3 segundos
     setTimeout(() => {
         notification.style.transform = 'translateX(400px)';
         setTimeout(() => {
@@ -714,6 +770,7 @@ function renderFavorites() {
         }
     });
     
+    // Adicionar event listeners para remover favoritos
     document.querySelectorAll('.remove-favorite').forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.getAttribute('data-product-id');
@@ -761,6 +818,7 @@ function calculateShipping() {
         if (deliveryOptions) deliveryOptions.style.display = 'none';
     }
     
+    // Aplicar frete grátis se subtotal for >= 100
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     if (subtotal >= 100) {
@@ -794,6 +852,7 @@ function finalizeOrder() {
     
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     
+    // Calcular quantidade de camisetas para desconto progressivo
     const tShirtCount = cartItems.filter(item => 
         item.product.category === 'masculino' || item.product.category === 'unissexo'
     ).length;
@@ -810,6 +869,7 @@ function finalizeOrder() {
         shippingCost = deliveryType === 'pickup' ? 0 : 4.00;
     }
     
+    // Aplicar frete grátis se subtotal for >= 100
     if (subtotal >= 100) {
         shippingCost = 0;
     }
@@ -856,14 +916,17 @@ function finalizeOrder() {
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(url, '_blank');
     
+    // Limpar carrinho
     localStorage.removeItem('cartItems');
     updateCartCount();
     
+    // Mostrar confirmação
     const confirmationModal = document.getElementById('confirmation-modal');
     if (confirmationModal) {
         confirmationModal.style.display = 'flex';
     }
     
+    // Voltar para home após um tempo
     setTimeout(() => {
         showHome();
         if (confirmationModal) {
@@ -901,6 +964,7 @@ function preloadCriticalImages() {
     });
 }
 
+// Iniciar preload quando DOM estiver pronto
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', preloadCriticalImages);
 } else {
