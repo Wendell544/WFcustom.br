@@ -14,7 +14,7 @@ function saveCartToLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 }
 
-// Adicionar produto ao carrinho - FUNÇÃO CORRIGIDA
+// Adicionar produto ao carrinho - FUNÇÃO PRINCIPAL CORRIGIDA
 function addToCart(product, color, size, position, price) {
     const cartItem = {
         id: Date.now(),
@@ -29,13 +29,15 @@ function addToCart(product, color, size, position, price) {
     updateCartCount();
     saveCartToLocalStorage();
     
-    // ATUALIZAÇÃO IMEDIATA DO CARRINHO SE ESTIVER VISÍVEL
-    if (document.getElementById('cart-page').classList.contains('active')) {
+    // ATUALIZAÇÃO IMEDIATA DO CARRINHO - SEMPRE que adicionar
+    if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
         renderCart();
     }
     
     // Mostrar notificação
     showCartNotification(product.name);
+    
+    console.log('Produto adicionado ao carrinho:', product.name, 'Itens no carrinho:', cartItems.length);
 }
 
 // Remover item do carrinho
@@ -98,7 +100,10 @@ function renderCart() {
     const cartSummary = document.getElementById('cart-summary');
     const checkoutBtn = document.getElementById('checkout-btn');
     
-    if (!cartItemsContainer) return;
+    if (!cartItemsContainer) {
+        console.error('Container do carrinho não encontrado!');
+        return;
+    }
     
     cartItemsContainer.innerHTML = '';
     
@@ -159,16 +164,18 @@ function renderCart() {
     
     // Adicionar event listeners para remover itens
     document.querySelectorAll('.remove-item-ultra').forEach(button => {
-        button.onclick = (e) => {
+        button.addEventListener('click', (e) => {
             const cartId = e.currentTarget.getAttribute('data-cart-id');
             removeFromCart(cartId);
-        };
+        });
     });
     
     // Renderizar resumo do carrinho
     renderCartSummary();
     
     if (checkoutBtn) checkoutBtn.disabled = false;
+    
+    console.log('Carrinho renderizado com', cartItems.length, 'itens');
 }
 
 // Atualizar estatísticas do header do carrinho

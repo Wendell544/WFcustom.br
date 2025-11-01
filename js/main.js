@@ -653,7 +653,7 @@ function updatePositionOptions() {
     });
 }
 
-// Adicionar ao carrinho da página de detalhes
+// Adicionar ao carrinho da página de detalhes - FUNÇÃO CORRIGIDA
 function addToCartFromDetail() {
     if (!currentProduct) return;
     
@@ -663,7 +663,13 @@ function addToCartFromDetail() {
         variant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
-    addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
+    // USAR A FUNÇÃO addToCart DO cart.js (GLOBAL)
+    if (window.addToCart) {
+        window.addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
+    } else {
+        console.error('Função addToCart não encontrada!');
+        return;
+    }
     
     // Feedback visual
     if (addToCartDetailButton) {
@@ -698,36 +704,8 @@ function handlePackageSelection(packageType) {
     window.open(url, '_blank');
 }
 
-// Adicionar produto ao carrinho - FUNÇÃO OTIMIZADA PARA PERFORMANCE
-function addToCart(product, color, size, position, price) {
-    const cartItem = {
-        id: Date.now(),
-        product: product,
-        color: color,
-        size: size,
-        position: position,
-        price: price
-    };
-    
-    // Obter carrinho atual do localStorage
-    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    cartItems.push(cartItem);
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    
-    updateCartCount();
-    
-    // Feedback visual IMEDIATO
-    showCartNotification(product.name);
-    
-    // Atualizar o carrinho se estiver visível - AGORA MAIS RÁPIDO
-    if (document.getElementById('cart-page').classList.contains('active')) {
-        setTimeout(() => {
-            if (window.renderCart) {
-                window.renderCart();
-            }
-        }, 100);
-    }
-}
+// REMOVIDA: Função addToCart duplicada que estava causando o problema
+// Agora usamos apenas a função addToCart do cart.js
 
 // Atualizar contador do carrinho
 function updateCartCount() {
@@ -1003,6 +981,15 @@ function finalizeOrder() {
             confirmationModal.style.display = 'none';
         }
     }, 3000);
+}
+
+// Renderizar carrinho - usa a função do cart.js
+function renderCart() {
+    if (window.renderCart) {
+        window.renderCart();
+    } else {
+        console.error('Função renderCart não encontrada!');
+    }
 }
 
 // Inicializar o site quando carregado
