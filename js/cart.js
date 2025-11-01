@@ -14,7 +14,7 @@ function saveCartToLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 }
 
-// Adicionar produto ao carrinho
+// Adicionar produto ao carrinho - FUNÇÃO OTIMIZADA
 function addToCart(product, color, size, position, price) {
     const cartItem = {
         id: Date.now(),
@@ -43,7 +43,7 @@ function removeFromCart(cartId) {
     renderCart();
 }
 
-// Renderizar carrinho
+// Renderizar carrinho - FUNÇÃO OTIMIZADA
 function renderCart() {
     const cartItemsContainer = document.getElementById('cart-items');
     const cartSummary = document.getElementById('cart-summary');
@@ -150,13 +150,13 @@ function updateCartStats() {
     if (cartStatSavings) cartStatSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
 }
 
-// Renderizar resumo do carrinho - VERSÃO CORRIGIDA COM FRETE
+// Renderizar resumo do carrinho - VERSÃO CORRIGIDA SEM FRETE NO RESUMO
 function renderCartSummary() {
     const cartSubtotal = document.getElementById('cart-subtotal');
     const cartDiscount = document.getElementById('cart-discount');
-    const cartShipping = document.getElementById('cart-shipping');
     const cartTotal = document.getElementById('cart-total');
     const totalSavings = document.getElementById('total-savings');
+    const freeShippingMessage = document.getElementById('free-shipping-message');
     
     if (!cartSubtotal) {
         console.error('Elementos do resumo do carrinho não encontrados!');
@@ -178,53 +178,35 @@ function renderCartSummary() {
         quantityDiscount = subtotal * 0.05; // 5% de desconto
     }
 
-    // Calcular frete - AGORA EXIBINDO NO RESUMO DO CARRINHO
-    let shippingCost = 9.99;
-    
-    // Verificar se há informações de endereço no localStorage
-    const userCity = localStorage.getItem('userCity');
-    if (userCity && (userCity.toLowerCase().includes('são bento') || userCity.toLowerCase().includes('sao bento'))) {
-        shippingCost = 4.00;
-        const deliveryMethod = localStorage.getItem('deliveryMethod');
-        if (deliveryMethod === 'pickup') {
-            shippingCost = 0;
-        }
-    }
-    
-    // Aplicar frete grátis se subtotal for >= 100
-    if (subtotal >= 100) {
-        shippingCost = 0;
-    }
-    
-    const total = subtotal - quantityDiscount + shippingCost;
+    // Calcular total (sem mostrar frete no resumo)
+    const total = subtotal - quantityDiscount;
     
     // ATUALIZAR ELEMENTOS DO CARRINHO - CORREÇÃO
     if (cartSubtotal) cartSubtotal.textContent = `R$ ${subtotal.toFixed(2)}`;
     if (cartDiscount) cartDiscount.textContent = `- R$ ${quantityDiscount.toFixed(2)}`;
-    if (cartShipping) {
-        if (shippingCost === 0) {
-            cartShipping.textContent = 'GRÁTIS';
-            cartShipping.style.color = 'var(--success-color)';
-        } else {
-            cartShipping.textContent = `R$ ${shippingCost.toFixed(2)}`;
-            cartShipping.style.color = '';
-        }
-    }
     if (cartTotal) {
         cartTotal.textContent = `R$ ${total.toFixed(2)}`;
     }
     if (totalSavings) totalSavings.textContent = `R$ ${quantityDiscount.toFixed(2)}`;
     
+    // Mostrar mensagem de frete grátis se subtotal for >= 100
+    if (freeShippingMessage) {
+        if (subtotal >= 100) {
+            freeShippingMessage.style.display = 'block';
+        } else {
+            freeShippingMessage.style.display = 'none';
+        }
+    }
+    
     console.log('Resumo do carrinho atualizado:', {
         subtotal,
         quantityDiscount,
-        shippingCost,
         total,
         items: cartItems.length
     });
 }
 
-// Calcular frete
+// Calcular frete (apenas para a página de localização)
 function calculateShipping() {
     const city = document.getElementById('city');
     if (!city) return;
@@ -263,11 +245,6 @@ function calculateShipping() {
     const deliveryMethod = document.querySelector('input[name="delivery-method"]:checked');
     if (deliveryMethod) {
         localStorage.setItem('deliveryMethod', deliveryMethod.value);
-    }
-    
-    // Atualizar o carrinho se estiver visível
-    if (document.getElementById('cart-page').classList.contains('active')) {
-        renderCartSummary();
     }
 }
 
@@ -373,3 +350,11 @@ function showHome() {
     if (homePage) homePage.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Expor funções globalmente
+window.addToCart = addToCart;
+window.updateCartCount = updateCartCount;
+window.removeFromCart = removeFromCart;
+window.renderCart = renderCart;
+window.calculateShipping = calculateShipping;
+window.finalizeOrder = finalizeOrder;

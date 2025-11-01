@@ -22,6 +22,11 @@ let currentBannerIndex = 0;
 const bannerInterval = 5000; // 5 segundos
 let bannerTimer = null;
 
+// Configurações do sistema de anúncios
+let currentAnnouncementIndex = 0;
+const announcementInterval = 4000; // 4 segundos
+let announcementTimer = null;
+
 // Elementos DOM
 let homePage, productPage, cartPage, favoritesPage, locationPage, detailImage, detailTitle, detailDescription;
 let detailPrice, modalColorOptions, detailSizeOptions, stampPositionGroup, addToCartDetailButton;
@@ -34,6 +39,9 @@ let favoritesBackToHome;
 
 // Elementos do carrossel de banners
 let bannerTrack, bannerSlides;
+
+// Elementos do sistema de anúncios
+let announcementSystem, announcementSlides;
 
 // Função auxiliar para calcular preço final
 function calculateFinalPrice(basePrice, position) {
@@ -50,10 +58,11 @@ function init() {
     initializeDOMElements();
     setupEventListeners();
     initBannerCarousel();
+    initAnnouncementSystem();
     updateCartCount();
     updateFavoriteCount();
     
-    // Aplicar categoria padrão "masculino"
+    // Aplicar categoria padrão "masculino" SEM scroll
     filterProductsByCategory('masculino');
     
     // Popular grades APÓS garantir que o DOM está pronto
@@ -132,6 +141,10 @@ function initializeDOMElements() {
     bannerTrack = document.querySelector('.banner-track');
     bannerSlides = document.querySelectorAll('.banner-slide');
     
+    // Elementos do sistema de anúncios
+    announcementSystem = document.getElementById('announcement-system');
+    announcementSlides = document.querySelectorAll('.announcement-slide-premium');
+    
     console.log('Elementos DOM inicializados:', {
         homePage: !!homePage,
         productPage: !!productPage,
@@ -154,6 +167,56 @@ function initBannerCarousel() {
     bannerTrack.addEventListener('mouseenter', pauseBannerAutoplay);
     bannerTrack.addEventListener('mouseleave', startBannerAutoplay);
     bannerTrack.addEventListener('touchstart', pauseBannerAutoplay);
+}
+
+// Inicializar sistema de anúncios
+function initAnnouncementSystem() {
+    if (!announcementSystem || announcementSlides.length === 0) return;
+    
+    // Mostrar primeiro anúncio
+    showAnnouncement(0);
+    
+    // Iniciar rotatividade
+    startAnnouncementRotation();
+    
+    // Fechar anúncio
+    const closeBtn = document.getElementById('announcement-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            announcementSystem.style.display = 'none';
+        });
+    }
+}
+
+// Mostrar anúncio específico
+function showAnnouncement(index) {
+    if (announcementSlides.length === 0) return;
+    
+    // Validar índice
+    if (index < 0) index = announcementSlides.length - 1;
+    if (index >= announcementSlides.length) index = 0;
+    
+    // Atualizar índice atual
+    currentAnnouncementIndex = index;
+    
+    // Ocultar todos os anúncios
+    announcementSlides.forEach(slide => {
+        slide.classList.remove('active');
+    });
+    
+    // Mostrar anúncio atual
+    announcementSlides[currentAnnouncementIndex].classList.add('active');
+}
+
+// Próximo anúncio
+function nextAnnouncement() {
+    showAnnouncement(currentAnnouncementIndex + 1);
+}
+
+// Controle de rotatividade dos anúncios
+function startAnnouncementRotation() {
+    if (announcementTimer) clearInterval(announcementTimer);
+    announcementTimer = setInterval(nextAnnouncement, announcementInterval);
 }
 
 // Mostrar banner específico
@@ -426,10 +489,8 @@ function filterProductsByCategory(category) {
     if (targetGrade) {
         targetGrade.style.display = 'block';
         
-        // Scroll suave para a seção
-        setTimeout(() => {
-            targetGrade.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+        // REMOVIDO: Scroll suave para a seção (não quero que desça automaticamente)
+        // Apenas mostra a seção sem scroll automático
     }
 }
 
@@ -637,7 +698,7 @@ function handlePackageSelection(packageType) {
     window.open(url, '_blank');
 }
 
-// Adicionar produto ao carrinho
+// Adicionar produto ao carrinho - FUNÇÃO OTIMIZADA PARA PERFORMANCE
 function addToCart(product, color, size, position, price) {
     const cartItem = {
         id: Date.now(),
@@ -655,8 +716,17 @@ function addToCart(product, color, size, position, price) {
     
     updateCartCount();
     
-    // Feedback visual
+    // Feedback visual IMEDIATO
     showCartNotification(product.name);
+    
+    // Atualizar o carrinho se estiver visível - AGORA MAIS RÁPIDO
+    if (document.getElementById('cart-page').classList.contains('active')) {
+        setTimeout(() => {
+            if (window.renderCart) {
+                window.renderCart();
+            }
+        }, 100);
+    }
 }
 
 // Atualizar contador do carrinho

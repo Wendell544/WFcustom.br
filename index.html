@@ -89,16 +89,20 @@
     <div class="announcement-system-premium" id="announcement-system">
         <div class="announcement-container-premium">
             <div class="announcement-slide-premium active">
-                <div class="announcement-icon-premium">🛍️</div>
-                <div class="announcement-text-premium">Compras acima de R$100 ganham frete grátis!</div>
+                <div class="announcement-icon-premium">🚚</div>
+                <div class="announcement-text-premium">Frete Grátis para compras acima de R$100!</div>
+            </div>
+            <div class="announcement-slide-premium">
+                <div class="announcement-icon-premium">🎉</div>
+                <div class="announcement-text-premium">Novos designs exclusivos chegando!</div>
+            </div>
+            <div class="announcement-slide-premium">
+                <div class="announcement-icon-premium">⭐</div>
+                <div class="announcement-text-premium">Avalie nossos produtos e ganhe descontos!</div>
             </div>
             <div class="announcement-slide-premium">
                 <div class="announcement-icon-premium">👕</div>
-                <div class="announcement-text-premium">Leve 2 camisas e ganhe 5% de desconto!</div>
-            </div>
-            <div class="announcement-slide-premium">
-                <div class="announcement-icon-premium">🔥</div>
-                <div class="announcement-text-premium">Leve 3 camisas e garanta 10% OFF — máximo permitido!</div>
+                <div class="announcement-text-premium">Descontos progressivos: 2 peças 5% OFF | 3+ peças 10% OFF</div>
             </div>
             <button class="announcement-close-premium" id="announcement-close">
                 <i class="fas fa-times"></i>
@@ -349,8 +353,7 @@
                     </div>
                     
                     <div class="action-buttons-premium">
-                        <button class="btn btn-outline-premium" id="add-to-cart-detail">Adicionar ao Carrinho</button>
-                        <button class="btn btn-primary-premium" id="buy-now-detail">Finalizar Compra</button>
+                        <button class="btn btn-primary-premium" id="add-to-cart-detail">Adicionar ao Carrinho</button>
                     </div>
                     
                     <!-- Botão Voltar ao Início -->
@@ -405,10 +408,6 @@
                         <span>Descontos Progressivos:</span>
                         <span style="color: var(--success-color);">- R$ <span id="cart-discount">0,00</span></span>
                     </div>
-                    <div class="summary-row-ultra highlight">
-                        <span>Frete:</span>
-                        <span id="cart-shipping">A calcular</span>
-                    </div>
                     <div class="summary-row-ultra total">
                         <span>Total do Pedido:</span>
                         <span>R$ <span id="cart-total">0,00</span></span>
@@ -419,6 +418,14 @@
                         <p style="margin: 0; color: var(--success-color); font-weight: 600;">
                             <i class="fas fa-piggy-bank"></i> 
                             Você está economando <span id="total-savings">R$ 0,00</span> neste pedido!
+                        </p>
+                    </div>
+
+                    <!-- Mensagem de Frete Grátis -->
+                    <div id="free-shipping-message" style="display: none; text-align: center; margin-top: 1rem; padding: 1rem; background: rgba(34, 197, 94, 0.1); border-radius: 12px;">
+                        <p style="margin: 0; color: var(--success-color); font-weight: 600;">
+                            <i class="fas fa-shipping-fast"></i> 
+                            PARABÉNS! Você ganhou FRETE GRÁTIS!
                         </p>
                     </div>
                 </div>
