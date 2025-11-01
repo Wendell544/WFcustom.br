@@ -14,7 +14,7 @@ function saveCartToLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 }
 
-// Adicionar produto ao carrinho - FUNÇÃO PRINCIPAL CORRIGIDA
+// Adicionar produto ao carrinho - FUNÇÃO COMPLETAMENTE CORRIGIDA
 function addToCart(product, color, size, position, price) {
     const cartItem = {
         id: Date.now(),
@@ -29,15 +29,13 @@ function addToCart(product, color, size, position, price) {
     updateCartCount();
     saveCartToLocalStorage();
     
-    // ATUALIZAÇÃO IMEDIATA DO CARRINHO - SEMPRE que adicionar
+    // ATUALIZAÇÃO IMEDIATA DO CARRINHO - SEMPRE
     if (document.getElementById('cart-page') && document.getElementById('cart-page').classList.contains('active')) {
         renderCart();
     }
     
     // Mostrar notificação
     showCartNotification(product.name);
-    
-    console.log('Produto adicionado ao carrinho:', product.name, 'Itens no carrinho:', cartItems.length);
 }
 
 // Remover item do carrinho
@@ -100,10 +98,7 @@ function renderCart() {
     const cartSummary = document.getElementById('cart-summary');
     const checkoutBtn = document.getElementById('checkout-btn');
     
-    if (!cartItemsContainer) {
-        console.error('Container do carrinho não encontrado!');
-        return;
-    }
+    if (!cartItemsContainer) return;
     
     cartItemsContainer.innerHTML = '';
     
@@ -164,18 +159,16 @@ function renderCart() {
     
     // Adicionar event listeners para remover itens
     document.querySelectorAll('.remove-item-ultra').forEach(button => {
-        button.addEventListener('click', (e) => {
+        button.onclick = (e) => {
             const cartId = e.currentTarget.getAttribute('data-cart-id');
             removeFromCart(cartId);
-        });
+        };
     });
     
     // Renderizar resumo do carrinho
     renderCartSummary();
     
     if (checkoutBtn) checkoutBtn.disabled = false;
-    
-    console.log('Carrinho renderizado com', cartItems.length, 'itens');
 }
 
 // Atualizar estatísticas do header do carrinho
