@@ -15,33 +15,16 @@ let currentColor = 'branco';
 let currentSize = 'P';
 let currentPosition = 'frente';
 let currentSection = 'home';
-let currentCategory = 'masculino'; // Alterado para masculino como padrão
+let currentCategory = 'masculino';
 
 // Configurações do carrossel de banners
 let currentBannerIndex = 0;
-const bannerInterval = 5000; // 5 segundos
+const bannerInterval = 5000;
 let bannerTimer = null;
-
-// Configurações do sistema de anúncios
-let currentAnnouncementIndex = 0;
-const announcementInterval = 4000; // 4 segundos
-let announcementTimer = null;
 
 // Elementos DOM
 let homePage, productPage, cartPage, favoritesPage, locationPage, detailImage, detailTitle, detailDescription;
 let detailPrice, modalColorOptions, detailSizeOptions, stampPositionGroup, addToCartDetailButton;
-let locationForm, shippingPrice, shippingInfo;
-let shippingPriceContainer, finalizeOrderButton, confirmationModal, closeModal, closeConfirmation;
-let navLinks, navLinksItems, footerNavLinks, cartIcon, favoriteIcon, cartItemsContainer;
-let cartSummary, continueShoppingBtn, checkoutBtn, cartCount, favoriteCount, backFromProduct, backFromCart;
-let backFromFavorites, backFromLocation, categoryFilters, backToHomeFromProduct, deliveryOptions;
-let favoritesBackToHome;
-
-// Elementos do carrossel de banners
-let bannerTrack, bannerSlides;
-
-// Elementos do sistema de anúncios
-let announcementSystem, announcementSlides;
 
 // Função auxiliar para calcular preço final
 function calculateFinalPrice(basePrice, position) {
@@ -54,53 +37,42 @@ function calculateFinalPrice(basePrice, position) {
 
 // Funções de inicialização
 function init() {
-    console.log('Inicializando aplicação...');
+    console.log('🚀 Inicializando aplicação...');
     initializeDOMElements();
     setupEventListeners();
     initBannerCarousel();
-    initAnnouncementSystem();
     updateCartCount();
     updateFavoriteCount();
+    
+    // Inicializar carrinho
+    if (window.initializeCart) {
+        window.initializeCart();
+    }
     
     // Aplicar categoria padrão "masculino" SEM scroll
     filterProductsByCategory('masculino');
     
-    // Popular grades APÓS garantir que o DOM está pronto
+    // Popular grades
     setTimeout(() => {
-        console.log('Inicializando grades...');
+        console.log('📦 Inicializando grades...');
         if (window.populateAllGrades) {
             window.populateAllGrades();
-        } else {
-            console.error('populateAllGrades não encontrada!');
-            // Tentar novamente após mais um delay
-            setTimeout(() => {
-                if (window.populateAllGrades) {
-                    window.populateAllGrades();
-                }
-            }, 1000);
         }
-        
-        // Forçar redesenho se ainda não aparecer
-        setTimeout(() => {
-            if (document.querySelectorAll('.grade-card').length === 0) {
-                console.log('Nenhum card encontrado, recarregando...');
-                // Tenta novamente
-                if (window.populateAllGrades) {
-                    window.populateAllGrades();
-                }
-            }
-        }, 1000);
     }, 200);
 }
 
 // Inicializar elementos DOM
 function initializeDOMElements() {
-    console.log('Inicializando elementos DOM...');
+    console.log('🔧 Inicializando elementos DOM...');
+    
+    // Páginas principais
     homePage = document.getElementById('home-page');
     productPage = document.getElementById('product-page');
     cartPage = document.getElementById('cart-page');
     favoritesPage = document.getElementById('favorites-page');
     locationPage = document.getElementById('location-page');
+    
+    // Elementos do produto
     detailImage = document.getElementById('detail-image');
     detailTitle = document.getElementById('detail-title');
     detailDescription = document.getElementById('detail-description');
@@ -109,52 +81,24 @@ function initializeDOMElements() {
     detailSizeOptions = document.getElementById('detail-size-options');
     stampPositionGroup = document.getElementById('stamp-position-group');
     addToCartDetailButton = document.getElementById('add-to-cart-detail');
-    locationForm = document.getElementById('location-form');
-    shippingPrice = document.getElementById('shipping-price');
-    shippingInfo = document.getElementById('shipping-info');
-    shippingPriceContainer = document.querySelector('.shipping-price-premium');
-    finalizeOrderButton = document.getElementById('finalize-order');
-    confirmationModal = document.getElementById('confirmation-modal');
-    closeModal = document.querySelector('.close-modal-premium');
-    closeConfirmation = document.getElementById('close-confirmation');
-    navLinks = document.querySelector('.nav-links');
-    navLinksItems = document.querySelectorAll('.nav-link');
-    footerNavLinks = document.querySelectorAll('.footer-nav-link');
+    
+    // Elementos de navegação
     cartIcon = document.getElementById('cart-icon');
     favoriteIcon = document.getElementById('favorite-icon');
-    cartItemsContainer = document.getElementById('cart-items');
-    cartSummary = document.getElementById('cart-summary');
-    continueShoppingBtn = document.getElementById('continue-shopping');
-    checkoutBtn = document.getElementById('checkout-btn');
-    cartCount = document.querySelector('.cart-count');
-    favoriteCount = document.querySelector('.favorite-count');
     backFromProduct = document.getElementById('back-from-product');
     backFromCart = document.getElementById('back-from-cart');
     backFromFavorites = document.getElementById('back-from-favorites');
     backFromLocation = document.getElementById('back-from-location');
     categoryFilters = document.querySelectorAll('.category-filter-premium');
-    backToHomeFromProduct = document.getElementById('back-to-home-from-product');
-    deliveryOptions = document.getElementById('delivery-options');
-    favoritesBackToHome = document.getElementById('favorites-back-to-home');
     
-    // Elementos do carrossel de banners
-    bannerTrack = document.querySelector('.banner-track');
-    bannerSlides = document.querySelectorAll('.banner-slide');
-    
-    // Elementos do sistema de anúncios
-    announcementSystem = document.getElementById('announcement-system');
-    announcementSlides = document.querySelectorAll('.announcement-slide-premium');
-    
-    console.log('Elementos DOM inicializados:', {
-        homePage: !!homePage,
-        productPage: !!productPage,
-        cartPage: !!cartPage,
-        gradeContainers: document.querySelectorAll('.grade-container').length
-    });
+    console.log('✅ Elementos DOM inicializados');
 }
 
 // Inicializar carrossel de banners
 function initBannerCarousel() {
+    const bannerTrack = document.querySelector('.banner-track');
+    const bannerSlides = document.querySelectorAll('.banner-slide');
+    
     if (!bannerTrack || bannerSlides.length === 0) return;
     
     // Mostrar primeiro banner
@@ -162,65 +106,12 @@ function initBannerCarousel() {
     
     // Iniciar autoplay
     startBannerAutoplay();
-    
-    // Pausar autoplay ao interagir
-    bannerTrack.addEventListener('mouseenter', pauseBannerAutoplay);
-    bannerTrack.addEventListener('mouseleave', startBannerAutoplay);
-    bannerTrack.addEventListener('touchstart', pauseBannerAutoplay);
-}
-
-// Inicializar sistema de anúncios
-function initAnnouncementSystem() {
-    if (!announcementSystem || announcementSlides.length === 0) return;
-    
-    // Mostrar primeiro anúncio
-    showAnnouncement(0);
-    
-    // Iniciar rotatividade
-    startAnnouncementRotation();
-    
-    // Fechar anúncio
-    const closeBtn = document.getElementById('announcement-close');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            announcementSystem.style.display = 'none';
-        });
-    }
-}
-
-// Mostrar anúncio específico
-function showAnnouncement(index) {
-    if (announcementSlides.length === 0) return;
-    
-    // Validar índice
-    if (index < 0) index = announcementSlides.length - 1;
-    if (index >= announcementSlides.length) index = 0;
-    
-    // Atualizar índice atual
-    currentAnnouncementIndex = index;
-    
-    // Ocultar todos os anúncios
-    announcementSlides.forEach(slide => {
-        slide.classList.remove('active');
-    });
-    
-    // Mostrar anúncio atual
-    announcementSlides[currentAnnouncementIndex].classList.add('active');
-}
-
-// Próximo anúncio
-function nextAnnouncement() {
-    showAnnouncement(currentAnnouncementIndex + 1);
-}
-
-// Controle de rotatividade dos anúncios
-function startAnnouncementRotation() {
-    if (announcementTimer) clearInterval(announcementTimer);
-    announcementTimer = setInterval(nextAnnouncement, announcementInterval);
 }
 
 // Mostrar banner específico
 function showBanner(index) {
+    const bannerSlides = document.querySelectorAll('.banner-slide');
+    
     // Validar índice
     if (index < 0) index = bannerSlides.length - 1;
     if (index >= bannerSlides.length) index = 0;
@@ -248,15 +139,12 @@ function startBannerAutoplay() {
     bannerTimer = setInterval(nextBanner, bannerInterval);
 }
 
-function pauseBannerAutoplay() {
-    if (bannerTimer) clearInterval(bannerTimer);
-}
-
 // Configurar event listeners
 function setupEventListeners() {
-    console.log('Configurando event listeners...');
+    console.log('🔗 Configurando event listeners...');
     
     // Navegação principal
+    const navLinksItems = document.querySelectorAll('.nav-link');
     if (navLinksItems) {
         navLinksItems.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -267,6 +155,7 @@ function setupEventListeners() {
         });
     }
     
+    const footerNavLinks = document.querySelectorAll('.footer-nav-link');
     if (footerNavLinks) {
         footerNavLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -286,10 +175,12 @@ function setupEventListeners() {
         favoriteIcon.addEventListener('click', showFavorites);
     }
     
+    const continueShoppingBtn = document.getElementById('continue-shopping');
     if (continueShoppingBtn) {
         continueShoppingBtn.addEventListener('click', showHome);
     }
     
+    const checkoutBtn = document.getElementById('checkout-btn');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', showLocation);
     }
@@ -310,11 +201,12 @@ function setupEventListeners() {
         backFromLocation.addEventListener('click', showCart);
     }
     
+    const backToHomeFromProduct = document.getElementById('back-to-home-from-product');
     if (backToHomeFromProduct) {
         backToHomeFromProduct.addEventListener('click', showHome);
     }
 
-    // BOTÃO DE VOLTAR DOS FAVORITOS - NOVO EVENT LISTENER
+    const favoritesBackToHome = document.getElementById('favorites-back-to-home');
     if (favoritesBackToHome) {
         favoritesBackToHome.addEventListener('click', showHome);
     }
@@ -335,6 +227,7 @@ function setupEventListeners() {
     }
     
     // Formulário de localização
+    const locationForm = document.getElementById('location-form');
     if (locationForm) {
         locationForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -356,20 +249,25 @@ function setupEventListeners() {
     }
     
     // Modal de confirmação
+    const closeModal = document.querySelector('.close-modal-premium');
     if (closeModal) {
         closeModal.addEventListener('click', () => {
-            confirmationModal.style.display = 'none';
+            const confirmationModal = document.getElementById('confirmation-modal');
+            if (confirmationModal) confirmationModal.style.display = 'none';
         });
     }
     
+    const closeConfirmation = document.getElementById('close-confirmation');
     if (closeConfirmation) {
         closeConfirmation.addEventListener('click', () => {
-            confirmationModal.style.display = 'none';
+            const confirmationModal = document.getElementById('confirmation-modal');
+            if (confirmationModal) confirmationModal.style.display = 'none';
         });
     }
     
     // Fechar modal clicando fora
     window.addEventListener('click', (e) => {
+        const confirmationModal = document.getElementById('confirmation-modal');
         if (e.target === confirmationModal) {
             confirmationModal.style.display = 'none';
         }
@@ -392,7 +290,7 @@ function setupEventListeners() {
         }
     });
     
-    console.log('Event listeners configurados');
+    console.log('✅ Event listeners configurados');
 }
 
 // Mostrar seção
@@ -424,35 +322,36 @@ function showHome() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Mostrar carrinho
+// Mostrar carrinho - FUNÇÃO CORRIGIDA
 function showCart() {
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
-    if (cartPage) cartPage.classList.add('active');
-    renderCart();
+    if (cartPage) {
+        cartPage.classList.add('active');
+        // Renderizar carrinho IMEDIATAMENTE
+        setTimeout(() => {
+            if (window.renderCart) {
+                window.renderCart();
+            }
+        }, 100);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Mostrar favoritos - FUNÇÃO CORRIGIDA
+// Mostrar favoritos
 function showFavorites() {
-    console.log('Abrindo favoritos...');
-    
-    // Ocultar todas as páginas
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
-    // Mostrar página de favoritos
     if (favoritesPage) {
         favoritesPage.classList.add('active');
-        // Renderizar DEPOIS de mostrar a página
         setTimeout(() => {
             renderFavorites();
         }, 50);
     }
-    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -471,12 +370,14 @@ function filterProductsByCategory(category) {
     currentCategory = category;
     
     // Atualizar filtros ativos
-    categoryFilters.forEach(filter => {
-        filter.classList.remove('active');
-    });
-    
-    const activeFilter = document.querySelector(`[data-category="${category}"]`);
-    if (activeFilter) activeFilter.classList.add('active');
+    if (categoryFilters) {
+        categoryFilters.forEach(filter => {
+            filter.classList.remove('active');
+        });
+        
+        const activeFilter = document.querySelector(`[data-category="${category}"]`);
+        if (activeFilter) activeFilter.classList.add('active');
+    }
     
     // Ocultar todas as grades
     const allGrades = document.querySelectorAll('.grade-produtos');
@@ -488,9 +389,6 @@ function filterProductsByCategory(category) {
     const targetGrade = document.getElementById(`grade-produtos-${category}`);
     if (targetGrade) {
         targetGrade.style.display = 'block';
-        
-        // REMOVIDO: Scroll suave para a seção (não quero que desça automaticamente)
-        // Apenas mostra a seção sem scroll automático
     }
 }
 
@@ -498,14 +396,14 @@ function filterProductsByCategory(category) {
 function showProductDetail(productId) {
     const product = window.findProductById ? window.findProductById(productId) : null;
     if (!product) {
-        console.error('Produto não encontrado:', productId);
+        console.error('❌ Produto não encontrado:', productId);
         return;
     }
     
     currentProduct = product;
     currentColor = Object.keys(product.variants)[0];
     currentSize = product.variants[currentColor].sizes[0];
-    currentPosition = product.positions.length > 0 ? product.positions[0] : '';
+    currentPosition = product.positions && product.positions.length > 0 ? product.positions[0] : '';
     
     // Atualizar elementos DOM
     if (detailTitle) detailTitle.textContent = product.name;
@@ -527,6 +425,7 @@ function updateProductDetailView() {
     if (!currentProduct) return;
     
     const variant = currentProduct.variants[currentColor];
+    if (!variant) return;
     
     // Atualizar imagem
     if (detailImage) {
@@ -535,9 +434,7 @@ function updateProductDetailView() {
     }
     
     // Atualizar preço
-    const basePrice = currentProduct.discount ? 
-        variant.price * (1 - currentProduct.discount / 100) : 
-        variant.price;
+    const basePrice = variant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
     if (detailPrice) detailPrice.textContent = finalPrice.toFixed(2);
@@ -552,7 +449,7 @@ function updateProductDetailView() {
     updatePositionOptions();
 }
 
-// Atualizar opções de cor - FUNÇÃO CORRIGIDA
+// Atualizar opções de cor
 function updateColorOptions() {
     if (!modalColorOptions || !currentProduct) return;
     
@@ -603,6 +500,8 @@ function updateSizeOptions() {
     detailSizeOptions.innerHTML = '';
     
     const variant = currentProduct.variants[currentColor];
+    if (!variant || !variant.sizes) return;
+    
     variant.sizes.forEach(size => {
         const sizeOption = document.createElement('div');
         sizeOption.className = `size-option-premium ${size === currentSize ? 'active' : ''}`;
@@ -653,24 +552,26 @@ function updatePositionOptions() {
     });
 }
 
-// Adicionar ao carrinho da página de detalhes - AGORA USA A FUNÇÃO DO cart.js
+// Adicionar ao carrinho da página de detalhes - CORRIGIDO
 function addToCartFromDetail() {
     if (!currentProduct) return;
     
     const variant = currentProduct.variants[currentColor];
-    const basePrice = currentProduct.discount ? 
-        variant.price * (1 - currentProduct.discount / 100) : 
-        variant.price;
+    if (!variant) return;
+    
+    const basePrice = variant.price;
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
-    // USAR A FUNÇÃO addToCart DO cart.js (exposta globalmente)
-    window.addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
+    // USAR A FUNÇÃO addToCart DO cart.js
+    if (window.addToCart) {
+        window.addToCart(currentProduct, currentColor, currentSize, currentPosition, finalPrice);
+    }
     
     // Feedback visual
     if (addToCartDetailButton) {
         const originalText = addToCartDetailButton.textContent;
         addToCartDetailButton.textContent = '✓ Adicionado!';
-        addToCartDetailButton.style.background = 'var(--success-color)';
+        addToCartDetailButton.style.background = '#28a745';
         
         setTimeout(() => {
             addToCartDetailButton.textContent = originalText;
@@ -699,6 +600,13 @@ function handlePackageSelection(packageType) {
     window.open(url, '_blank');
 }
 
+// Atualizar contador do carrinho
+function updateCartCount() {
+    if (window.updateCartCount) {
+        window.updateCartCount();
+    }
+}
+
 // Atualizar contador de favoritos
 function updateFavoriteCount() {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -717,10 +625,10 @@ function renderFavorites() {
     
     if (favorites.length === 0) {
         favoritesItems.innerHTML = `
-            <div class="empty-favorites">
-                <i class="far fa-heart"></i>
-                <h3>Nenhum produto favoritado</h3>
-                <p>Adicione produtos aos favoritos clicando no coração</p>
+            <div class="empty-favorites" style="text-align: center; padding: 40px 20px; color: #666;">
+                <i class="far fa-heart" style="font-size: 48px; margin-bottom: 20px; color: #ccc;"></i>
+                <h3 style="margin-bottom: 10px; color: #333;">Nenhum produto favoritado</h3>
+                <p style="color: #888;">Adicione produtos aos favoritos clicando no coração</p>
             </div>
         `;
         return;
@@ -737,15 +645,15 @@ function renderFavorites() {
             const favoriteItem = document.createElement('div');
             favoriteItem.className = 'favorite-item-premium';
             favoriteItem.innerHTML = `
-                <img src="${firstVariant.image}" alt="${product.name}">
-                <div class="favorite-item-info">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <div class="favorite-item-price">R$ ${firstVariant.price.toFixed(2)}</div>
+                <img src="${firstVariant.image}" alt="${product.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                <div class="favorite-item-info" style="flex: 1; margin-left: 15px;">
+                    <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #333;">${product.name}</h3>
+                    <p style="margin: 0 0 8px 0; font-size: 14px; color: #666;">${product.description}</p>
+                    <div class="favorite-item-price" style="font-weight: bold; color: #2c5aa0;">R$ ${firstVariant.price.toFixed(2)}</div>
                 </div>
-                <div class="favorite-item-actions">
-                    <button class="btn btn-primary-premium" onclick="showProductDetail(${product.id})">Ver Detalhes</button>
-                    <button class="btn btn-outline-premium remove-favorite" data-product-id="${product.id}">
+                <div class="favorite-item-actions" style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="btn btn-primary-premium" onclick="showProductDetail(${product.id})" style="background: #2c5aa0; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Ver Detalhes</button>
+                    <button class="btn btn-outline-premium remove-favorite" data-product-id="${product.id}" style="background: transparent; color: #dc3545; border: 1px solid #dc3545; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-trash"></i> Remover
                     </button>
                 </div>
@@ -781,29 +689,24 @@ function toggleFavorite(productId) {
     updateFavoriteCount();
 }
 
-// Calcular frete - USA A FUNÇÃO DO cart.js
+// Calcular frete
 function calculateShipping() {
-    window.calculateShipping();
+    if (window.calculateShipping) {
+        window.calculateShipping();
+    }
 }
 
-// Finalizar pedido - USA A FUNÇÃO DO cart.js
+// Finalizar pedido
 function finalizeOrder() {
-    window.finalizeOrder();
+    if (window.finalizeOrder) {
+        window.finalizeOrder();
+    }
 }
 
 // Inicializar o site quando carregado
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM completamente carregado e analisado');
+    console.log('✅ DOM completamente carregado e analisado');
     init();
-});
-
-// Otimizações de performance
-let resizeTimeout;
-window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-        // Recalcular layouts se necessário
-    }, 250);
 });
 
 // Preload de imagens críticas
