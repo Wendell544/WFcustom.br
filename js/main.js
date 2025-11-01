@@ -314,7 +314,7 @@ function setupEventListeners() {
         backToHomeFromProduct.addEventListener('click', showHome);
     }
 
-    // Botão de voltar dos favoritos
+    // BOTÃO DE VOLTAR DOS FAVORITOS - NOVO EVENT LISTENER
     if (favoritesBackToHome) {
         favoritesBackToHome.addEventListener('click', showHome);
     }

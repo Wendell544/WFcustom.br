@@ -14,7 +14,7 @@ function saveCartToLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
 }
 
-// Adicionar produto ao carrinho - FUNÇÃO OTIMIZADA
+// Adicionar produto ao carrinho - FUNÇÃO CORRIGIDA
 function addToCart(product, color, size, position, price) {
     const cartItem = {
         id: Date.now(),
@@ -29,10 +29,13 @@ function addToCart(product, color, size, position, price) {
     updateCartCount();
     saveCartToLocalStorage();
     
-    // Atualizar o carrinho imediatamente se estiver visível
+    // ATUALIZAÇÃO IMEDIATA DO CARRINHO SE ESTIVER VISÍVEL
     if (document.getElementById('cart-page').classList.contains('active')) {
         renderCart();
     }
+    
+    // Mostrar notificação
+    showCartNotification(product.name);
 }
 
 // Remover item do carrinho
@@ -41,6 +44,52 @@ function removeFromCart(cartId) {
     updateCartCount();
     saveCartToLocalStorage();
     renderCart();
+}
+
+// Mostrar notificação de produto adicionado
+function showCartNotification(productName) {
+    // Criar elemento de notificação
+    const notification = document.createElement('div');
+    notification.className = 'cart-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span>${productName} adicionado ao carrinho!</span>
+        </div>
+    `;
+    
+    // Adicionar estilos
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: var(--success-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animar entrada
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remover após 3 segundos
+    setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
 }
 
 // Renderizar carrinho - FUNÇÃO OTIMIZADA

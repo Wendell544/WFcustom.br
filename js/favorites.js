@@ -2,11 +2,13 @@
 function toggleFavorite(productId) {
     const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     const index = favorites.indexOf(parseInt(productId));
+    let wasAdded = false;
     
     if (index > -1) {
         favorites.splice(index, 1);
     } else {
         favorites.push(parseInt(productId));
+        wasAdded = true;
     }
     
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -24,6 +26,61 @@ function toggleFavorite(productId) {
             icon.classList.add('active');
         }
     });
+
+    // MOSTRAR NOTIFICAÇÃO SE FOI ADICIONADO AOS FAVORITOS
+    if (wasAdded) {
+        showFavoriteNotification(productId);
+    }
+}
+
+// Função para mostrar notificação de favorito
+function showFavoriteNotification(productId) {
+    const product = window.findProductById ? window.findProductById(productId) : null;
+    if (!product) return;
+
+    // Criar elemento de notificação
+    const notification = document.createElement('div');
+    notification.className = 'favorite-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-heart" style="color: #ff4081;"></i>
+            <span>${product.name} adicionado aos favoritos!</span>
+        </div>
+    `;
+
+    // Adicionar estilos
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: white;
+        color: #333;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+        border-left: 4px solid #ff4081;
+    `;
+
+    document.body.appendChild(notification);
+
+    // Animar entrada
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+
+    // Remover após 3 segundos
+    setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
 }
 
 function isProductFavorite(productId) {
@@ -100,3 +157,6 @@ function renderFavorites() {
 document.addEventListener('DOMContentLoaded', function() {
     updateFavoriteCount();
 });
+
+// Expor funções globalmente
+window.toggleFavorite = toggleFavorite;

@@ -11,8 +11,8 @@ const products = {
                     price: 39.50,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/HxJn0RH0/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/x1Ww3yfd/Sem-tempo-pra-cozinhar.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -30,8 +30,8 @@ const products = {
                     price: 41.20,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/26xcwcwF/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/dtZnjML4/Sem-tempo-pra-cozinhar-1.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -54,6 +54,11 @@ const products = {
                     price: 40.80,
                     sizes: ['P', 'M', 'G']
                 },
+                'caqui': {
+                    image: "https://i.postimg.cc/fTgyZFC9/Sem-tempo-pra-cozinhar-2.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
                 'preto': {
                     image: "https://i.postimg.cc/pXpyc1vQ/Sem-tempo-pra-cozinhar-1.png",
                     price: 43.42,
@@ -72,6 +77,11 @@ const products = {
                     image: "https://i.postimg.cc/2jZ7F8zF/04.png",
                     price: 39.90,
                     sizes: ['P', 'M', 'G']
+                },
+                'caqui': {
+                    image: "https://i.postimg.cc/W3fCtMHw/Sem-tempo-pra-cozinhar-3.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
                 },
                 'preto': {
                     image: "https://i.postimg.cc/XNZpQz4Q/Sem-tempo-pra-cozinhar-2.png",
@@ -92,8 +102,8 @@ const products = {
                     price: 41.75,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/rscqKwy8/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/K86nc4fS/Sem-tempo-pra-cozinhar-4.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -111,8 +121,8 @@ const products = {
                     price: 40.25,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/Y9MPFGFg/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/9Qh7ssQw/Sem-tempo-pra-cozinhar-5.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -135,8 +145,8 @@ const products = {
                     price: 39.60,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/DfbCzPR2/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/hvVGrPxx/Sem-tempo-pra-cozinhar-6.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -158,6 +168,11 @@ const products = {
                     image: "https://i.postimg.cc/brTSvMhS/08.png",
                     price: 41.90,
                     sizes: ['P', 'M', 'G']
+                },
+                'caqui': {
+                    image: "https://i.postimg.cc/kgY7WtzV/Sem-tempo-pra-cozinhar-7.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
                  },
                  'preto': {
                     image: "https://i.postimg.cc/BnPp3gTS/Sem-tempo-pra-cozinhar-5.png",
@@ -177,6 +192,11 @@ const products = {
                     image: "https://i.postimg.cc/KYBzzV7b/09.png",
                     price: 40.45,
                     sizes: ['P', 'M', 'G']
+                },
+                'caqui': {
+                    image: "https://i.postimg.cc/6qWPHM4Y/Sem-tempo-pra-cozinhar-8.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -192,8 +212,8 @@ const products = {
                     price: 39.80,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/SKk06vF7/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/CLfG3jC7/Sem-tempo-pra-cozinhar-9.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -211,8 +231,8 @@ const products = {
                     price: 41.30,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/YS95Dm00/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/63g0ZzLQ/Sem-tempo-pra-cozinhar-10.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -235,6 +255,11 @@ const products = {
                     price: 40.15,
                     sizes: ['P', 'M', 'G']
                 },
+                'caqui': {
+                    image: "https://i.postimg.cc/KzDGks2y/Sem-tempo-pra-cozinhar-11.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
+                },
                 'preto': {
                     image: "https://i.postimg.cc/xCZq9Ky1/Sem-tempo-pra-cozinhar-7.png",
                     price: 43.42,
@@ -254,8 +279,8 @@ const products = {
                     price: 41.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/SsVzS3qs/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/qRJfYJ9S/Sem-tempo-pra-cozinhar-12.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -273,8 +298,8 @@ const products = {
                     price: 39.95,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/FHqMqHLR/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/FRBPZhmH/Sem-tempo-pra-cozinhar-13.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -291,6 +316,11 @@ const products = {
                     image: "https://i.postimg.cc/HkG0hGL1/15.png",
                     price: 40.50,
                     sizes: ['P', 'M', 'G']
+                },
+                'caqui': {
+                    image: "https://i.postimg.cc/HxD0sjpj/Sem-tempo-pra-cozinhar-14.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -306,8 +336,8 @@ const products = {
                     price: 41.10,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/qgHtjTxD/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/KvHM84fv/Sem-tempo-pra-cozinhar-15.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -330,8 +360,8 @@ const products = {
                     price: 39.70,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/02ZJ1bPJ/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/9F6Qk91N/Sem-tempo-pra-cozinhar-16.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -354,8 +384,8 @@ const products = {
                     price: 41.40,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/k4hhHnDm/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/Vsb6W4W8/Sem-tempo-pra-cozinhar-17.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -377,6 +407,11 @@ const products = {
                     image: "https://i.postimg.cc/dtFSSSVM/19.png",
                     price: 40.20,
                     sizes: ['P', 'M', 'G']
+                },
+                'caqui': {
+                    image: "https://i.postimg.cc/VL6Khr5w/Sem-tempo-pra-cozinhar-18.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
                  },
                 'preto': {
                     image: "https://i.postimg.cc/J0m7rPHL/Sem-tempo-pra-cozinhar-11.png",
@@ -397,8 +432,8 @@ const products = {
                     price: 41.80,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/fyf5NDR3/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/x1LMpnGN/Sem-tempo-pra-cozinhar-19.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -421,8 +456,8 @@ const products = {
                     price: 39.85,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/13qnnMDf/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/RFh3mBtc/Sem-tempo-pra-cozinhar-20.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -440,8 +475,8 @@ const products = {
                     price: 40.75,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/025hyBRF/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/TP7VgQqC/Sem-tempo-pra-cozinhar-21.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -459,8 +494,8 @@ const products = {
                     price: 41.55,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/Dzhr7RRw/1.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/HxMrntS8/Sem-tempo-pra-cozinhar-22.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -483,8 +518,8 @@ const products = {
                     price: 40.05,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/Z58NsV0C/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/65Mp9S9c/Sem-tempo-pra-cozinhar-23.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -507,8 +542,8 @@ const products = {
                     price: 41.25,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/4xP6NWGV/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/vZpMTwCg/Sem-tempo-pra-cozinhar-24.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -526,8 +561,8 @@ const products = {
                     price: 39.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/x11kgnrK/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/05tTrqwk/Sem-tempo-pra-cozinhar-26.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -545,8 +580,8 @@ const products = {
                     price: 40.95,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/j2vxJnjq/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/HWffb96d/Sem-tempo-pra-cozinhar-27.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -569,8 +604,8 @@ const products = {
                     price: 41.70,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/cH0GM120/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/VL8KYG7q/Sem-tempo-pra-cozinhar-28.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -593,8 +628,8 @@ const products = {
                     price: 40.35,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/FRBGFDjP/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/nrZqt5HJ/Sem-tempo-pra-cozinhar-29.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -612,8 +647,8 @@ const products = {
                     price: 39.55,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/JzMF2YKk/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/hj0fVGBg/Sem-tempo-pra-cozinhar-30.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -631,8 +666,8 @@ const products = {
                     price: 41.15,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/L8QV3xWR/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/Gmkr45rh/Sem-tempo-pra-cozinhar-31.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -650,8 +685,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/vHH92Wfb/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/pXKXjTYw/Sem-tempo-pra-cozinhar-32.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -669,8 +704,8 @@ const products = {
                     price: 41.85,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/0yKzhZQD/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/hGzYJJVB/Sem-tempo-pra-cozinhar-33.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -693,8 +728,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/WbMZXz7Z/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/1RHv30bc/Sem-tempo-pra-cozinhar-34.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -717,8 +752,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/jS1RfQJK/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/FHJb30CG/Sem-tempo-pra-cozinhar-35.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -741,8 +776,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/PJDS6HS6/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/DzTGGHXJ/Sem-tempo-pra-cozinhar-36.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -765,8 +800,8 @@ const products = {
                     price: 40.85,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/PqFKTJ9C/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/7YhpzY8P/Sem-tempo-pra-cozinhar-37.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -789,8 +824,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/hjd8nrVy/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/LspCxm71/Sem-tempo-pra-cozinhar-38.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -813,8 +848,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/5NnCZGDh/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/J0fctqCX/Sem-tempo-pra-cozinhar-39.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -837,8 +872,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/QdFHvMQk/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/SQBvnLrc/Sem-tempo-pra-cozinhar-40.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -856,8 +891,8 @@ const products = {
                     price: 41.35,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/m25r3G00/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/50FmJGDp/Sem-tempo-pra-cozinhar-41.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -875,8 +910,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/CLXFBs8q/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/7hkSkL3g/Sem-tempo-pra-cozinhar-42.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -899,8 +934,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/rpc2xnwc/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/yYf3fjbP/Sem-tempo-pra-cozinhar-43.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -923,8 +958,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/htWkRyx0/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/CKb1VsmQ/Sem-tempo-pra-cozinhar-44.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -942,8 +977,8 @@ const products = {
                     price: 40.95,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/QCKyR1MZ/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/1XbhtLzz/Sem-tempo-pra-cozinhar-45.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -966,8 +1001,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/fL1Ntw3v/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/x13fx18Q/Sem-tempo-pra-cozinhar-46.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -989,6 +1024,11 @@ const products = {
                     image: "https://i.postimg.cc/YC15kYBf/Sem-tempo-pra-cozinhar-27.png",
                     price: 43.42,
                     sizes: ['P', 'M', 'G']
+                },
+                'caqui': {
+                    image: "https://i.postimg.cc/5NJDPqFG/Sem-tempo-pra-cozinhar-47.png",
+                    price: 43.42,
+                    sizes: ['P', 'M']
                 }
             },
             positions: ['frente', 'atras', 'ambos'],
@@ -1004,8 +1044,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/GpZ7v9QP/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/3N11fGsY/Sem-tempo-pra-cozinhar-48.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },
@@ -1028,8 +1068,8 @@ const products = {
                     price: 41.50,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/Nff491tG/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/GpvkSYDZ/Sem-tempo-pra-cozinhar-49.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 }
@@ -1047,8 +1087,8 @@ const products = {
                     price: 40.65,
                     sizes: ['P', 'M', 'G']
                 },
-                'rosa claro': {
-                    image: "https://i.postimg.cc/sDNpMqKY/2.png",
+                'caqui': {
+                    image: "https://i.postimg.cc/RFVNQnLc/Sem-tempo-pra-cozinhar-50.png",
                     price: 43.42,
                     sizes: ['P', 'M']
                 },

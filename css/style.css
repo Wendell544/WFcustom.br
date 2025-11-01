@@ -4109,3 +4109,53 @@ header {
 .nav-link, .footer-nav-link {
     cursor: pointer !important;
 }
+
+/* Estilos para favoritos - CORAÇÃO ROSA */
+.favorite-icon.active {
+    color: #ff4081 !important;
+}
+
+.favorite-icon.active i {
+    color: #ff4081 !important;
+}
+
+.favorite-icon i.fas {
+    color: #ff4081 !important;
+}
+
+/* Estilos para notificações */
+.cart-notification,
+.favorite-notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: white;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    max-width: 300px;
+    border-left: 4px solid var(--success-color);
+}
+
+.favorite-notification {
+    border-left-color: #ff4081;
+}
+
+.cart-notification .notification-content,
+.favorite-notification .notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-notification i {
+    color: var(--success-color);
+}
+
+.favorite-notification i {
+    color: #ff4081;
+}
