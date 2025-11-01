@@ -43,7 +43,7 @@ let bannerTrack, bannerSlides;
 // Elementos do sistema de anúncios
 let announcementSystem, announcementSlides;
 
-// Função auxiliar para calcular preço final
+// Função auxiliar para calcular preço final - CORRIGIDA
 function calculateFinalPrice(basePrice, position) {
     let finalPrice = basePrice;
     if (position === 'ambos') {
@@ -542,7 +542,7 @@ function showProductDetail(productId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Atualizar visualização do produto
+// Atualizar visualização do produto - FUNÇÃO COMPLETAMENTE CORRIGIDA
 function updateProductDetailView() {
     if (!currentProduct) return;
     
@@ -554,13 +554,29 @@ function updateProductDetailView() {
         detailImage.alt = currentProduct.name;
     }
     
-    // Atualizar preço
-    const basePrice = currentProduct.discount ? 
-        variant.price * (1 - currentProduct.discount / 100) : 
-        variant.price;
+    // ATUALIZAR PREÇO - CORREÇÃO PRINCIPAL AQUI
+    let basePrice = variant.price;
+    
+    // Verificar se há desconto fictício
+    if (currentProduct.hasFictionalDiscount && currentProduct.originalPriceFicticio) {
+        // Usar o preço real (já com desconto aplicado nos produtos.js)
+        basePrice = variant.price;
+    } else if (currentProduct.discount) {
+        // Usar desconto real se existir
+        basePrice = variant.price * (1 - currentProduct.discount / 100);
+    }
+    
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
-    if (detailPrice) detailPrice.textContent = finalPrice.toFixed(2);
+    if (detailPrice) {
+        detailPrice.textContent = finalPrice.toFixed(2);
+        console.log('💰 Preço atualizado:', {
+            product: currentProduct.name,
+            basePrice: basePrice,
+            finalPrice: finalPrice,
+            position: currentPosition
+        });
+    }
     
     // Atualizar opções de cor
     updateColorOptions();
@@ -681,9 +697,15 @@ function addToCartFromDetail() {
     }
     
     const variant = currentProduct.variants[currentColor];
-    const basePrice = currentProduct.discount ? 
-        variant.price * (1 - currentProduct.discount / 100) : 
-        variant.price;
+    let basePrice = variant.price;
+    
+    // Verificar se há desconto fictício
+    if (currentProduct.hasFictionalDiscount && currentProduct.originalPriceFicticio) {
+        basePrice = variant.price;
+    } else if (currentProduct.discount) {
+        basePrice = variant.price * (1 - currentProduct.discount / 100);
+    }
+    
     const finalPrice = calculateFinalPrice(basePrice, currentPosition);
     
     console.log('🛒 Adicionando ao carrinho:', {
